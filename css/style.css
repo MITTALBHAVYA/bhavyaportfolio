@@ -486,8 +486,7 @@ span.skill-category {
   align-items: center;
   height: 100vh;
   background-color: black;
-  background: url("../images/rectrap.png") no-repeat center center fixed;
-  background-size: cover;
+  background: url("../images/rectrap.png") repeat center center fixed;
   color: white;
   border-top: 1px solid #9ca5ad;
 }
