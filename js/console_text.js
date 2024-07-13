@@ -1,4 +1,4 @@
-consoleText(['Backend', 'FrontEnd','Generative AI','Data Structure And Algorithm', 'Competative Programming'], 'text',undefined);
+consoleText(['Backend', 'FrontEnd','Generative AI','Data Structure And Algorithm', 'Competitive Programming'], 'text',undefined);
 
 function consoleText(words, id, colors) {
   if (colors === undefined) colors = ['orangered'];
