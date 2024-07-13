@@ -150,6 +150,7 @@ a.link {
   height: 100vh;
   z-index: -4;
   position: relative;
+  overflow: hidden;
 }
 .skill-section *:not(:empty) {
   transform-style: preserve-3d;
