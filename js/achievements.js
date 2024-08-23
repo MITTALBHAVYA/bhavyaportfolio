@@ -1,9 +1,9 @@
 const achievements = [
-  {
-    title: "Specialist at CODEFORCES",
-    description:
-      "1428 rating in codeforces and 26+ contests.<br> <a class='link' href='https://codeforces.com/profile/bhav1729'>Codeforces Profile</a>",
-  },
+  // {
+  //   title: "Specialist at CODEFORCES",
+  //   description:
+  //     "1428 rating in codeforces and 26+ contests.<br> <a class='link' href='https://codeforces.com/profile/bhav1729'>Codeforces Profile</a>",
+  // },
   {
     title: "ICPC 2023-24 Regionals Ranker",
     description:
