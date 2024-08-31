@@ -76,4 +76,22 @@ const project_data = [
       github: "https://github.com/MITTALBHAVYA/slack-GDSC-Mycut",
     },
   },
+  {
+    id: 6,
+    name: "IDA",
+    title: "INVOICE DETAILS EXTRACTOR: Python-based tool for extracting invoice details from PDFs and images",
+    description:
+      "Invoice Extraction Application is a Python-based tool built with Streamlit for extracting and processing invoice details from PDFs and images. It uses OCR via PaddleOCR and Generative AI with Google's Gemini API to provide structured data, including customer details, product information, and total amounts ",
+    techStacks: [
+      "Python",
+      "STREAMLIT",
+      "PaddleOCR",
+      "PyMuPDF",
+      "Google Generative AI",
+    ],
+    image: "images/projects/IEA.png",
+    link: {
+      github: "https://github.com/MITTALBHAVYA/InvoiceDetailsExtractor",
+    },
+  },
 ];
