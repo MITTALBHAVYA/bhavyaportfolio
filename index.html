@@ -54,47 +54,48 @@
         align-items: center;
         flex-direction: column;
         overflow: hidden;
-        background-color: black;
+        background: #141b23 url(../bhavyaportfolio/images/starsbg.png) repeat center center fixed;
         height: 100vh;
       }
       @keyframes ldio-0chhxaqs32b9 {
         0% {
-          background: #00b7ff;
+            background: #ffdb00; /* Bright Yellow */
         }
         12.5% {
-          background: #00ccff;
+            background: #ff9d00; /* Orange */
         }
         12.625% {
-          background: #840084;
+            background: #ff6f00; /* Deep Orange */
         }
         100% {
-          background: #840051;
+            background: #ff4500; /* Orange-Red */
         }
-      }
-      .ldio-0chhxaqs32b9 div {
+    }
+    
+    .ldio-0chhxaqs32b9 div {
         position: absolute;
-        width: 20px;
-        height: 20px;
-        background: #840028;
+        background: #ff8c00; /* A warm orange base color */
         animation: ldio-0chhxaqs32b9 1s linear infinite;
-        border-radius:50%;
-        box-shadow: #00ccff 0 0 0 2px;
+        border-radius: 50%;
+        box-shadow: #ffcc00 0 0 0 2px; /* Yellow shadow to enhance sun effect */
         padding: 10%;
-      }
+    }
+    
       .loadingio-spinner-blocks-f6re9kg8ubs {
         width: 200px;
         height: 200px;
         display: inline-block;
         overflow: hidden;
-        background: black;
-      }
+        background: url("/bhavyaportfolio/images/moonaroundearth.gif") center center no-repeat;
+        background-size: contain; /* Ensures the GIF fits within the div */
+    }
+    
       .ldio-0chhxaqs32b9 {
-        width: 100%;
-        height: 100%;
         position: relative;
         transform: translateZ(0) scale(1);
         backface-visibility: hidden;
         transform-origin: 0 0; /* see note above */
+        background:#0f141c url(../bhavyaportfolio/images/starsbg.png) repeat center center fixed;
       }
       .ldio-0chhxaqs32b9 div {
         box-sizing: content-box;
@@ -110,14 +111,14 @@
     <div class="loader">
       <div class="loadingio-spinner-blocks-f6re9kg8ubs">
         <div class="ldio-0chhxaqs32b9">
-          <div style="left: 68px; top: 68px; animation-delay: 0s"></div>
-          <div style="left: 90px; top: 68px; animation-delay: 0.125s"></div>
-          <div style="left: 112px; top: 68px; animation-delay: 0.25s"></div>
-          <div style="left: 68px; top: 90px; animation-delay: 0.875s"></div>
-          <div style="left: 112px; top: 90px; animation-delay: 0.375s"></div>
-          <div style="left: 68px; top: 112px; animation-delay: 0.75s"></div>
-          <div style="left: 90px; top: 112px; animation-delay: 0.625s"></div>
-          <div style="left: 112px; top: 112px; animation-delay: 0.5s"></div>
+          <div style="left: 3px; top: 3px; animation-delay: 0s"></div>
+          <div style="left: 81px; top: 3px; animation-delay: 0.125s"></div>
+          <div style="left: 157px; top: 3px; animation-delay: 0.25s"></div>
+          <div style="left: 3px; top: 81px; animation-delay: 0.875s"></div>
+          <div style="left: 157px; top: 81px; animation-delay: 0.375s"></div>
+          <div style="left: 3px; top: 157px; animation-delay: 0.75s"></div>
+          <div style="left: 81px; top: 157px; animation-delay: 0.625s"></div>
+          <div style="left: 157px; top: 157px; animation-delay: 0.5s"></div>
         </div>
       </div>
     </div>
