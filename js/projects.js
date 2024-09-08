@@ -94,4 +94,24 @@ const project_data = [
       github: "https://github.com/MITTALBHAVYA/InvoiceDetailsExtractor",
     },
   },
+  {
+    id: 7,
+    name: "MED-BUDDY",
+    title: "MED-BUDDY: GENAI-powered healthcare chatbot for symptom analysis and doctor appointments",
+    description:
+      "MedBuddy is an advanced GENAI-powered platform designed to streamline healthcare access. It features an intelligent chatbot that analyzes symptoms, suggests remedies, and facilitates the booking of doctor appointments. Built with React on the frontend, FastAPI for the backend, and integrates Brevo and Resend for email notifications, MedBuddy reduces administrative workload and improves patient satisfaction.",
+    techStacks: [
+      "React",
+      "FastAPI",
+      "MongoDB",
+      "TailwindCSS",
+      "Brevo",
+      "Resend API",
+      "Google Gemini AI"
+    ],
+    image: "images/projects/medbuddy.png",
+    link: {
+      github: "https://github.com/MITTALBHAVYA/Medbuddy",
+    },
+  },
 ];
