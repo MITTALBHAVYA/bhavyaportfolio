@@ -2,10 +2,10 @@
 const project_data = [
   {
     id: 1,
-    name: "Job Hack",
+    name: "JOB HACK",
     title: "JOBHACK: MERN job application platform with JWT authentication, role-based access.",
     description:
-      "JOBHACK is a robust MERN stack platform facilitating job registration, listing, and application processes. It features JWT authentication, role-based access control, and secure user interactions for streamlined job management and recruitment.",
+      "JOBHACK is a robust MERN stack platform for job registration, listing, and application processes, featuring JWT authentication and role-based access control.",
     techStacks: [
       "ReactJS",
       "MongoDB",
@@ -26,7 +26,7 @@ const project_data = [
     name: "SEHAT",
     title: "SEHAT: Interactive app for predicting diabetes and heart disease risk.",
     description:
-      "SEHAT is an interactive web application that uses pre-trained machine learning models to provide real-time predictions for diabetes and heart disease risk, empowering users with valuable health insights and promoting proactive healthcare.",
+      "SEHAT is an interactive web application using machine learning models to provide real-time predictions for diabetes and heart disease risk.",
     techStacks: ["Numpy", "Pandas", "sklearn", "StreamLit", "Google Colab"],
     image: "images/projects/sehatthepredictionapp.png",
     link: {
@@ -35,7 +35,7 @@ const project_data = [
   },
   {
     id: 3,
-    name: "Dhanvantri",
+    name: "DHANVANTRI",
     title: "Medicinal plant recognition Android app.",
     description:
       "Dhanvantri is a Kotlin-based Android app utilizing TensorFlow for medicinal plant recognition. It identifies plants via camera or gallery images, providing detailed information about them. The app features an intuitive interface and offline support, helping users learn about various medicinal plants conveniently.",
@@ -69,7 +69,9 @@ const project_data = [
       "JAVASCRIPT",
       "HTML",
       "CSS",
-      "EXPRESS JS"
+      "EXPRESS JS",
+      "MONGODB",
+      "POSTGRESQL"
     ],
     image: "images/projects/gdscslack.jpg",
     link: {
@@ -78,7 +80,7 @@ const project_data = [
   },
   {
     id: 6,
-    name: "IDA",
+    name: "IDE",
     title: "INVOICE DETAILS EXTRACTOR: Python-based tool for extracting invoice details from PDFs and images",
     description:
       "Invoice Extraction Application is a Python-based tool built with Streamlit for extracting and processing invoice details from PDFs and images. It uses OCR via PaddleOCR and Generative AI with Google's Gemini API to provide structured data, including customer details, product information, and total amounts ",
@@ -97,7 +99,7 @@ const project_data = [
   {
     id: 7,
     name: "MED-BUDDY",
-    title: "MED-BUDDY: GENAI-powered healthcare chatbot for symptom analysis and doctor appointments",
+    title: "GENAI-powered healthcare chatbot for symptom analysis and doctor appointments",
     description:
       "MedBuddy is an advanced GENAI-powered platform designed to streamline healthcare access. It features an intelligent chatbot that analyzes symptoms, suggests remedies, and facilitates the booking of doctor appointments. Built with React on the frontend, FastAPI for the backend, and integrates Brevo and Resend for email notifications, MedBuddy reduces administrative workload and improves patient satisfaction.",
     techStacks: [

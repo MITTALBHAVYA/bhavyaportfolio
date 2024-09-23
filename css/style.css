@@ -53,6 +53,9 @@ a.link {
   animation: down-arrow 1s ease infinite;
   color: rgb(2, 204, 2);
 }
+.down-arrow-animation > span>img {
+  margin-top: 132px;
+}
 @keyframes down-arrow {
   0% {
     transform: translateX(-50%) translateY(0);
@@ -64,7 +67,31 @@ a.link {
     transform: translateX(-50%) translateY(0);
   }
 }
-
+@media screen and (min-width: 801px) {
+  .navbar {
+    height: 50px;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    padding: 0 5%;
+    box-sizing: border-box;
+    background-color: rgba(0, 0, 0, 0.9);
+    border-radius: 10px;
+    /* box-shadow: 0 0 10px 5px rgba(0, 255, 0, 0.5); */
+    visibility : hidden;
+    position: fixed;
+    top: 0;
+    z-index: 10;
+  }
+  .navbar {
+    visibility: visible;
+  }
+}
+@media screen and (max-width: 800px) {
+  .navbar{
+    display: none;
+  }
+}
 /* navbar inside landing screen */
 .navbar {
   height: 50px;
@@ -100,8 +127,41 @@ a.link {
   transition: width 0.3s;
 }
 .navbar-item:hover {
-  color: rgb(204, 2, 46);
+  /* color: rgb(204, 2, 46); */
   transform: scale(1.2);
+}
+.navbar-item.active {
+  color: #00ffff; /* or any color that fits your theme */
+  font-weight: bold;
+}
+.navresu{
+  margin: 0 20px;
+  font-size: 1.75rem;
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: "Roboto", sans-serif;
+  text-decoration: none;
+}
+.navresu::after {
+  content: "";
+  display: block;
+  width: 0;
+  height: 2px;
+  background: rgb(204, 140, 2);
+  transition: width 0.3s;
+}
+.navresu:hover::after {
+  width: 100%;
+  transition: width 0.3s;
+}
+.navresu:hover {
+  /* color: rgb(204, 2, 46); */
+  transform: scale(1.2);
+}
+.navresu.active {
+  color: #00ffff; /* or any color that fits your theme */
+  font-weight: bold;
 }
 /* about section */
 .about-section {
@@ -671,4 +731,66 @@ span.skill-category {
   position:relative;
   top:-0.14em;
   left:10px;
+}
+
+.company-logos{
+  animation: infinite-scroll-right-to-left 15s linear infinite;
+}
+
+@keyframes infinite-scroll-right-to-left{
+  0%{
+    transform: translateX(0);
+  }
+  100%{
+    transform: translateX(-50%);
+  }
+}
+
+/* Webkit browsers */
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: #070a0f;
+  box-shadow: inset 0 0 5px grey; 
+}
+ 
+::-webkit-scrollbar-thumb {
+  background: #4a5568; 
+  border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #718096; 
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #4a5568 #070a0f;
+}
+
+.glow-effect {
+  transition: all 0.3s ease;
+}
+
+.glow-effect:hover {
+  box-shadow: 0 0 10px rgba(0, 255, 255, 0.7);
+  text-shadow: 0 0 5px rgba(0, 255, 255, 0.7);
+}
+
+/* Apply this class to buttons, links, and other interactive elements */
+.navbar-item,
+.project-tech-stack,
+.timeline-content h3,
+.achievement-title {
+  transition: all 0.3s ease;
+}
+
+.navbar-item:hover,
+.project-tech-stack:hover,
+.timeline-content h3:hover,
+.achievement-title:hover {
+  text-shadow: 0 0 5px rgba(0, 255, 255, 0.7);
 }

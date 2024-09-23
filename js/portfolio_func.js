@@ -120,26 +120,139 @@ document.querySelectorAll(".project-name-list-item").forEach((item) => {
 });
 
 // handling of nav menu click
-document.querySelectorAll(".navbar-item").forEach((item) => {
-  item.addEventListener("click", (event) => {
-    const target = item.getAttribute("data-target");
-    console.log(target);
-    const target_element = document.querySelector(
-      "div[data-target='" + target + "']"
-    );
-    if (target_element) {
-      target_element.scrollIntoView({ behavior: "smooth", block: "start" });
+// document.querySelectorAll(".navbar-item").forEach((item) => {
+//   item.addEventListener("click", (event) => {
+//     const target = item.getAttribute("data-target");
+//     console.log(target);
+//     const target_element = document.querySelector(
+//       "div[data-target='" + target + "']"
+//     );
+//     if (target_element) {
+//       target_element.scrollIntoView({ behavior: "smooth", block: "start" });
+//     }
+//   });
+// });
+
+// // down arrow click
+// document
+//   .querySelector(".down-arrow-animation")
+//   .addEventListener("click", (event) => {
+//     const target = document.querySelector(".about-section");
+//     if (target) {
+//       target.scrollIntoView({ behavior: "smooth", block: "start" });
+//     }
+//   });
+
+//   window.addEventListener("scroll", (event) => {
+//     if (window.scrollY > window.visualViewport.height) {
+//       document.querySelector(".navbar").classList.add("show-nav")
+//     } else {
+//       document.querySelector(".navbar").classList.remove("show-nav");
+//     }
+//   });
+document.addEventListener('DOMContentLoaded', () => {
+  const navbar = document.querySelector('.navbar');
+  const navbarItems = document.querySelectorAll('.navbar-item');
+  const downArrow = document.querySelector('.down-arrow-animation');
+  const aboutSection = document.querySelector('.about-section');
+
+  // Throttle function to limit the rate at which a function can fire
+  const throttle = (func, limit) => {
+    let inThrottle;
+    return function() {
+      const args = arguments;
+      const context = this;
+      if (!inThrottle) {
+        func.apply(context, args);
+        inThrottle = true;
+        setTimeout(() => inThrottle = false, limit);
+      }
     }
+  }
+
+  // Smooth scroll function
+  const smoothScroll = (target) => {
+    const targetPosition = target.getBoundingClientRect().top + window.pageYOffset;
+    const startPosition = window.pageYOffset;
+    const distance = targetPosition - startPosition;
+    const duration = 1000;
+    let start = null;
+
+    const animation = (currentTime) => {
+      if (start === null) start = currentTime;
+      const timeElapsed = currentTime - start;
+      const run = ease(timeElapsed, startPosition, distance, duration);
+      window.scrollTo(0, run);
+      if (timeElapsed < duration) requestAnimationFrame(animation);
+    };
+
+    // Easing function
+    const ease = (t, b, c, d) => {
+      t /= d / 2;
+      if (t < 1) return c / 2 * t * t + b;
+      t--;
+      return -c / 2 * (t * (t - 2) - 1) + b;
+    };
+
+    requestAnimationFrame(animation);
+  }
+
+  // Navbar item click event
+  navbarItems.forEach((item) => {
+    item.addEventListener('click', (event) => {
+      event.preventDefault();
+      const target = document.querySelector(`div[data-target='${item.getAttribute('data-target')}']`);
+      if (target) {
+        smoothScroll(target);
+      }
+    });
   });
+
+  // Down arrow click event
+  if (downArrow && aboutSection) {
+    downArrow.addEventListener('click', () => {
+      smoothScroll(aboutSection);
+    });
+  }
+
+  // Scroll event for navbar visibility
+  let lastScrollTop = 0;
+  window.addEventListener('scroll', throttle(() => {
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    
+    if (scrollTop > window.innerHeight) {
+      navbar.classList.add('show-nav');
+      if (scrollTop > lastScrollTop) {
+        // Scrolling down
+        navbar.style.transform = 'translateY(-100%)';
+      } else {
+        // Scrolling up
+        navbar.style.transform = 'translateY(0)';
+      }
+    } else {
+      navbar.classList.remove('show-nav');
+    }
+    
+    lastScrollTop = scrollTop;
+  }, 100));
+
+  // Highlight active navbar item based on scroll position
+  const sections = document.querySelectorAll('div[data-target]');
+  window.addEventListener('scroll', throttle(() => {
+    let current = '';
+    sections.forEach((section) => {
+      const sectionTop = section.offsetTop;
+      const sectionHeight = section.clientHeight;
+      if (pageYOffset >= sectionTop - sectionHeight / 3) {
+        current = section.getAttribute('data-target');
+      }
+    });
+
+    navbarItems.forEach((item) => {
+      item.classList.remove('active');
+      if (item.getAttribute('data-target') === current) {
+        item.classList.add('active');
+      }
+    });
+  }, 100));
 });
-
-// down arrow click
-document
-  .querySelector(".down-arrow-animation")
-  .addEventListener("click", (event) => {
-    const target = document.querySelector(".about-section");
-    if (target) {
-      target.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
-  });
-

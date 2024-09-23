@@ -1,18 +1,18 @@
 const skills_data = [
   {
     category: "Languages",
-    data: "C, C++, JavaScript, HTML, CSS, Python, SQL, JAVA",
+    data: "C, C++, JavaScript, HTML, CSS, Python, SQL",
   },
   {
     category: "Frameworks",
-    data: "RestAPI, ReactJS, ExpressJS, NodeJS",
+    data: "ReactJS, Node.js, ExpressJS, REST API, FastAPI, Tailwind CSS",
   },
   {
     category: "Databases",
-    data: "MySQL, MongoDB",
+    data: "MySQL, MongoDB, PostgreSQL",
   },
   {
     category: "Tools",
-    data: "Git, Github, Postman, Firebase",
+    data: "Git, GitHub, VS Code, Bootstrap, GenAI, Postman",
   },
 ];
