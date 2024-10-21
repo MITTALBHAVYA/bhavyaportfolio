@@ -10,6 +10,11 @@ const achievements = [
       "Solved 1000+ problems on CodeChef, with a rating of 1687.<br> <a class='link' href='https://www.codechef.com/users/bhavya_1729'>CodeChef Profile</a>",
   },
   {
+    title: "Specialist on Codeforces",
+    description:
+      "Specialist on codeforces , eager to be expert soon.<br> <a class='link' href='https://codeforces.com/profile/bhav2915mittalji'>Codeforces Profile</a>",
+  },
+  {
     title: "Completed Hacktoberfest 2023",
     description:
       "Contributed to 4+ open-source projects, including FOSS-EVENT-2.0, a MERN STACK project.",
