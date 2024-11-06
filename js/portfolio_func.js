@@ -81,7 +81,7 @@ project_data.forEach((project) => {
       }
       ${
         project.link.live
-          ? `<a href="${project.link.website}" class="project-link" alt="Live Deployment link of Project : ${project.title}">Live</a>`
+          ? `<a href="${project.link.live}" class="project-link" alt="Live Deployment link of Project : ${project.title}">Live</a>`
           : ""
       }
   </div></div>`;
