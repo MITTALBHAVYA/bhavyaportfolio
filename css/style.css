@@ -200,7 +200,7 @@ a.link {
 /* skills section */
 .skill-section {
   display: flex;
-  justify-content: center;
+  justify-content: space-evenly;
   align-items: center;
   flex-direction: column;
   background-color: black;
@@ -217,7 +217,7 @@ a.link {
 }
 .skill-list {
   display: flex;
-  justify-content: center;
+  justify-content: space-evenly;
   align-items: start;
   flex-wrap: wrap;
   flex-direction: column;
@@ -236,29 +236,46 @@ span.skill-category {
 
 .marquee {
   overflow: hidden;
-  padding: 20px;
+  padding: 20px 0;
+  background: transparent; /* Space-themed background */
+  border-radius: 20px; /* Glow effect */
+  position: relative;
+  margin: 20px 0;
 }
+
 .marquee-content {
   display: flex;
-  animation: scrolling 10s linear infinite;
+  animation: scrolling 20s linear infinite;
 }
+
 .marquee-item {
-  flex: 0 0 5vw;
+  flex: 0 0 10vw; /* Adjusted size for balance */
   margin: 0 1vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
+
 .marquee-item img {
   display: block;
-  width: 100%;
-  height: 60px;
+  width: 80%; /* Slightly smaller for better fit */
+  height: auto;
+  transition: transform 0.2s ease-in-out;
 }
+
+.marquee-item:hover img {
+  transform: scale(1.1); /* Hover effect for interactivity */
+}
+
 @keyframes scrolling {
   0% {
     transform: translateX(0);
   }
   100% {
-    transform: translatex(-133vw);
+    transform: translateX(-200vw); /* Smooth scrolling with adjusted speed */
   }
 }
+
 /* project section */
 .project-section {
   border-top: 1px solid #9ca5ad;

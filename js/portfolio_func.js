@@ -15,32 +15,34 @@ document.querySelector("div.skill-list").innerHTML = temp_data;
 temp_data = "";
 let count = 0;
 timeline_data.forEach((timeline) => {
+  // Add the image inside each timeline block
   if (count % 2 == 0) {
-    temp_data += `<div class="timeline-block timeline-block-right">
-    <div class="marker"></div>
-    <div class="timeline-content">
-      <h3>${timeline.timeRange}</h3>
-      <span>${timeline.title}</span>
-      <p>
-        ${timeline.description}
-      </p>
-    </div>
-  </div>`;
+    temp_data += `
+    <div class="timeline-block timeline-block-right">
+      <div class="marker"></div>
+      <div class="timeline-content">
+        <h3>${timeline.timeRange}</h3>
+        <span>${timeline.title}</span>
+        <p>${timeline.description}</p>
+        <img src="${timeline.image}" alt="${timeline.title}" class="timeline-image"/>
+      </div>
+    </div>`;
   } else {
-    temp_data += `<div class="timeline-block timeline-block-left">
-    <div class="marker"></div>
-    <div class="timeline-content">
-      <h3>${timeline.timeRange}</h3>
-      <span>${timeline.title}</span>
-      <p>
-        ${timeline.description}
-      </p>
-    </div>
-  </div>`;
+    temp_data += `
+    <div class="timeline-block timeline-block-left">
+      <div class="marker"></div>
+      <div class="timeline-content">
+        <h3>${timeline.timeRange}</h3>
+        <span>${timeline.title}</span>
+        <p>${timeline.description}</p>
+        <img src="${timeline.image}" alt="${timeline.title}" class="timeline-image"/>
+      </div>
+    </div>`;
   }
   count++;
 });
 document.querySelector(".timeline-container").innerHTML = temp_data;
+
 
 // preprocessing the project data
 temp_data = "";

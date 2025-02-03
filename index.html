@@ -41,9 +41,7 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <title>
-      Bhavya Mittal
-    </title>
+    <title>Bhavya Mittal</title>
     <style>
       .content-not-ready {
         display: none;
@@ -54,51 +52,114 @@
         align-items: center;
         flex-direction: column;
         overflow: hidden;
-        background: #141b23 url(../bhavyaportfolio/images/starsbg.png) repeat center center fixed;
+        background: #141b23 url(../bhavyaportfolio/images/starsbg.png) repeat
+          center center fixed;
         height: 100vh;
+      }
+      .loader {
+        position: absolute;
+        width: 100%;
+        height: 100%;
       }
       @keyframes ldio-0chhxaqs32b9 {
         0% {
-            background: #ffdb00; /* Bright Yellow */
+          background: #ffdb00;
         }
         12.5% {
-            background: #ff9d00; /* Orange */
+          background: #ff9d00;
         }
         12.625% {
-            background: #ff6f00; /* Deep Orange */
+          background: #ff6f00;
         }
         100% {
-            background: #ff4500; /* Orange-Red */
+          background: #ff4500;
         }
-    }
-    
-    .ldio-0chhxaqs32b9 div {
+      }
+
+      .ldio-0chhxaqs32b9 div {
         position: absolute;
-        background: #ff8c00; /* A warm orange base color */
+        background: #ff8c00;
         animation: ldio-0chhxaqs32b9 1s linear infinite;
         border-radius: 50%;
-        box-shadow: #ffcc00 0 0 0 2px; /* Yellow shadow to enhance sun effect */
+        box-shadow: #ffcc00 0 0 0 2px;
         padding: 10%;
-    }
-    
+      }
+
       .loadingio-spinner-blocks-f6re9kg8ubs {
         width: 200px;
         height: 200px;
         display: inline-block;
         overflow: hidden;
-        background: url("/bhavyaportfolio/images/moonaroundearth.gif") center center no-repeat;
+        background: url("/bhavyaportfolio/images/moonaroundearth.gif") center
+          center no-repeat;
         background-size: contain; /* Ensures the GIF fits within the div */
-    }
-    
+      }
+
       .ldio-0chhxaqs32b9 {
         position: relative;
         transform: translateZ(0) scale(1);
         backface-visibility: hidden;
         transform-origin: 0 0; /* see note above */
-        background:#0f141c url(../bhavyaportfolio/images/starsbg.png) repeat center center fixed;
+        background: #0f141c url(../bhavyaportfolio/images/starsbg.png) repeat
+          center center fixed;
       }
       .ldio-0chhxaqs32b9 div {
         box-sizing: content-box;
+      }
+
+      .planet {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 80px;
+        height: 80px;
+        background: radial-gradient(circle, #00ccff, #ff00b3);
+        border-radius: 50%;
+        transform: translate(-50%, -50%);
+        box-shadow: 0 0 20px rgba(255, 140, 0, 0.8);
+      }
+
+      .orbit {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 120px;
+        height: 120px;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        border-radius: 50%;
+        transform: translate(-50%, -50%);
+        animation: orbit-rotate 4s linear infinite;
+      }
+
+      .orbit::before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 15px;
+        height: 15px;
+        background: #fff;
+        border-radius: 50%;
+        transform: translate(-50%, -50%) rotate(0deg) translateX(50px);
+        animation: satellite-move 4s linear infinite;
+      }
+
+      @keyframes orbit-rotate {
+        from {
+          transform: translate(-50%, -50%) rotate(0deg);
+        }
+        to {
+          transform: translate(-50%, -50%) rotate(360deg);
+        }
+      }
+
+      @keyframes satellite-move {
+        from {
+          transform: translate(-50%, -50%) rotate(0deg) translateX(80px);
+        }
+        to {
+          transform: translate(-50%, -50%) rotate(360deg) translateX(80px);
+        }
       }
     </style>
   </head>
@@ -110,16 +171,8 @@
     </div>
     <div class="loader">
       <div class="loadingio-spinner-blocks-f6re9kg8ubs">
-        <div class="ldio-0chhxaqs32b9">
-          <div style="left: 3px; top: 3px; animation-delay: 0s"></div>
-          <div style="left: 81px; top: 3px; animation-delay: 0.125s"></div>
-          <div style="left: 157px; top: 3px; animation-delay: 0.25s"></div>
-          <div style="left: 3px; top: 81px; animation-delay: 0.875s"></div>
-          <div style="left: 157px; top: 81px; animation-delay: 0.375s"></div>
-          <div style="left: 3px; top: 157px; animation-delay: 0.75s"></div>
-          <div style="left: 81px; top: 157px; animation-delay: 0.625s"></div>
-          <div style="left: 157px; top: 157px; animation-delay: 0.5s"></div>
-        </div>
+        <div class="orbit"></div>
+        <div class="planet"></div>
       </div>
     </div>
     <div class="content-not-ready">
@@ -263,7 +316,7 @@
             >
             <a
               class="navresu"
-              href="https://drive.google.com/file/d/1ZPNDgq1_3ciNJJ9Wc2-UUr2B93o6vQJk/view"
+              href="https://drive.google.com/file/d/1RHieQCUDl2lfZCOQiNf3qeAl5OC6onW0/view"
               target="_blank"
               alt="get resume of Bhavya Mittal"
               >RESUME</a
@@ -286,7 +339,12 @@
             </div>
           </div>
           <div class="down-arrow-animation">
-            <span><img src="./images/—Pngtree—blue neon arrow down_6044168.png"  alt="↓" style="width: 80px;"></span>
+            <span
+              ><img
+                src="./images/—Pngtree—blue neon arrow down_6044168.png"
+                alt="↓"
+                style="width: 80px"
+            /></span>
           </div>
         </div>
       </div>
@@ -295,98 +353,56 @@
           <img src="images/myself-removebg.png" class="myimage" alt="" />
         </div>
         <div class="content-right">
-          I am Bhavya Mittal, a software engineer with a B.Tech in Computer
-          Science, specializing in full-stack development using the MERN stack,
-          Python,C++,C and C#. My experience includes competitive programming,
-          where I have achieved recognition in various contests and a hackathon.
-          I have worked on diverse projects, showcasing my skills in multiple
-          programming languages and frameworks. My background in both front-end
-          and back-end development equips me to contribute effectively to the
-          tech industry.
+          I am Bhavya Mittal, a full-stack developer specializing in the MERN
+          stack, Python, and C++. With strong competitive programming experience
+          (ICPC, Google KickStart, Meta HackerCup), I excel in building scalable
+          backend systems, AI-driven applications, and efficient databases. As
+          the Programming Head of GDSC, I’ve led workshops and hackathons,
+          impacting 500+ students. Passionate about problem-solving and
+          innovation, I thrive in creating robust, user-centric solutions.
         </div>
       </div>
       <div class="skill-section">
         <div class="scene">
           <div class="ball"></div>
-          <div class="ring">
-            <i></i>
-            <i></i>
-            <i></i>
-            <i></i>
-            <i></i>
-            <i></i>
-            <i></i>
-            <i></i>
-            <i></i>
-            <i></i>
-            <i></i>
-            <i></i>
-            <i></i>
-            <i></i>
-            <i></i>
-            <i></i>
-            <i></i>
-            <i></i>
-            <i></i>
-            <i></i>
-            <i></i>
-            <i></i>
-            <i></i>
-            <i></i>
-            <i></i>
-            <i></i>
-            <i></i>
-            <i></i>
-            <i></i>
-            <i></i>
-            <i></i>
-            <i></i>
-          </div>
         </div>
-        <div class="heading matrix-font skillhead" style="margin-bottom:10%;">SKILLS</div>
+        <div class="heading matrix-font skillhead">
+          SKILLS
+        </div>
         <div class="skill-list"></div>
         <div class="marquee">
           <div class="marquee-content">
-            <div class="marquee-item"><img src="images/icon_js.svg" /></div>
-            <div class="marquee-item"><img src="images/icon_python.svg" /></div>
-            <div class="marquee-item"><img src="images/icon_cpp.svg" /></div>
-            <div class="marquee-item"><img src="images/icon_c.svg" /></div>
-            <div class="marquee-item"><img src="images/icon_html.svg" /></div>
-            <div class="marquee-item"><img src="images/icon_css.svg" /></div>
-            <div class="marquee-item"><img src="images/icon_react.svg" /></div>
-            <div class="marquee-item"><img src="images/icon_redux.svg" /></div>
-            <div class="marquee-item">
-              <img src="images/icon_nodejs.svg" />
-            </div>
-            <div class="marquee-item"><img src="images/icon_mysql.svg" /></div>
-            <div class="marquee-item"><img src="images/icon_mongo.svg" /></div>
-            <div class="marquee-item"><img src="images/icon_git.svg" /></div>
-            <div class="marquee-item">
-              <img src="images/icon_firebase.svg" />
-            </div>
-            <div class="marquee-item">
-              <img src="images/icon_postman.svg" />
-            </div>
-
-            <div class="marquee-item"><img src="images/icon_js.svg" /></div>
-            <div class="marquee-item"><img src="images/icon_python.svg" /></div>
-            <div class="marquee-item"><img src="images/icon_cpp.svg" /></div>
-            <div class="marquee-item"><img src="images/icon_c.svg" /></div>
-            <div class="marquee-item"><img src="images/icon_html.svg" /></div>
-            <div class="marquee-item"><img src="images/icon_css.svg" /></div>
-            <div class="marquee-item"><img src="images/icon_react.svg" /></div>
-            <div class="marquee-item"><img src="images/icon_redux.svg" /></div>
-            <div class="marquee-item">
-              <img src="images/icon_nodejs.svg" />
-            </div>
-            <div class="marquee-item"><img src="images/icon_mysql.svg" /></div>
-            <div class="marquee-item"><img src="images/icon_mongo.svg" /></div>
-            <div class="marquee-item"><img src="images/icon_git.svg" /></div>
-            <div class="marquee-item">
-              <img src="images/icon_firebase.svg" />
-            </div>
+            <div class="marquee-item"><img src="images/icon_js.svg" alt="JS Icon" /></div>
+            <div class="marquee-item"><img src="images/icon_python.svg" alt="Python Icon" /></div>
+            <div class="marquee-item"><img src="images/icon_cpp.svg" alt="C++ Icon" /></div>
+            <div class="marquee-item"><img src="images/icon_c.svg" alt="C Icon" /></div>
+            <div class="marquee-item"><img src="images/icon_html.svg" alt="HTML Icon" /></div>
+            <div class="marquee-item"><img src="images/icon_css.svg" alt="CSS Icon" /></div>
+            <div class="marquee-item"><img src="images/icon_react.svg" alt="React Icon" /></div>
+            <div class="marquee-item"><img src="images/icon_redux.svg" alt="Redux Icon" /></div>
+            <div class="marquee-item"><img src="images/icon_nodejs.svg" alt="Node.js Icon" /></div>
+            <div class="marquee-item"><img src="images/icon_mysql.svg" alt="MySQL Icon" /></div>
+            <div class="marquee-item"><img src="images/icon_mongo.svg" alt="MongoDB Icon" /></div>
+            <div class="marquee-item"><img src="images/icon_git.svg" alt="Git Icon" /></div>
+            <div class="marquee-item"><img src="images/icon_firebase.svg" alt="Firebase Icon" /></div>
+            <div class="marquee-item"><img src="images/icon_postman.svg" alt="Postman Icon" /></div>
+        
+            <!-- Repeat the items for continuous scrolling -->
+            <div class="marquee-item"><img src="images/icon_js.svg" alt="JS Icon" /></div>
+            <div class="marquee-item"><img src="images/icon_python.svg" alt="Python Icon" /></div>
+            <div class="marquee-item"><img src="images/icon_cpp.svg" alt="C++ Icon" /></div>
+            <div class="marquee-item"><img src="images/icon_c.svg" alt="C Icon" /></div>
+            <div class="marquee-item"><img src="images/icon_html.svg" alt="HTML Icon" /></div>
+            <div class="marquee-item"><img src="images/icon_css.svg" alt="CSS Icon" /></div>
+            <div class="marquee-item"><img src="images/icon_react.svg" alt="React Icon" /></div>
+            <div class="marquee-item"><img src="images/icon_redux.svg" alt="Redux Icon" /></div>
+            <div class="marquee-item"><img src="images/icon_nodejs.svg" alt="Node.js Icon" /></div>
+            <div class="marquee-item"><img src="images/icon_mysql.svg" alt="MySQL Icon" /></div>
+            <div class="marquee-item"><img src="images/icon_mongo.svg" alt="MongoDB Icon" /></div>
+            <div class="marquee-item"><img src="images/icon_git.svg" alt="Git Icon" /></div>
+            <div class="marquee-item"><img src="images/icon_firebase.svg" alt="Firebase Icon" /></div>
           </div>
-        </div>
+        </div>        
       </div>
       <div class="project-section" data-target="projects">
         <div class="movingstr">
@@ -445,7 +461,7 @@
               class="project-link"
               target="_blank"
               alt="get resume of Bhavya Mittal"
-              href="https://drive.google.com/file/d/1ZPNDgq1_3ciNJJ9Wc2-UUr2B93o6vQJk/view"
+              href="https://drive.google.com/file/d/1RHieQCUDl2lfZCOQiNf3qeAl5OC6onW0/view"
               >Get Resume</a
             >
           </div>

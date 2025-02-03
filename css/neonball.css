@@ -13,83 +13,21 @@
 .ball {
   position: absolute;
   inset: var(--ball-inset);
-  background-image: radial-gradient(circle at top, #fff, #000);
-  border-radius: 50%;
-  box-shadow: 0 0 2em var(--shadow-color);
+  background-image: radial-gradient(circle at top, #07223e, #ec1e1e);
+  border-radius: 47% 40% 55% 45%;
+  box-shadow: 0 0 1.5em rgba(255, 255, 255, 0.8), 0 0 5em rgba(0, 255, 255, 0.6); /* Glowing effect */
+  background-size: 150% 150%;
+  animation: spin 5s infinite linear; /* Spin effect */
+  overflow: hidden;
 }
 
-/* Ring Styles */
-.ring {
-  position: absolute;
-}
-
-.ring i {
-  position: absolute;
-  border: 1px solid hsl(var(--hue), 100%, 75%);
-  box-shadow: 0 0 1em hsl(var(--hue), 100%, 75%) inset, 0 0 1em hsl(var(--hue), 100%, 75%);
-  border-radius: 50%;
-  -webkit-animation: iMove 24s var(--delay) infinite both linear, iScale 24s var(--delay) infinite both cubic-bezier(0.3642, 0, 0.6358, 1);
-          animation: iMove 24s var(--delay) infinite both linear, iScale 24s var(--delay) infinite both cubic-bezier(0.3642, 0, 0.6358, 1);
-}
-
-/* Using nth-child to streamline repetition */
-.ring i:nth-child(n) {
-  --hue: calc(n * 98);
-  --delay: calc(n * -0.75s);
-}
-
-.ring i:nth-child(n) {
-  --rx: calc(45deg + n * 25deg);
-  --ry: calc(60deg + n * 15deg);
-  --rz: calc(90deg + n * 10deg);
-}
-
-/* Keyframes */
-@-webkit-keyframes iMove {
+/* Animation to add a rotating effect to simulate a "moving" galaxy ball */
+@keyframes spin {
   0% {
-    transform: rotateZ(var(--rz)) rotateY(var(--ry)) rotateX(var(--rx)) translateZ(var(--ring-radius));
+    transform: rotate(0deg);
   }
   100% {
-    transform: rotateZ(var(--rz)) rotateY(var(--ry)) rotateX(var(--rx)) translateZ(calc(var(--ring-radius) * -1));
+    transform: rotate(360deg);
   }
 }
 
-@keyframes iMove {
-  0% {
-    transform: rotateZ(var(--rz)) rotateY(var(--ry)) rotateX(var(--rx)) translateZ(var(--ring-radius));
-  }
-  100% {
-    transform: rotateZ(var(--rz)) rotateY(var(--ry)) rotateX(var(--rx)) translateZ(calc(var(--ring-radius) * -1));
-  }
-}
-
-/* Scaling Animation */
-@-webkit-keyframes iScale {
-  0%, 100% {
-    inset: -1em;
-    opacity: 0;
-  }
-  35%, 65% {
-    inset: -1em;
-    opacity: 1;
-  }
-  50% {
-    inset: -10em;
-    opacity: 1;
-  }
-}
-
-@keyframes iScale {
-  0%, 100% {
-    inset: -1em;
-    opacity: 0;
-  }
-  35%, 65% {
-    inset: -1em;
-    opacity: 1;
-  }
-  50% {
-    inset: -10em;
-    opacity: 1;
-  }
-}

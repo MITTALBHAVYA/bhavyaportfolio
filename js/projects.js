@@ -116,4 +116,23 @@ const project_data = [
       github: "https://github.com/MITTALBHAVYA/Medbuddy",
     },
   },
+  {
+    id: 8,
+    name: "NEXUS",
+    title: "NEXUS: AI-powered data analyst platform for natural language queries on structured datasets",
+    description:
+      "NEXUS is an AI-powered data analyst platform that enables users to run natural language queries on structured datasets like SQL, CSV, and Excel. It integrates advanced reasoning techniques (CoT, ToT) for enhanced logical inference, achieving 96% query accuracy. The platform also provides intuitive dashboards and visualizations, making data analysis accessible for non-technical users.",
+    techStacks: [
+      "ReactJS",
+      "FastAPI",
+      "PostgreSQL",
+      "MongoDB",
+      "GenAI",
+      "TailwindCSS",
+    ],
+    image: "images/projects/nexus.png",
+    link: {
+      github: "https://github.com/MITTALBHAVYA/NEXUS",
+    },
+  },
 ];
