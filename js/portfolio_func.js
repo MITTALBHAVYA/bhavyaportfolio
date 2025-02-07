@@ -15,33 +15,26 @@ document.querySelector("div.skill-list").innerHTML = temp_data;
 temp_data = "";
 let count = 0;
 timeline_data.forEach((timeline) => {
-  // Add the image inside each timeline block
-  if (count % 2 == 0) {
-    temp_data += `
-    <div class="timeline-block timeline-block-right">
+  temp_data += `
+    <div class="timeline-block ${count % 2 == 0 ? "timeline-block-right" : "timeline-block-left"}">
       <div class="marker"></div>
       <div class="timeline-content">
-        <h3>${timeline.timeRange}</h3>
-        <span>${timeline.title}</span>
+        <div class="timeline-content-flex">
+          <div class="timeline-content-text">
+            <h3>${timeline.timeRange}</h3>
+            <span>${timeline.title}</span>
+          </div>
+          <div class="timeline-content-image">
+            <img src="${timeline.image}" alt="${timeline.title}" class="timeline-image"/>
+          </div>
+        </div>
         <p>${timeline.description}</p>
-        <img src="${timeline.image}" alt="${timeline.title}" class="timeline-image"/>
       </div>
     </div>`;
-  } else {
-    temp_data += `
-    <div class="timeline-block timeline-block-left">
-      <div class="marker"></div>
-      <div class="timeline-content">
-        <h3>${timeline.timeRange}</h3>
-        <span>${timeline.title}</span>
-        <p>${timeline.description}</p>
-        <img src="${timeline.image}" alt="${timeline.title}" class="timeline-image"/>
-      </div>
-    </div>`;
-  }
   count++;
 });
 document.querySelector(".timeline-container").innerHTML = temp_data;
+
 
 
 // preprocessing the project data
@@ -50,18 +43,14 @@ let project_menu_data = "";
 count = 0;
 project_data.forEach((project) => {
   count++;
-  project_menu_data += `<span class="project-name-list-item" data-project-id="${
-    project.id
-  }" data-active="${count == 1 ? "true" : "false"}">${project.name}</span>`;
+  project_menu_data += `<span class="project-name-list-item" data-project-id="${project.id
+    }" data-active="${count == 1 ? "true" : "false"}">${project.name}</span>`;
 
-  temp_data += `<div class="project-detail" data-project-id="${
-    project.id
-  }" data-active="${
-    count == 1 ? "true" : "false"
-  }"><div class="project-title">${project.title}</div>
-  <div class="project-image"><img src="${project.image}" alt="${
-    project.title + " " + project.description
-  }" /></div>
+  temp_data += `<div class="project-detail" data-project-id="${project.id
+    }" data-active="${count == 1 ? "true" : "false"
+    }"><div class="project-title">${project.title}</div>
+  <div class="project-image"><img src="${project.image}" alt="${project.title + " " + project.description
+    }" /></div>
   <div class="project-description">${project.description}</div>
   <div class="project-tech-stacks">
     ${project.techStacks
@@ -71,21 +60,18 @@ project_data.forEach((project) => {
       .join("")}
   </div>
   <div class="project-links">
-      ${
-        project.link.github
-          ? `<a href="${project.link.github}" class="project-link" alt="Github Link of Project : ${project.title}">Github</a>`
-          : ""
-      }
-      ${
-        project.link.youtube
-          ? `<a href="${project.link.youtube}" class="project-link" alt="Youtube video link of Project : ${project.title}">Youtube</a>`
-          : ""
-      }
-      ${
-        project.link.live
-          ? `<a href="${project.link.live}" class="project-link" alt="Live Deployment link of Project : ${project.title}">Live</a>`
-          : ""
-      }
+      ${project.link.github
+      ? `<a href="${project.link.github}" class="project-link" alt="Github Link of Project : ${project.title}">Github</a>`
+      : ""
+    }
+      ${project.link.youtube
+      ? `<a href="${project.link.youtube}" class="project-link" alt="Youtube video link of Project : ${project.title}">Youtube</a>`
+      : ""
+    }
+      ${project.link.live
+      ? `<a href="${project.link.live}" class="project-link" alt="Live Deployment link of Project : ${project.title}">Live</a>`
+      : ""
+    }
   </div></div>`;
 });
 document.querySelector(
@@ -161,7 +147,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Throttle function to limit the rate at which a function can fire
   const throttle = (func, limit) => {
     let inThrottle;
-    return function() {
+    return function () {
       const args = arguments;
       const context = this;
       if (!inThrottle) {
@@ -221,7 +207,7 @@ document.addEventListener('DOMContentLoaded', () => {
   let lastScrollTop = 0;
   window.addEventListener('scroll', throttle(() => {
     const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-    
+
     if (scrollTop > window.innerHeight) {
       navbar.classList.add('show-nav');
       if (scrollTop > lastScrollTop) {
@@ -234,7 +220,7 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
       navbar.classList.remove('show-nav');
     }
-    
+
     lastScrollTop = scrollTop;
   }, 100));
 
