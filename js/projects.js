@@ -76,6 +76,7 @@ const project_data = [
     image: "images/projects/gdscslack.jpg",
     link: {
       github: "https://github.com/MITTALBHAVYA/slack-GDSC-Mycut",
+      live: "https://slack-gdsc-mycut.vercel.app/"
     },
   },
   {
