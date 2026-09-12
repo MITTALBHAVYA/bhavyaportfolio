@@ -1,0 +1,130 @@
+@layer components {
+  .post__back {
+    margin-bottom: var(--space-5);
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+  }
+
+  .post__back a {
+    text-decoration: none;
+    color: var(--text-muted);
+  }
+
+  .post__back a:hover {
+    color: var(--cyan);
+  }
+
+  .post__header {
+    padding-bottom: var(--space-6);
+    margin-bottom: var(--space-6);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .post__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    letter-spacing: var(--tracking-wide);
+    color: var(--text-muted);
+    margin-bottom: var(--space-4);
+  }
+
+  .post__title {
+    font-size: var(--text-3xl);
+  }
+
+  .post__summary {
+    margin-top: var(--space-4);
+    font-size: var(--text-lg);
+    color: var(--text-secondary);
+    max-width: 60ch;
+  }
+
+  /* ---------------- prose ---------------- */
+
+  .post__body {
+    font-size: var(--text-lg);
+    line-height: var(--leading-relaxed);
+    color: var(--text-secondary);
+  }
+
+  .post__body > * + * {
+    margin-top: var(--space-5);
+  }
+
+  .post__body h2 {
+    font-size: var(--text-2xl);
+    margin-top: var(--space-8);
+  }
+
+  .post__body h3 {
+    font-size: var(--text-xl);
+    margin-top: var(--space-7);
+  }
+
+  .post__body ul,
+  .post__body ol {
+    padding-left: var(--space-5);
+  }
+
+  .post__body li + li {
+    margin-top: var(--space-2);
+  }
+
+  .post__body blockquote {
+    padding-left: var(--space-5);
+    border-left: 2px solid var(--border-accent);
+    color: var(--text-primary);
+    font-style: italic;
+  }
+
+  .post__body img {
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border);
+  }
+
+  .post__body :not(pre) > code {
+    padding: 0.15em 0.4em;
+    border-radius: var(--radius-sm);
+    background: color-mix(in oklab, var(--void-700) 70%, transparent);
+    font-family: var(--font-mono);
+    font-size: 0.875em;
+    color: var(--text-primary);
+  }
+
+  /* Shiki emits inline styles for tokens; this is the block chrome. */
+  .post__body pre.shiki {
+    padding: var(--space-5);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border);
+    overflow-x: auto;
+    font-size: var(--text-sm);
+    line-height: 1.6;
+    /* Shiki sets its own background; keep it from bleeding to the page edge. */
+    background: var(--void-900) !important;
+  }
+
+  .post__body pre.shiki code {
+    font-family: var(--font-mono);
+  }
+
+  .post__body table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: var(--text-base);
+  }
+
+  .post__body th,
+  .post__body td {
+    padding: var(--space-3);
+    border-bottom: 1px solid var(--border);
+    text-align: left;
+  }
+
+  .post__body hr {
+    border: none;
+    border-top: 1px solid var(--border);
+  }
+}

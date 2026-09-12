@@ -1,0 +1,218 @@
+@layer components {
+  .hero {
+    display: grid;
+    align-content: center;
+    min-height: max(100svh, 38rem);
+    padding-block: var(--space-9) var(--space-8);
+  }
+
+  .hero__inner {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+    max-width: 46rem;
+  }
+
+  /* "Namaste 🙏, My name is" — preserved verbatim from the original site. */
+  .hero__greeting {
+    font-family: var(--font-mono);
+    font-size: var(--text-base);
+    color: var(--cyan);
+    letter-spacing: var(--tracking-snug);
+  }
+
+  .hero__name {
+    font-size: var(--text-display);
+    line-height: 0.92;
+    letter-spacing: -0.045em;
+    font-weight: var(--weight-bold);
+    color: var(--text-primary);
+    /* Replaces the old gradient-text recipe, which used
+       -webkit-text-fill-color:transparent and dropped the bottom of every
+       heading to ~1.6:1 — and rendered invisible in forced-colors mode.
+       The glow sits behind the text instead of inside it. */
+    text-shadow: 0 0 60px color-mix(in oklab, var(--gold) 28%, transparent);
+  }
+
+  .hero__role {
+    font-size: var(--text-xl);
+    font-weight: var(--weight-medium);
+    color: var(--text-primary);
+    letter-spacing: var(--tracking-snug);
+  }
+
+  .hero__tagline {
+    font-size: var(--text-lg);
+    color: var(--text-secondary);
+    max-width: 42ch;
+  }
+
+  /* ---------------- typing console ---------------- */
+
+  .hero__console {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--space-2);
+    font-family: var(--font-mono);
+    font-size: var(--text-base);
+    color: var(--text-muted);
+    min-height: 1.6em;
+  }
+
+  .hero__console-label {
+    color: var(--text-muted);
+  }
+
+  .hero__console-text {
+    color: var(--cyan);
+    font-weight: var(--weight-medium);
+  }
+
+  .hero__console-cursor {
+    display: inline-block;
+    width: 0.6ch;
+    color: var(--cyan);
+    /* 1s rather than the original 400ms, which sat close to the 3Hz
+       photosensitivity flash threshold. */
+    animation: cursor-blink 1s steps(2, start) infinite;
+  }
+
+  @keyframes cursor-blink {
+    to {
+      visibility: hidden;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero__console-cursor {
+      animation: none;
+    }
+  }
+
+  /* ---------------- proof chips ---------------- */
+
+  .hero__proof {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin: 0;
+  }
+
+  .proof-chip {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-4);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-full);
+    background: color-mix(in oklab, var(--void-850) 60%, transparent);
+    font-size: var(--text-xs);
+  }
+
+  .proof-chip__label {
+    color: var(--text-muted);
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+  }
+
+  .proof-chip__value {
+    font-family: var(--font-mono);
+    font-weight: var(--weight-medium);
+    color: var(--gold);
+  }
+
+  /* ---------------- availability ---------------- */
+
+  .hero__availability {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-3);
+    font-size: var(--text-sm);
+    color: var(--text-muted);
+  }
+
+  .status-dot {
+    position: relative;
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: var(--radius-full);
+    background: #4ade80;
+    flex-shrink: 0;
+  }
+
+  .status-dot::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: inherit;
+    animation: status-pulse 2.4s var(--ease-out) infinite;
+  }
+
+  @keyframes status-pulse {
+    from {
+      opacity: 0.7;
+      transform: scale(1);
+    }
+    to {
+      opacity: 0;
+      transform: scale(3);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .status-dot::after {
+      animation: none;
+    }
+  }
+
+  .hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    margin-top: var(--space-2);
+  }
+
+  /* ---------------- scroll cue ---------------- */
+
+  .hero__scroll-cue {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-3);
+    margin-top: var(--space-7);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    letter-spacing: var(--tracking-widest);
+    text-transform: uppercase;
+    color: var(--text-faint);
+    text-decoration: none;
+    width: fit-content;
+  }
+
+  .hero__scroll-cue:hover {
+    color: var(--cyan);
+  }
+
+  .hero__scroll-cue svg {
+    animation: cue-drift 2.6s var(--ease-in-out) infinite;
+  }
+
+  @keyframes cue-drift {
+    0%,
+    100% {
+      transform: translateY(0);
+      opacity: 0.6;
+    }
+    50% {
+      transform: translateY(4px);
+      opacity: 1;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero__scroll-cue svg {
+      animation: none;
+    }
+  }
+}

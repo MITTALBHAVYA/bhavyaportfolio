@@ -1,0 +1,120 @@
+@layer components {
+  .about__grid {
+    display: grid;
+    gap: var(--space-7);
+    grid-template-columns: 1fr;
+    align-items: start;
+  }
+
+  @media (width >= 56rem) {
+    .about__grid {
+      grid-template-columns: 1fr 20rem;
+      gap: var(--space-8);
+    }
+  }
+
+  .about__bio p + p {
+    margin-top: var(--space-4);
+  }
+
+  .about__bio p {
+    font-size: var(--text-lg);
+    color: var(--text-secondary);
+  }
+
+  .about__portrait {
+    position: relative;
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    border: 1px solid var(--border);
+    background: linear-gradient(
+      160deg,
+      color-mix(in oklab, var(--gold) 12%, transparent),
+      transparent 55%
+    );
+  }
+
+  .about__portrait img {
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+  }
+
+  /* ---------------- skills ---------------- */
+
+  .skills {
+    margin-top: var(--space-8);
+    display: grid;
+    gap: var(--space-5);
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
+  }
+
+  .skill-group__name {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    letter-spacing: var(--tracking-widest);
+    text-transform: uppercase;
+    color: var(--cyan);
+    margin-bottom: var(--space-3);
+  }
+
+  .skill-group__items {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin: 0;
+  }
+
+  /* ---------------- icon marquee ---------------- */
+
+  .marquee {
+    margin-top: var(--space-8);
+    overflow: hidden;
+    /* Fade the ends rather than cutting them hard. */
+    mask-image: linear-gradient(90deg, transparent, black 12%, black 88%, transparent);
+  }
+
+  .marquee__track {
+    display: flex;
+    gap: var(--space-7);
+    width: max-content;
+    animation: marquee-scroll 38s linear infinite;
+  }
+
+  .marquee:hover .marquee__track {
+    animation-play-state: paused;
+  }
+
+  /* Travels exactly half the track, which is duplicated once in markup —
+     so the loop is seamless regardless of how many icons there are. The old
+     rule hard-coded translateX(-200vw) against a fixed item count. */
+  @keyframes marquee-scroll {
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  .marquee__item img {
+    width: 2rem;
+    height: 2rem;
+    opacity: 0.55;
+    filter: grayscale(1);
+    transition: opacity var(--dur-base) var(--ease-out),
+      filter var(--dur-base) var(--ease-out);
+  }
+
+  .marquee__item:hover img {
+    opacity: 1;
+    filter: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .marquee__track {
+      animation: none;
+      flex-wrap: wrap;
+      width: 100%;
+      justify-content: center;
+      gap: var(--space-5);
+    }
+  }
+}

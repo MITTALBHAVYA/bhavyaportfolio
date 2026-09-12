@@ -1,0 +1,42 @@
+// Skill names map to an SVG in src/assets/icons/ when one exists. The marquee is
+// derived from this map rather than hand-listed, so the two can no longer drift
+// apart (the old site's marquee advertised Redux and Firebase, which were not in
+// the skills list at all).
+export const skillIcons = {
+  JavaScript: 'icon_js.svg',
+  Python: 'icon_python.svg',
+  'C++': 'icon_cpp.svg',
+  C: 'icon_c.svg',
+  HTML: 'icon_html.svg',
+  CSS: 'icon_css.svg',
+  ReactJS: 'icon_react.svg',
+  'Node.js': 'icon_nodejs.svg',
+  MySQL: 'icon_mysql.svg',
+  MongoDB: 'icon_mongo.svg',
+  Git: 'icon_git.svg',
+  Postman: 'icon_postman.svg',
+}
+
+export const skills = [
+  {
+    category: 'Languages',
+    items: ['C', 'C++', 'JavaScript', 'HTML', 'CSS', 'Python', 'SQL'],
+  },
+  {
+    category: 'Frameworks',
+    items: ['ReactJS', 'Node.js', 'ExpressJS', 'FastAPI', 'REST API', 'Tailwind CSS'],
+  },
+  {
+    category: 'Databases',
+    items: ['MySQL', 'PostgreSQL', 'MongoDB'],
+  },
+  {
+    category: 'Tools',
+    items: ['Git', 'GitHub', 'VS Code', 'Postman', 'Bootstrap', 'GenAI'],
+  },
+]
+
+export const marqueeIcons = skills
+  .flatMap((group) => group.items)
+  .filter((name) => name in skillIcons)
+  .map((name) => ({ name, icon: skillIcons[name] }))

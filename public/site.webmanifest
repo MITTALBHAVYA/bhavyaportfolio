@@ -1,0 +1,14 @@
+{
+  "name": "Bhavya Mittal — Full-stack Engineer",
+  "short_name": "Bhavya Mittal",
+  "description": "Scalable backends, GenAI products and data platforms.",
+  "start_url": "/bhavyaportfolio/",
+  "scope": "/bhavyaportfolio/",
+  "display": "standalone",
+  "background_color": "#05070c",
+  "theme_color": "#05070c",
+  "icons": [
+    { "src": "/bhavyaportfolio/favicon.svg", "sizes": "any", "type": "image/svg+xml" },
+    { "src": "/bhavyaportfolio/apple-touch-icon.png", "sizes": "180x180", "type": "image/png" }
+  ]
+}

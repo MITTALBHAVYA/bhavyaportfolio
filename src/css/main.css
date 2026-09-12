@@ -1,0 +1,23 @@
+/* Layer order is declared once, up front. Because every rule lives in a layer,
+   source order and selector specificity can no longer decide who wins — which is
+   what made the old `.sun` collision (defined in two files loaded via
+   preload+onload) non-deterministic. */
+@layer tokens, base, layout, components, utilities;
+
+@import './tokens.css';
+@import './base.css';
+@import './layout.css';
+
+@import './components/cosmos.css';
+@import './components/nav.css';
+@import './components/button.css';
+@import './components/hero.css';
+@import './components/project.css';
+@import './components/about.css';
+@import './components/timeline.css';
+@import './components/achievements.css';
+@import './components/writing.css';
+@import './components/quote.css';
+@import './components/contact.css';
+@import './components/footer.css';
+@import './components/reveal.css';

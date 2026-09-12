@@ -1,0 +1,184 @@
+@layer components {
+  .work__featured {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+    margin-bottom: var(--space-9);
+  }
+
+  /* ---------------- featured (alternating) ---------------- */
+
+  .project-feature {
+    display: grid;
+    gap: var(--space-5);
+    align-items: center;
+    grid-template-columns: 1fr;
+  }
+
+  @media (width >= 56rem) {
+    .project-feature {
+      grid-template-columns: 1.1fr 1fr;
+      gap: var(--space-7);
+    }
+
+    .project-feature:nth-child(even) .project-feature__media {
+      order: -1;
+    }
+  }
+
+  .project-feature__media {
+    position: relative;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    border: 1px solid var(--border);
+    background: var(--surface-raised);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .project-feature__media img {
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    object-fit: cover;
+    object-position: top center;
+    transition: transform var(--dur-slower) var(--ease-out);
+  }
+
+  .project-feature:hover .project-feature__media img {
+    transform: scale(1.03);
+  }
+
+  .project-feature__body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .project-feature__name {
+    font-size: var(--text-2xl);
+    letter-spacing: var(--tracking-snug);
+  }
+
+  .project-feature__title {
+    font-size: var(--text-lg);
+    color: var(--text-primary);
+    font-weight: var(--weight-medium);
+  }
+
+  .project-feature__desc {
+    color: var(--text-secondary);
+  }
+
+  /* A single headline number, where the project has one. */
+  .project-feature__metric {
+    align-self: flex-start;
+    padding: var(--space-1) var(--space-3);
+    border-radius: var(--radius-full);
+    border: 1px solid color-mix(in oklab, var(--gold) 35%, transparent);
+    background: color-mix(in oklab, var(--gold) 10%, transparent);
+    color: var(--gold);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    letter-spacing: var(--tracking-wide);
+  }
+
+  /* ---------------- tech chips ---------------- */
+
+  .tech-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin: var(--space-1) 0 0;
+  }
+
+  .tech-chip {
+    padding: var(--space-1) var(--space-3);
+    border-radius: var(--radius-sm);
+    background: color-mix(in oklab, var(--void-700) 60%, transparent);
+    border: 1px solid var(--border);
+    color: var(--text-secondary);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+  }
+
+  /* ---------------- links ---------------- */
+
+  .project-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    margin-top: var(--space-2);
+  }
+
+  /* ---------------- grid cards ---------------- */
+
+  .project-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    padding: var(--space-5);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    background: color-mix(in oklab, var(--void-900) 75%, transparent);
+    transition: transform var(--dur-base) var(--ease-out),
+      border-color var(--dur-base) var(--ease-out),
+      box-shadow var(--dur-base) var(--ease-out);
+  }
+
+  .project-card:hover,
+  .project-card:focus-within {
+    transform: translateY(-4px);
+    border-color: var(--border-accent);
+    box-shadow: var(--shadow-lg), var(--glow-cyan);
+  }
+
+  .project-card__name {
+    font-size: var(--text-lg);
+  }
+
+  .project-card__desc {
+    flex: 1;
+    font-size: var(--text-sm);
+    color: var(--text-secondary);
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .project-card__footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-3);
+    margin-top: var(--space-2);
+  }
+
+  .project-card__links {
+    display: flex;
+    gap: var(--space-2);
+  }
+
+  /* Icon-only repo/live links. Each carries its own aria-label in markup —
+     the old site's icon links announced nothing at all. */
+  .icon-link {
+    display: grid;
+    place-items: center;
+    width: 2rem;
+    height: 2rem;
+    border-radius: var(--radius-md);
+    color: var(--text-muted);
+    transition: color var(--dur-fast) var(--ease-out),
+      background-color var(--dur-fast) var(--ease-out);
+  }
+
+  .icon-link:hover {
+    color: var(--text-primary);
+    background: color-mix(in oklab, var(--void-700) 70%, transparent);
+  }
+
+  .icon-link svg {
+    width: 1.125rem;
+    height: 1.125rem;
+  }
+}

@@ -1,572 +1,74 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Bhavya Mittal — Full-stack Engineer &amp; Competitive Programmer</title>
     <meta
       name="description"
-      content="Bhavya Mittal is a Backend Developer, Frontend Developer, AI/ML, ReactJS, NodeJS, REDUX, Competitive Programmer"
-    />
-
-    <meta property="og:type" content="website" />
-    <meta
-      property="og:title"
-      content="BHAVYA's Portfolio | Backend Developer, Frontend Developer, AI/ML, ReactJS, NodeJS, REDUX, Competitive Programmer"
-    />
-    <meta
-      property="og:description"
-      content="Bhavya Mittal is a Backend Developer, Frontend Developer, AI/ML, ReactJS, NodeJS,REDUX, Competitive Programmer"
-    />
-
-    <meta property="twitter:card" content="summary_large_image" />
-    <meta
-      property="twitter:title"
-      content="Bhavya's Portfolio | Backend Developer, Frontend Developer, AI/ML, ReactJS, NodeJS, REDUX, Competitive Programmer"
-    />
-    <meta
-      property="twitter:description"
-      content="Bhavya Mittal is a Backend Developer, Frontend Developer, AI/ML, ReactJS, NodeJS, REDUX, Competitive Programmer"
-    />
-
-    <meta
-      name="keywords"
-      content="Bhavya Mittal, Bhavya, Mittal, Bhavya1729, Bhavya 1729, Bhavya Mittal Portfolio, Bhavya Mittal Backend Developer, Bhavya Mittal Frontend Developer, Bhavya Mittal AI/ML, Bhavya Mittal ReactJS, Bhavya Mittal NodeJS, Bhavya Mittal REDUX,
-      Competitive Programmer, Bhavya Mittal Competitive Programmer, bhavya1729,bhavya_1729"
+      content="Bhavya Mittal builds scalable backends, GenAI products and data platforms with the MERN stack, Python and FastAPI. ICPC Regionals AIR 37, Codeforces Specialist."
     />
     <meta name="author" content="Bhavya Mittal" />
-    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://mittalbhavya.github.io/bhavyaportfolio/" />
+    <meta name="theme-color" content="#05070c" />
+    <meta name="color-scheme" content="dark" />
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Open Graph / Twitter -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Bhavya Mittal" />
+    <meta property="og:url" content="https://mittalbhavya.github.io/bhavyaportfolio/" />
+    <meta property="og:title" content="Bhavya Mittal — Full-stack Engineer &amp; Competitive Programmer" />
+    <meta
+      property="og:description"
+      content="Scalable backends, GenAI products and data platforms. ICPC Regionals AIR 37, Codeforces Specialist."
+    />
+    <meta property="og:image" content="https://mittalbhavya.github.io/bhavyaportfolio/og.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale" content="en_IN" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:creator" content="@bhavyamit1729" />
+    <meta name="twitter:image" content="https://mittalbhavya.github.io/bhavyaportfolio/og.png" />
 
-    <link rel="icon" href="images/icon_title3.png" />
+    <!-- Icons -->
+    <link rel="icon" href="/bhavyaportfolio/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/bhavyaportfolio/apple-touch-icon.png" />
+    <link rel="manifest" href="/bhavyaportfolio/site.webmanifest" />
 
+    <!--
+      Fonts. The old stylesheet declared Roboto / DM Sans / Orbitron 21 times but
+      its only @import sat 600 lines into the file — an invalid position, so it was
+      dropped and every typeface silently fell back to system sans. These are
+      loaded properly, with display=swap so text paints immediately.
+    -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <title>Bhavya Mittal</title>
-    <style>
-      .content-not-ready {
-        display: none;
-      }
-      body.loading {
-        display: flex;
-        justify-content: space-evenly;
-        align-items: center;
-        flex-direction: column;
-        overflow: hidden;
-        background: #141b23 url(../bhavyaportfolio/images/starsbg.png) repeat
-          center center fixed;
-        height: 100vh;
-      }
-      .loader {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-      }
-      @keyframes ldio-0chhxaqs32b9 {
-        0% {
-          background: #ffdb00;
-        }
-        12.5% {
-          background: #ff9d00;
-        }
-        12.625% {
-          background: #ff6f00;
-        }
-        100% {
-          background: #ff4500;
-        }
-      }
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400&display=swap"
+    />
 
-      .ldio-0chhxaqs32b9 div {
-        position: absolute;
-        background: #ff8c00;
-        animation: ldio-0chhxaqs32b9 1s linear infinite;
-        border-radius: 50%;
-        box-shadow: #ffcc00 0 0 0 2px;
-        padding: 10%;
-      }
+    <link rel="stylesheet" href="/src/css/main.css" />
 
-      .loadingio-spinner-blocks-f6re9kg8ubs {
-        width: 200px;
-        height: 200px;
-        display: inline-block;
-        overflow: hidden;
-        background: url("/bhavyaportfolio/images/moonaroundearth.gif") center
-          center no-repeat;
-        background-size: contain; /* Ensures the GIF fits within the div */
-      }
-
-      .ldio-0chhxaqs32b9 {
-        position: relative;
-        transform: translateZ(0) scale(1);
-        backface-visibility: hidden;
-        transform-origin: 0 0; /* see note above */
-        background: #0f141c url(../bhavyaportfolio/images/starsbg.png) repeat
-          center center fixed;
-      }
-      .ldio-0chhxaqs32b9 div {
-        box-sizing: content-box;
-      }
-
-      .planet {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        width: 80px;
-        height: 80px;
-        background: radial-gradient(circle,#f00, #00ccff, #ff00b3);
-        border-radius: 50%;
-        transform: translate(-50%, -50%);
-        box-shadow: 0 0 20px rgba(255, 140, 0, 0.8);
-      }
-
-      .orbit {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        width: 120px;
-        height: 120px;
-        border: 1px solid rgba(255, 255, 255, 0.3);
-        border-radius: 50%;
-        transform: translate(-50%, -50%);
-        animation: orbit-rotate 4s linear infinite;
-      }
-
-      .orbit::before {
-        content: "";
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        width: 15px;
-        height: 15px;
-        background: #fff;
-        border-radius: 50%;
-        transform: translate(-50%, -50%) rotate(0deg) translateX(50px);
-        animation: satellite-move 4s linear infinite;
-      }
-
-      @keyframes orbit-rotate {
-        from {
-          transform: translate(-50%, -50%) rotate(0deg);
-        }
-        to {
-          transform: translate(-50%, -50%) rotate(360deg);
-        }
-      }
-
-      @keyframes satellite-move {
-        from {
-          transform: translate(-50%, -50%) rotate(0deg) translateX(80px);
-        }
-        to {
-          transform: translate(-50%, -50%) rotate(360deg) translateX(80px);
-        }
-      }
-    </style>
+    <!--@jsonld-->
   </head>
-  <body class="loading">
-    <!-- preloading of all background images -->
-    <div style="display: none" id="preloading-bg-imgs">
-      <img src="./images/rectrap.png" />
-      <img src="./images/starsbg.png" />
-    </div>
-    <div class="loader">
-      <div class="loadingio-spinner-blocks-f6re9kg8ubs">
-        <div class="orbit"></div>
-        <div class="planet"></div>
-      </div>
-    </div>
-    <div class="content-not-ready">
-      <div class="landing-screen">
-        <div class="space-wrapper">
-          <div class="star-wrapper">
-            <div class="star"></div>
-            <div class="star"></div>
-            <div class="star"></div>
-            <div class="star"></div>
-            <div class="star"></div>
-            <div class="star"></div>
-            <div class="star"></div>
-            <div class="star"></div>
-            <div class="star"></div>
-            <div class="star"></div>
-            <div class="star"></div>
-            <div class="star"></div>
-            <div class="star"></div>
-            <div class="star"></div>
-            <div class="star"></div>
-            <div class="star"></div>
-            <div class="star"></div>
-            <div class="star"></div>
-            <div class="star"></div>
-            <div class="star"></div>
-            <div class="star"></div>
-            <div class="star"></div>
-            <div class="star"></div>
-            <div class="star"></div>
-            <div class="star"></div>
-            <div class="star"></div>
-            <div class="star"></div>
-            <div class="star"></div>
-            <div class="star"></div>
-            <div class="star"></div>
-            <div class="star"></div>
-            <div class="star"></div>
-            <div class="star"></div>
-            <div class="star"></div>
-            <div class="star"></div>
-            <div class="star"></div>
-            <div class="star"></div>
-            <div class="star"></div>
-            <div class="star"></div>
-            <div class="star"></div>
-            <div class="star"></div>
-            <div class="star"></div>
-            <div class="star"></div>
-            <div class="star"></div>
-            <div class="star"></div>
-            <div class="star"></div>
-            <div class="star"></div>
-            <div class="star"></div>
-            <div class="star"></div>
-            <div class="star"></div>
-            <div class="star"></div>
-            <div class="star"></div>
-            <div class="star"></div>
-            <div class="star"></div>
-            <div class="star"></div>
-            <div class="star"></div>
-            <div class="star"></div>
-            <div class="star"></div>
-            <div class="star"></div>
-            <div class="star"></div>
-            <div class="star"></div>
-            <div class="star"></div>
-            <div class="star"></div>
-            <div class="star"></div>
-            <div class="star"></div>
-            <div class="star"></div>
-            <div class="star"></div>
-            <div class="star"></div>
-            <div class="star"></div>
-            <div class="star"></div>
-            <div class="star"></div>
-            <div class="star"></div>
-            <div class="star"></div>
-            <div class="star"></div>
-            <div class="star"></div>
-            <div class="star"></div>
-            <div class="star"></div>
-            <div class="star"></div>
-            <div class="star"></div>
-            <div class="star"></div>
-            <div class="star"></div>
-            <div class="star"></div>
-            <div class="star"></div>
-            <div class="star"></div>
-            <div class="star"></div>
-            <div class="star"></div>
-            <div class="star"></div>
-            <div class="star"></div>
-            <div class="star"></div>
-            <div class="star"></div>
-            <div class="star"></div>
-            <div class="star"></div>
-            <div class="star"></div>
-            <div class="star"></div>
-            <div class="star"></div>
-            <div class="star"></div>
-            <div class="star"></div>
-            <div class="star"></div>
-            <div class="star"></div>
-            <div class="star"></div>
-          </div>
-          <div class="sun-wrapper">
-            <div class="sun"></div>
-            <div class="moon"></div>
-          </div>
-          <div class="sun-wrapper blur">
-            <div class="sun"></div>
-            <div class="moon"></div>
-          </div>
-        </div>
-        <div class="content-wrapper">
-          <div class="small-font">Namaste 🙏, My name is</div>
-          <div class="matrix-font heading">BHAVYA</div>
-          <div class="navbar">
-            <a
-              class="navbar-item"
-              href="#about"
-              data-target="about"
-              alt="go to about section"
-              >ABOUT</a
-            >
-            <a
-              class="navbar-item"
-              href="#projects"
-              data-target="projects"
-              alt="go to projects section"
-              >PROJECTS</a
-            >
-            <a
-              class="navbar-item"
-              href="#contact"
-              data-target="contact"
-              alt="go to contact section"
-              >CONTACT</a
-            >
-            <a
-              class="navresu"
-              href="https://drive.google.com/file/d/1RHieQCUDl2lfZCOQiNf3qeAl5OC6onW0/view"
-              target="_blank"
-              alt="get resume of Bhavya Mittal"
-              >RESUME</a
-            >
-          </div>
-          <div class="coding-profile">
-            <span
-              style="
-                font-size: 1.5em;
-                display: block;
-                color: #fff;
-                margin-top: 50px;
-                text-align: center;
-              "
-              >Hit me up if you need help with</span
-            >
-            <div class="console-container">
-              <span id="text"></span>
-              <div class="console-underscore" id="console">|</div>
-            </div>
-          </div>
-          <div class="down-arrow-animation">
-            <span
-              ><img
-                src="./images/—Pngtree—blue neon arrow down_6044168.png"
-                alt="↓"
-                style="width: 80px"
-            /></span>
-          </div>
-        </div>
-      </div>
-      <div class="about-section" data-target="about">
-        <div class="heading-left">
-          <img src="images/myself-removebg.png" class="myimage" alt="" />
-        </div>
-        <div class="content-right">
-          I am Bhavya Mittal, a full-stack developer specializing in the MERN
-          stack, Python, and C++. With strong competitive programming experience
-          (ICPC, Google KickStart, Meta HackerCup), I excel in building scalable
-          backend systems, AI-driven applications, and efficient databases. As
-          the Programming Head of GDSC, I’ve led workshops and hackathons,
-          impacting 500+ students. Passionate about problem-solving and
-          innovation, I thrive in creating robust, user-centric solutions.
-        </div>
-      </div>
-      <div class="skill-section">
-        <div class="scene">
-          <div class="ball"></div>
-        </div>
-        <div class="heading matrix-font skillhead">
-          SKILLS
-        </div>
-        <div class="skill-list"></div>
-        <div class="marquee">
-          <div class="marquee-content">
-            <div class="marquee-item"><img src="images/icon_js.svg" alt="JS Icon" /></div>
-            <div class="marquee-item"><img src="images/icon_python.svg" alt="Python Icon" /></div>
-            <div class="marquee-item"><img src="images/icon_cpp.svg" alt="C++ Icon" /></div>
-            <div class="marquee-item"><img src="images/icon_c.svg" alt="C Icon" /></div>
-            <div class="marquee-item"><img src="images/icon_html.svg" alt="HTML Icon" /></div>
-            <div class="marquee-item"><img src="images/icon_css.svg" alt="CSS Icon" /></div>
-            <div class="marquee-item"><img src="images/icon_react.svg" alt="React Icon" /></div>
-            <div class="marquee-item"><img src="images/icon_redux.svg" alt="Redux Icon" /></div>
-            <div class="marquee-item"><img src="images/icon_nodejs.svg" alt="Node.js Icon" /></div>
-            <div class="marquee-item"><img src="images/icon_mysql.svg" alt="MySQL Icon" /></div>
-            <div class="marquee-item"><img src="images/icon_mongo.svg" alt="MongoDB Icon" /></div>
-            <div class="marquee-item"><img src="images/icon_git.svg" alt="Git Icon" /></div>
-            <div class="marquee-item"><img src="images/icon_firebase.svg" alt="Firebase Icon" /></div>
-            <div class="marquee-item"><img src="images/icon_postman.svg" alt="Postman Icon" /></div>
-        
-            <!-- Repeat the items for continuous scrolling -->
-            <div class="marquee-item"><img src="images/icon_js.svg" alt="JS Icon" /></div>
-            <div class="marquee-item"><img src="images/icon_python.svg" alt="Python Icon" /></div>
-            <div class="marquee-item"><img src="images/icon_cpp.svg" alt="C++ Icon" /></div>
-            <div class="marquee-item"><img src="images/icon_c.svg" alt="C Icon" /></div>
-            <div class="marquee-item"><img src="images/icon_html.svg" alt="HTML Icon" /></div>
-            <div class="marquee-item"><img src="images/icon_css.svg" alt="CSS Icon" /></div>
-            <div class="marquee-item"><img src="images/icon_react.svg" alt="React Icon" /></div>
-            <div class="marquee-item"><img src="images/icon_redux.svg" alt="Redux Icon" /></div>
-            <div class="marquee-item"><img src="images/icon_nodejs.svg" alt="Node.js Icon" /></div>
-            <div class="marquee-item"><img src="images/icon_mysql.svg" alt="MySQL Icon" /></div>
-            <div class="marquee-item"><img src="images/icon_mongo.svg" alt="MongoDB Icon" /></div>
-            <div class="marquee-item"><img src="images/icon_git.svg" alt="Git Icon" /></div>
-            <div class="marquee-item"><img src="images/icon_firebase.svg" alt="Firebase Icon" /></div>
-          </div>
-        </div>        
-      </div>
-      <div class="project-section" data-target="projects">
-        <div class="movingstr">
-          <div id="movistars"></div>
-          <div id="movistars2"></div>
-          <div id="movistars3"></div>
-        </div>
-        <center><span class="heading matrix-font">PROJECTS</span></center>
-        <div class="project-container">
-          <div class="project-name-list-menu"></div>
-        </div>
-      </div>
-      <div class="experience-section">
-        <div class="solar-syst">
-          <div class="sun"></div>
-          <div class="mercury"></div>
-          <div class="venus"></div>
-          <div class="earth"></div>
-          <div class="mars"></div>
-          <div class="jupiter"></div>
-          <div class="saturn"></div>
-          <div class="uranus"></div>
-          <div class="neptune"></div>
-          <div class="pluto"></div>
-          <div class="asteroids-belt"></div>
-        </div>
-        <center>
-          <span class="heading-small matrix-font">JOURNEY</span>
-        </center>
-        <div class="timeline-container"></div>
-      </div>
-      <div class="achievements-section">
-        <center>
-          <span class="heading-small matrix-font">ACHIEVEMENTS</span>
-        </center>
-        <div class="achievement"></div>
-      </div>
-      <div class="quote-section">
-        <div class="quote-content">
-          <p class="quote-text">
-            "An equation for me has no meaning unless it expresses a thought of
-            God."
-          </p>
-          <p class="quote-author">- SRINIVASA RAMANUJAN, mathematician</p>
-        </div>
-      </div>
-      <div class="resume-contact-section" data-target="contact">
-        <div class="resume-container">
-          <h1 class="heading-left matrix-font">RESUME</h1>
-          <div class="resume-content">
-            <p>
-              Ready to learn more about my journey? Hit the button below to grab
-              my resume and explore further:
-            </p>
-            <a
-              class="project-link"
-              target="_blank"
-              alt="get resume of Bhavya Mittal"
-              href="https://drive.google.com/file/d/1RHieQCUDl2lfZCOQiNf3qeAl5OC6onW0/view"
-              >Get Resume</a
-            >
-          </div>
-        </div>
-        <div class="contacts-content">
-          <h1 class="heading-left matrix-font">CONTACT</h1>
-          <div class="contacts-container">
-            Feel free to reach out to me through the following channels:
-            <div class="social-links">
-              <a
-                href="mailto:bhavya12mittal@gmail.com"
-                class="project-link"
-                alt="send mail to Bhavya Mittal"
-              >
-                <i class="fas fa-envelope"></i>
-              </a>
-              <a
-                href="https://www.linkedin.com/in/mittalbhavya1729/"
-                class="project-link"
-                alt="linkedIn Profile of Bhavya Mittal"
-                target="_blank"
-              >
-                <i class="fab fa-linkedin"></i>
-              </a>
-              <a
-                href="https://github.com/MITTALBHAVYA"
-                class="project-link"
-                alt="Github Profile of Bhavya Mittal"
-                target="_blank"
-              >
-                <i class="fab fa-github"></i>
-              </a>
-              <a
-                href="https://twitter.com/bhavyamit1729"
-                class="project-link"
-                alt="Twitter Profile of Bhavya Mittal"
-                target="_blank"
-              >
-                <i class="fab fa-twitter"></i>
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="footer">
-        <div class="site-info">
-          <p>
-            Copyright © 2024-25 Bhavya Mittal<br />
-            You can request the source code for the same on my email.<br />
-            <br />
-            <br />
-            <br />
-            Made with <span style="color: #f00">❤️</span> by Bhavya Mittal
-          </p>
-        </div>
-      </div>
-    </div>
-    <link
-      rel="preload"
-      href="https://fonts.googleapis.com/css2?family=Silkscreen&display=swap"
-      as="style"
-      onload="this.onload=null;this.rel='stylesheet'"
-    />
-    <link
-      rel="preload"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
-      as="style"
-      onload="this.onload=null;this.rel='stylesheet'"
-    />
-    <link
-      rel="preload"
-      href="./css/style.css"
-      as="style"
-      onload="this.onload=null;this.rel='stylesheet'"
-    />
-    <link
-      rel="preload"
-      href="./css/ellipse.css"
-      as="style"
-      onload="this.onload=null;this.rel='stylesheet'"
-    />
-    <link
-      rel="preload"
-      href="./css/solar.css"
-      as="style"
-      onload="this.onload=null;this.rel='stylesheet'"
-    />
-    <link
-      rel="preload"
-      href="./css/neonball.css"
-      as="style"
-      onload="this.onload=null;this.rel='stylesheet'"
-    />
-    <link
-      rel="preload"
-      href="./css/movingstars.css"
-      as="style"
-      onload="this.onload=null;this.rel='stylesheet'"
-    />
-    <script src="js/achievements.js"></script>
-    <script src="js/skills.js"></script>
-    <script src="js/timeline.js"></script>
-    <script src="js/projects.js"></script>
-    <script src="js/portfolio_func.js"></script>
-    <script src="js/console_text.js"></script>
-    <script src="js/starwrapper.js"></script>
+
+  <body>
+    <!--@body-->
+
+    <noscript>
+      <style>
+        /* Everything is already in the HTML; JS only adds motion and the form.
+           This just makes sure nothing reveal-related can hide content. */
+        [data-reveal],
+        [data-reveal-stagger] > * {
+          opacity: 1 !important;
+          transform: none !important;
+        }
+      </style>
+    </noscript>
+
+    <script type="module" src="/src/js/main.js"></script>
   </body>
 </html>
