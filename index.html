@@ -30,29 +30,24 @@
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:creator" content="@bhavyamit1729" />
     <meta name="twitter:image" content="https://mittalbhavya.github.io/bhavyaportfolio/og.png" />
-
-    <!--
-      Icons. These are written WITHOUT the deployment base: Vite rewrites
-      root-relative asset URLs in this file's <head> and prepends `base` itself,
-      so hard-coding it here produced /bhavyaportfolio/bhavyaportfolio/… in dev.
-      (Markup injected later by the content plugin is past that rewrite, which
-      is why it carries the full path via asset().)
-    -->
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/site.webmanifest" />
-
     <!--
-      Fonts. The old stylesheet declared Roboto / DM Sans / Orbitron 21 times but
-      its only @import sat 600 lines into the file — an invalid position, so it was
-      dropped and every typeface silently fell back to system sans. These are
-      loaded properly, with display=swap so text paints immediately.
+      Self-hosted, see scripts/fetch-fonts.mjs. Loading these from Google cost
+      ~860ms of blocked render across two extra origins, and swapping them in
+      asynchronously traded that for layout shift. Preloading local files avoids
+      both. All three are variable fonts and were deduplicated by content — the
+      three "weights" of Inter were byte-identical.
+      Paths omit the deployment base because Vite prepends it here.
     -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preload" href="/fonts/inter-f11d729b.woff2" as="font" type="font/woff2" crossorigin />
     <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400&display=swap"
+      rel="preload"
+      href="/fonts/space-grotesk-c0781ea2.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
     />
 
     <link rel="stylesheet" href="/src/css/main.css" />
@@ -65,8 +60,6 @@
 
     <noscript>
       <style>
-        /* Everything is already in the HTML; JS only adds motion and the form.
-           This just makes sure nothing reveal-related can hide content. */
         [data-reveal],
         [data-reveal-stagger] > * {
           opacity: 1 !important;

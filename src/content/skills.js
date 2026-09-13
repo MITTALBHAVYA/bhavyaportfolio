@@ -1,7 +1,5 @@
-// Skill names map to an SVG in src/assets/icons/ when one exists. The marquee is
-// derived from this map rather than hand-listed, so the two can no longer drift
-// apart (the old site's marquee advertised Redux and Firebase, which were not in
-// the skills list at all).
+// The marquee is derived from this map rather than hand-listed, so the icons and
+// the skills list cannot drift apart.
 export const skillIcons = {
   JavaScript: 'icon_js.svg',
   Python: 'icon_python.svg',

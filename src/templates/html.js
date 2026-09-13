@@ -5,10 +5,8 @@ export const esc = (value) =>
   value == null ? '' : String(value).replace(/[&<>"']/g, (c) => ESCAPES[c])
 
 /**
- * HTML that has already been escaped and must not be escaped again.
- * `html` returns one of these, which is what makes nested templates compose —
- * without it, an inner `html` result is just a string and the outer template
- * escapes it a second (and third) time.
+ * Pre-escaped HTML. `html` MUST return one of these: if it returns a plain
+ * string, every nested template gets escaped again by its parent.
  */
 class SafeString {
   constructor(value) {
@@ -45,17 +43,13 @@ function render(v) {
 /** Render `items` with `fn` and concatenate the results as safe HTML. */
 export const each = (items, fn) => new SafeString(items.map((item, i) => render(fn(item, i))).join(''))
 
-/* ---------------------------------------------------------------------------
-   Inline icons. The old site loaded the full Font Awesome bundle — roughly
-   100KB of CSS plus 250-400KB of webfonts — to draw four glyphs. These are the
-   same four plus a few more, at about 2KB total and with no extra request.
-   Each is decorative: the accessible name lives on the link that wraps it.
-   --------------------------------------------------------------------------- */
 /*
- * `width`/`height` are required: an inline <svg> with only a viewBox has no
- * intrinsic size, so inside a flex container it collapses and the icon simply
- * never appears. 1em makes each icon track its surrounding text, and CSS
- * (e.g. `.icon-link svg`) still overrides it where a fixed size is wanted.
+ * Inline icons, ~2KB with no extra request. Each is decorative — the accessible
+ * name belongs on the link that wraps it.
+ *
+ * Sizing comes from `svg[aria-hidden]` in base.css, not from these attributes:
+ * an <svg> with only a viewBox has no intrinsic size and collapses to 0x0
+ * inside a flex container.
  */
 const svg = (paths, viewBox = '0 0 24 24') =>
   raw(

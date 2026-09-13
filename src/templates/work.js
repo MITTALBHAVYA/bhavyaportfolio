@@ -2,8 +2,9 @@ import { html, each, icons } from './html.js'
 import { asset } from '../config.js'
 import { featuredProjects, otherProjects, projects, filterableTech, techId } from '../content/projects.js'
 
-/** Project screenshots are served from public/images and pre-optimised. */
-const shot = (image) => asset(`images/${image.replace(/\.(png|jpe?g)$/i, '.webp')}`)
+/** Project screenshots are served from public/images, pre-optimised at two widths. */
+const stem = (image) => image.replace(/\.(png|jpe?g)$/i, '')
+const shot = (image, width) => asset(`images/${stem(image)}-${width}.webp`)
 
 /** Space-separated tech ids, so the filter can match without parsing text. */
 const techAttr = (project) => project.techStacks.map(techId).join(' ')
@@ -52,7 +53,7 @@ const techList = (project) =>
     ${each(project.techStacks, (t) => html`<li class="tech-chip">${t}</li>`)}
   </ul>`
 
-/** Problem → Approach → Outcome, which is what turns a skim into an interview. */
+/** Problem → Approach → Outcome; falls back to the plain description. */
 const caseStudy = (project) =>
   project.caseStudy
     ? html`
@@ -74,7 +75,6 @@ const caseStudy = (project) =>
       `
     : html`<p class="project-feature__desc">${project.description}</p>`
 
-/** Screenshots read as deliberate product shots inside a browser chrome. */
 const browserFrame = (project) => html`
   <div class="browser-frame">
     <div class="browser-frame__bar" aria-hidden="true">
@@ -82,7 +82,9 @@ const browserFrame = (project) => html`
       <p class="browser-frame__url">${project.links.live ?? project.name.toLowerCase()}</p>
     </div>
     <img
-      src="${shot(project.image)}"
+      src="${shot(project.image, 640)}"
+      srcset="${shot(project.image, 640)} 640w, ${shot(project.image, 1200)} 1200w"
+      sizes="(min-width: 56rem) 48vw, 92vw"
       alt="Screenshot of ${project.name}"
       width="1200"
       height="750"
@@ -126,8 +128,7 @@ export function renderWork() {
         <div class="work__more-header" data-reveal>
           <h3 class="section__eyebrow" id="more-work">More projects</h3>
 
-          <!-- Enhanced by js/project-filter.js. Without JS every project simply
-               stays visible, so nothing is lost. -->
+          <!-- Revealed by js/project-filter.js; without JS all projects show. -->
           <div class="tech-filter" data-tech-filter hidden>
             <span class="visually-hidden" id="filter-label">Filter projects by technology</span>
             <div class="tech-filter__options" role="group" aria-labelledby="filter-label">

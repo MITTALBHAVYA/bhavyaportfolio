@@ -1,5 +1,5 @@
 import { html, each, icons } from './html.js'
-import { externalAttrs } from './nav.js'
+import { externalAttrs, resumeHref } from './nav.js'
 import { profile } from '../content/profile.js'
 
 export function renderHero() {
@@ -15,9 +15,7 @@ export function renderHero() {
         <p class="hero__role" data-reveal>${profile.role}</p>
         <p class="hero__tagline" data-reveal>${profile.tagline}</p>
 
-        <!-- The typing console. Its first phrase is rendered server-side so the
-             line is never empty before JS runs, and the live region keeps the
-             rotation from being announced repeatedly. -->
+        <!-- First phrase ships in the HTML so the line is never empty. -->
         <p class="hero__console" data-reveal>
           <span class="hero__console-label">Hit me up if you need help with</span>
           <span
@@ -55,7 +53,7 @@ export function renderHero() {
           </a>
           <a
             class="btn btn--secondary"
-            href="${profile.resume.url}"
+            href="${resumeHref(profile.resume)}"
             ${externalAttrs(profile.resume.external)}
           >
             ${icons.document} ${profile.resume.label}

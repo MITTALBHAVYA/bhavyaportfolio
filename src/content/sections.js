@@ -1,10 +1,8 @@
-// The spine of the site: every section, its nav label, and the body it docks at in
-// the solar system. Scrolling travels outward from the Sun, so array order is also
-// orbital order. The cosmos canvas, the nav, and the scroll camera all read from
-// this one list, which keeps them from drifting out of sync.
+// Every section, its nav label, and the body it docks at. Array order is orbital
+// order; the canvas, the nav and the scroll camera all read from this one list.
 //
-// `orbit` is in abstract units (Sun at 0); `period` is relative orbital speed —
-// larger is slower. `radius` is the drawn body size in the same abstract units.
+// `orbit` and `radius` are abstract units (Sun at 0); `period` is relative
+// orbital speed, larger being slower.
 export const sections = [
   {
     id: 'hero',

@@ -7,16 +7,10 @@ const TEMPLATES = pathToFileURL(
 ).href
 
 /**
- * Renders every section into index.html at BUILD time from src/content/*.
+ * Renders every section into index.html at build time from src/content/*, so
+ * the shipped HTML is complete and JS only adds behaviour.
  *
- * This is the fix for the old site's worst failure: all content lived in
- * `.content-not-ready { display:none }` and was only revealed by a JS handler,
- * so crawlers and anyone without JS saw an empty page. Now the HTML ships
- * complete and JS only adds behaviour.
- *
- * Placeholders in index.html:
- *   <!--@body-->      the whole document body
- *   <!--@jsonld-->    structured data
+ * Placeholders in index.html: `<!--@body-->` and `<!--@jsonld-->`.
  */
 export function contentPlugin() {
   return {
@@ -34,11 +28,8 @@ export function contentPlugin() {
       // Blog pages are generated already-complete; only the homepage needs this.
       if (!/index\.html$/.test(ctx.path) || ctx.path.includes('/blog/')) return htmlSource
 
-      // In dev, load through Vite's own module graph. A plain import() with a
-      // cache-busting query only invalidates the entry module — its static
-      // imports still resolve to cached URLs, so edits to src/content/ never
-      // showed up. ssrLoadModule tracks and invalidates the whole graph.
-      // At build time there is no server and nothing to invalidate.
+      // Dev must go through Vite's module graph: a plain import() only
+      // invalidates the entry module, so edits under src/content/ never appear.
       const mod = ctx.server
         ? await ctx.server.ssrLoadModule('/src/templates/index.js')
         : await import(/* @vite-ignore */ TEMPLATES)

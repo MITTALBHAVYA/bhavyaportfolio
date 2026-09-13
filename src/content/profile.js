@@ -10,7 +10,22 @@ export const profile = {
     'As Programming Lead of GDSC, I have run workshops and hackathons that reached over 500 students. I care most about problem-solving, and about building things people can actually rely on.',
   ],
 
-  location: 'India',
+  location: 'Noida, India',
+  phone: '+91 9389711682',
+
+  education: {
+    institution: 'JSS Academy of Technical Education',
+    degree: 'B.Tech, Computer Science Engineering',
+    grade: 'CGPA 8.57',
+    period: 'Graduated 2025',
+    coursework: [
+      'Data Structures & Algorithms',
+      'Database Management Systems',
+      'Machine Learning',
+      'Computer Networks',
+      'Web Development',
+    ],
+  },
 
   // Shown as a quiet line in the hero — employment-forward, freelance available.
   availability: {
@@ -18,14 +33,14 @@ export const profile = {
     note: 'Open to full-time roles · available for select freelance work',
   },
 
-  // TODO(owner): replace with a locally hosted /resume.pdf so the link cannot rot.
+  // Served from public/resume.pdf so it is indexable and cannot rot.
   resume: {
-    url: 'https://drive.google.com/file/d/1RHieQCUDl2lfZCOQiNf3qeAl5OC6onW0/view',
+    url: 'resume.pdf',
     label: 'Resume',
-    external: true,
+    external: false,
   },
 
-  // Rotating phrases in the hero console. Preserved verbatim from the original site.
+  // Rotating phrases in the hero console.
   typing: [
     'Backend',
     'FrontEnd',
@@ -37,9 +52,9 @@ export const profile = {
   // Inline credibility chips in the hero — what a recruiter should see in 3 seconds.
   proof: [
     { label: 'ICPC Regionals', value: 'AIR 37' },
-    { label: 'Codeforces', value: 'Specialist' },
-    { label: 'LeetCode', value: 'Knight · 1847' },
-    { label: 'Problems solved', value: '1800+' },
+    { label: 'Codeforces', value: 'Specialist · 1427' },
+    { label: 'LeetCode', value: 'Knight · 1880' },
+    { label: 'Problems solved', value: '2000+' },
   ],
 
   links: {
@@ -59,7 +74,7 @@ export const profile = {
   },
 
   footer: {
-    copyright: 'Copyright © 2024-25 Bhavya Mittal',
+    copyright: 'Copyright © 2026-27 Bhavya Mittal',
     madeWith: 'Made with ❤️ by Bhavya Mittal',
   },
 }

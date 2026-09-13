@@ -1,8 +1,6 @@
 @layer components {
-  /* Scroll-reveal. Content is visible by default and only hidden once JS has
-     confirmed it can reveal it again (html.js-reveal), so a JS failure or a
-     crawler never leaves the page blank — which is exactly how the old site
-     lost all of its content behind `.content-not-ready { display:none }`. */
+  /* Content is visible by default and only hidden once JS confirms it can
+     reveal it again, so a JS failure never leaves the page blank. */
   .js-reveal [data-reveal] {
     opacity: 0;
     transform: translateY(1.25rem);

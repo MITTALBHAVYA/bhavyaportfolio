@@ -40,6 +40,60 @@
     object-fit: cover;
   }
 
+  /* ---------------- education ---------------- */
+
+  .education {
+    display: grid;
+    gap: var(--space-4);
+    margin-top: var(--space-8);
+    padding-top: var(--space-6);
+    border-top: 1px solid var(--border);
+  }
+
+  @media (width >= 44rem) {
+    .education {
+      grid-template-columns: 8rem 1fr;
+      gap: var(--space-6);
+      align-items: start;
+    }
+  }
+
+  .education__label {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    letter-spacing: var(--tracking-widest);
+    text-transform: uppercase;
+    color: var(--cyan);
+    margin: 0;
+  }
+
+  .education__degree {
+    font-family: var(--font-display);
+    font-size: var(--text-lg);
+    font-weight: var(--weight-semibold);
+    color: var(--text-primary);
+  }
+
+  .education__school {
+    margin-top: var(--space-1);
+    color: var(--text-secondary);
+  }
+
+  .education__meta {
+    display: block;
+    margin-top: var(--space-1);
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    color: var(--text-muted);
+  }
+
+  .education__coursework {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin: var(--space-4) 0 0;
+  }
+
   /* ---------------- skills ---------------- */
 
   .skills {
@@ -85,9 +139,8 @@
     animation-play-state: paused;
   }
 
-  /* Travels exactly half the track, which is duplicated once in markup —
-     so the loop is seamless regardless of how many icons there are. The old
-     rule hard-coded translateX(-200vw) against a fixed item count. */
+  /* Travels half the track, which markup duplicates once, so the loop is
+     seamless for any number of icons. */
   @keyframes marquee-scroll {
     to {
       transform: translateX(-50%);
@@ -121,8 +174,7 @@
       gap: var(--space-5);
     }
 
-    /* The second copy exists only to make the scroll loop seamless. With no
-       scrolling it is just every icon shown twice. */
+    /* The loop copy is just a duplicate when nothing scrolls. */
     .marquee__item--loop {
       display: none;
     }

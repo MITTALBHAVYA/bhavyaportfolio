@@ -1,10 +1,7 @@
-// Canonical chronological record. Dated events live here and ONLY here — the old
-// site listed Google KickStart, Meta HackerCup and AISummit2024 in both the
-// timeline and the achievements list, so each appeared twice on one page.
-// `achievements.js` now holds standing credentials instead of dated events.
+// Canonical chronological record. Dated events live here and ONLY here;
+// achievements.js holds standing credentials instead.
 //
-// `start`/`end` are sortable ISO-ish strings; `period` is what actually renders.
-// end: null means ongoing.
+// `start`/`end` are sortable; `period` is what renders. `end: null` means ongoing.
 export const journey = [
   {
     id: 'fancraze',
@@ -13,7 +10,8 @@ export const journey = [
     start: '2024-11',
     end: '2025-02',
     title: 'Fullstack Intern',
-    org: 'Fancraze',
+    org: 'Faze Technologies (FanCraze)',
+    location: 'Mumbai, India',
     description:
       'Maintained scalable Node.js microservices supporting a Backend-for-Frontend architecture, and optimised MongoDB integrations behind secure APIs for performance and data consistency. Built responsive React and Next.js interfaces for a smoother cross-platform experience.',
     image: 'timeline/fancraze_logo.jpg',

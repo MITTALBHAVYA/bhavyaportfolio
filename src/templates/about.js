@@ -29,6 +29,22 @@ export function renderAbout() {
           </figure>
         </div>
 
+        <div class="education" data-reveal>
+          <h3 class="education__label">Education</h3>
+          <div class="education__body">
+            <p class="education__degree">${profile.education.degree}</p>
+            <p class="education__school">
+              ${profile.education.institution}
+              <span class="education__meta"
+                >${profile.education.period} · ${profile.education.grade}</span
+              >
+            </p>
+            <ul class="education__coursework">
+              ${each(profile.education.coursework, (c) => html`<li class="tech-chip">${c}</li>`)}
+            </ul>
+          </div>
+        </div>
+
         <h3 class="visually-hidden" id="skills-title">Skills</h3>
         <div class="skills" aria-labelledby="skills-title" data-reveal-stagger>
           ${each(
@@ -44,9 +60,7 @@ export function renderAbout() {
           )}
         </div>
 
-        <!-- Icons duplicated once so the marquee loops seamlessly; the second
-             copy is hidden from assistive tech. Derived from the skills data,
-             so it can no longer advertise tools that are not in the list. -->
+        <!-- Duplicated once so the marquee loops seamlessly. -->
         <div class="marquee" aria-hidden="true">
           <div class="marquee__track">
             ${each(

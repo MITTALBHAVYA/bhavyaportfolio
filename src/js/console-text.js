@@ -1,12 +1,6 @@
 /*
- * The hero typing effect, preserved from the original site but fixed:
- *  - the old version ran two setIntervals forever, never cleared, and kept
- *    firing while the hero was off-screen or the tab was hidden
- *  - it mutated the caller's phrase array in place via shift()/push()
- *  - its cursor blinked at 400ms, close to the 3Hz photosensitivity threshold
- *    (the cursor is now CSS-driven at 1s)
- *
- * The first phrase is already in the HTML, so the line is never empty.
+ * Hero typing effect. Pauses when off-screen or the tab is hidden, and rotates
+ * read-only. The first phrase ships in the HTML so the line is never empty.
  */
 const TYPE_MS = 70
 const DELETE_MS = 35

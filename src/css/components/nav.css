@@ -3,8 +3,10 @@
     position: sticky;
     top: 0;
     z-index: var(--z-nav);
-    background: color-mix(in oklab, var(--void-950) 72%, transparent);
-    backdrop-filter: blur(12px) saturate(140%);
+    /* A backdrop-filter here forced a compositing pass on every scroll frame
+       and was a large share of Style & Layout time. Over a near-black page the
+       blur was barely perceptible, so an opaque tint replaces it. */
+    background: color-mix(in oklab, var(--void-950) 86%, transparent);
     border-bottom: 1px solid transparent;
     transition: border-color var(--dur-base) var(--ease-out),
       background-color var(--dur-base) var(--ease-out);
@@ -73,8 +75,7 @@
     background: color-mix(in oklab, var(--void-700) 55%, transparent);
   }
 
-  /* Active state carries a marker as well as colour, so it is not signalled
-     by colour alone. aria-current is the source of truth. */
+  /* Marked as well as coloured, so state is not signalled by colour alone. */
   .site-nav__link[aria-current='true'] {
     color: var(--text-primary);
   }
@@ -155,8 +156,7 @@
       display: grid;
     }
 
-    /* The old site simply set `display:none` on the navbar below 800px and
-       replaced it with nothing. This is the panel that fixes that. */
+    /* Slide-down panel; the header keeps the resume CTA reachable without it. */
     .site-nav {
       position: fixed;
       inset: var(--space-8) 0 auto;

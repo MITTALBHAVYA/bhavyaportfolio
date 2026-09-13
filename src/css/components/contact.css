@@ -138,8 +138,7 @@
     display: none;
   }
 
-  /* Spam honeypot — hidden from people, visible to bots. Not display:none,
-     which some bots detect. */
+  /* Honeypot: offscreen rather than display:none, which some bots detect. */
   .field--honeypot {
     position: absolute;
     left: -9999px;

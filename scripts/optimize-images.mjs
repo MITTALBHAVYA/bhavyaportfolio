@@ -3,19 +3,9 @@ import { join, basename, extname } from 'node:path'
 import sharp from 'sharp'
 
 /*
- * Takes images/ (11.84 MB) down to well under 400 KB in public/images/.
- *
- * The originals stay untracked-but-present in images/ and in git history; this
- * only ever writes to public/. Re-runnable at any time.
- *
- * Deliberately NOT copied:
- *   milkyway.png 3.63MB, rectrap.png 2.12MB, starsbg.png 263KB,
- *   moonaroundearth.gif 1.03MB  -> all replaced by the cosmos canvas
- *   myself.png 1.01MB, icon_title*.png/jpeg, downwardarr.png, images.png
- *                                -> unreferenced dead weight
- *   "—Pngtree—blue neon arrow down_6044168.png"
- *                                -> replaced by an inline SVG; the non-ASCII
- *                                   filename was also a deploy hazard
+ * Optimises images/ into public/images/. Only writes to public/; re-runnable.
+ * Anything not listed below is intentionally skipped — the old backgrounds and
+ * loader GIF are drawn by the cosmos canvas instead.
  */
 
 const ROOT = join(import.meta.dirname, '..')
@@ -54,15 +44,20 @@ async function encode(srcPath, outPath, { width, height, fit = 'inside', quality
 
 /* ---------------------------------------------------------------- */
 
-console.log('\nproject screenshots -> public/images/projects/')
+/* 640w for standard displays, 1200w for 2x; the featured slot is ~590 CSS px. */
+console.log('\nproject screenshots -> public/images/projects/  (640w + 1200w)')
 ensure(join(OUT, 'projects'))
 for (const file of readdirSync(join(SRC, 'projects'))) {
   if (!/\.(png|jpe?g)$/i.test(file)) continue
-  await encode(
-    join(SRC, 'projects', file),
-    join(OUT, 'projects', `${basename(file, extname(file))}.webp`),
-    { width: 1200, quality: 70 }
-  )
+  const stem = basename(file, extname(file))
+  await encode(join(SRC, 'projects', file), join(OUT, 'projects', `${stem}-640.webp`), {
+    width: 640,
+    quality: 70,
+  })
+  await encode(join(SRC, 'projects', file), join(OUT, 'projects', `${stem}-1200.webp`), {
+    width: 1200,
+    quality: 68,
+  })
 }
 
 console.log('\ntimeline logos -> public/images/timeline/')
@@ -102,14 +97,12 @@ for (const file of readdirSync(SRC)) {
 }
 console.log(`  ${readdirSync(join(OUT, 'icons')).length} icons, ${kb(iconBytes)}`)
 
-/* ---------------------------------------------------------------- */
-/* Favicon, apple-touch-icon and the social card                      */
+/* Favicon, apple-touch-icon and social card */
 
 const PUBLIC = join(ROOT, 'public')
 ensure(PUBLIC)
 
-// A tiny SVG favicon: the gold sun, mid-eclipse. ~300 bytes, scales perfectly,
-// and replaces the old 59KB PNG.
+// The gold sun mid-eclipse: ~300 bytes and scales perfectly.
 const favicon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
   <rect width="32" height="32" rx="7" fill="#05070c"/>
   <circle cx="16" cy="16" r="9" fill="#ffc24d"/>

@@ -1,15 +1,11 @@
 import { sections, FURTHEST_ORBIT } from '../content/sections.js'
 
 /*
- * One canvas replaces four separate starfield systems from the old site:
- * a tiled 263KB PNG, three animated full-viewport layers, 100 JS-created divs
- * (plus 100 more hand-written in the HTML that were never visible), and 890
- * comma-separated box-shadows that made up 41KB of a 48KB stylesheet.
+ * Starfield and solar system on a single canvas.
  *
- * Composition rule: content always wins. The solar system is vivid in the hero,
- * fades out as soon as you scroll into the work, and returns — quietly — behind
- * the Journey timeline, which is the one place where "a career as orbits"
- * actually means something. The starfield persists throughout at low contrast.
+ * Composition rule: content always wins. The system is vivid in the hero, fades
+ * out on scroll, and returns quietly behind the Journey timeline. The starfield
+ * persists throughout at low contrast.
  */
 
 const TAU = Math.PI * 2
@@ -25,6 +21,7 @@ const JOURNEY_ALPHA = 0.5
 const REVEAL_MS = 2600
 // Radius, in px, within which the pointer brightens nearby stars.
 const CURSOR_REACH = 170
+const FRAME_MS = 1000 / 30
 
 export function initCosmos({ onNavigate } = {}) {
   const root = document.querySelector('.cosmos')
@@ -35,7 +32,6 @@ export function initCosmos({ onNavigate } = {}) {
   const ctx = canvas.getContext('2d', { alpha: true })
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)')
 
-  // Low-end guard: fewer stars, no DPR upscaling, on weak or narrow devices.
   const cores = navigator.hardwareConcurrency ?? 4
   const lowPower = cores <= 4 || window.innerWidth < 640
   const maxDpr = lowPower ? 1 : 2
@@ -51,9 +47,41 @@ export function initCosmos({ onNavigate } = {}) {
   let running = false
   let rafId = 0
   let startTime = 0
+  let lastPaint = 0
 
-  // Planet screen positions, recomputed each frame for hit-testing.
+  // Screen positions, recomputed each frame for hit-testing.
   const hitTargets = []
+
+  // Planets are pre-rendered per integer radius and blitted; building a radial
+  // gradient per planet per frame was the largest single canvas cost.
+  const spriteCache = new Map()
+
+  function planetSprite(body, r) {
+    const key = `${body.name}:${Math.round(r)}`
+    const cached = spriteCache.get(key)
+    if (cached) return cached
+
+    if (spriteCache.size > 240) spriteCache.clear()
+
+    const rr = Math.max(1, Math.round(r))
+    const size = rr * 2 + 2
+    const sprite = document.createElement('canvas')
+    sprite.width = size
+    sprite.height = size
+
+    const g = sprite.getContext('2d')
+    const c = size / 2
+    const grad = g.createRadialGradient(c - rr * 0.3, c - rr * 0.35, rr * 0.1, c, c, rr)
+    grad.addColorStop(0, body.color)
+    grad.addColorStop(1, body.glow)
+    g.fillStyle = grad
+    g.beginPath()
+    g.arc(c, c, rr, 0, TAU)
+    g.fill()
+
+    spriteCache.set(key, sprite)
+    return sprite
+  }
 
   /* ------------------------------------------------------------------ */
 
@@ -65,6 +93,7 @@ export function initCosmos({ onNavigate } = {}) {
     canvas.width = Math.round(width * dpr)
     canvas.height = Math.round(height * dpr)
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
+    spriteCache.clear()
     seedStars()
   }
 
@@ -75,7 +104,6 @@ export function initCosmos({ onNavigate } = {}) {
       y: Math.random(),
       r: Math.random() * 1.1 + 0.3,
       depth: Math.random() * 0.8 + 0.2,
-      // Per-star hue and brightness, preserved from the original starwrapper.js
       hue: 200 + Math.random() * 60,
       alpha: Math.random() * 0.45 + 0.2,
       twinkle: Math.random() * TAU,
@@ -95,8 +123,7 @@ export function initCosmos({ onNavigate } = {}) {
     const minDim = Math.min(width, height)
     const narrow = width < 900
 
-    // In the hero the sun crowns the name from the upper right, clear of the
-    // paragraph beneath it. Behind the journey it settles toward the middle.
+    // Upper-right in the hero, clear of the copy; centred behind the journey.
     const heroScale = (minDim * 0.2) / 26
     const wideScale = (minDim * 0.34) / FURTHEST_ORBIT
     const t = easeInOut(clamp(progress / 0.45, 0, 1))
@@ -113,7 +140,6 @@ export function initCosmos({ onNavigate } = {}) {
     const reach2 = CURSOR_REACH * CURSOR_REACH
 
     for (const s of stars) {
-      // Parallax: nearer stars drift further as the camera pulls back.
       const drift = scrollProgress * s.depth * height * 0.22
       const x = s.x * width
       let y = s.y * height - drift
@@ -123,7 +149,6 @@ export function initCosmos({ onNavigate } = {}) {
         ? 1
         : 0.72 + 0.28 * Math.sin(time * 0.001 * s.twinkleRate + s.twinkle)
 
-      // Stars bloom as the pointer passes, nearer layers responding more.
       let bloom = 0
       if (reactive) {
         const dx = pointer.x - x
@@ -165,14 +190,11 @@ export function initCosmos({ onNavigate } = {}) {
     ctx.arc(cx, cy, r, 0, TAU)
     ctx.fill()
 
-    // The eclipse — a dark moon transiting the sun, carried over from the
-    // original landing animation. Only while the hero is on screen.
     const eclipse = clamp(1 - scrollProgress / HERO_END, 0, 1)
     if (eclipse <= 0.01) return
 
-    // On first load the moon sweeps in and settles at totality, firing a
-    // diamond-ring flash as it lands; afterwards it drifts on slowly. The
-    // wrap happens while the moon is clear of the disc, so it is never seen.
+    // The moon sweeps in to totality on load, then drifts. The wrap happens
+    // while it is clear of the disc, so it is never visible.
     let offset
     let flash = 0
     if (reduceMotion.matches) {
@@ -210,7 +232,6 @@ export function initCosmos({ onNavigate } = {}) {
     ctx.restore()
 
     if (flash > 0.01) {
-      // The bead of light at the moon's trailing limb, plus a broad bloom.
       const bx = mx - r * 0.88
       const by = my + r * 0.2
 
@@ -268,7 +289,6 @@ export function initCosmos({ onNavigate } = {}) {
     for (let i = 1; i < sections.length; i++) {
       const section = sections[i]
       const { body } = section
-      // Distinct starting angles keep planets from lining up in a row.
       const phase = i * 1.7
       const speed = reduceMotion.matches ? 0 : time * 0.00004
       const angle = phase + (speed * 365) / body.period
@@ -305,13 +325,8 @@ export function initCosmos({ onNavigate } = {}) {
         ctx.fill()
       }
 
-      const grad = ctx.createRadialGradient(x - r * 0.3, y - r * 0.35, r * 0.1, x, y, r)
-      grad.addColorStop(0, body.color)
-      grad.addColorStop(1, body.glow)
-      ctx.fillStyle = grad
-      ctx.beginPath()
-      ctx.arc(x, y, r, 0, TAU)
-      ctx.fill()
+      const sprite = planetSprite(body, r)
+      ctx.drawImage(sprite, x - sprite.width / 2, y - sprite.height / 2)
 
       if (isActive) drawActiveRing(x, y, r + 8, time)
     }
@@ -323,9 +338,15 @@ export function initCosmos({ onNavigate } = {}) {
 
   function frame(time) {
     if (!startTime) startTime = time
+
+    if (!reduceMotion.matches && time - lastPaint < FRAME_MS) {
+      rafId = requestAnimationFrame(frame)
+      return
+    }
+    lastPaint = time
+
     const t = time - startTime
 
-    // Ease the system in and out rather than popping between sections.
     const target = systemTarget()
     if (reduceMotion.matches) systemAlpha = target
     else systemAlpha += (target - systemAlpha) * 0.07
@@ -338,12 +359,20 @@ export function initCosmos({ onNavigate } = {}) {
 
     updateHover()
 
-    // Reduced motion draws a single settled frame per scroll/resize rather than
-    // holding a rAF loop open.
+    // Reduced motion paints one settled frame instead of holding the loop open.
     if (reduceMotion.matches) {
       running = false
       return
     }
+
+    // Stop once there is nothing left to animate; a scroll, resize or pointer
+    // move restarts it. Without this the canvas repaints behind static content.
+    const settled = Math.abs(target - systemAlpha) < 0.005
+    if (settled && systemAlpha <= 0.01 && !pointer.active) {
+      running = false
+      return
+    }
+
     rafId = requestAnimationFrame(frame)
   }
 
@@ -372,8 +401,7 @@ export function initCosmos({ onNavigate } = {}) {
   /* ---------------------------- interaction --------------------------- */
 
   function updateHover() {
-    // Planet hover only counts when the canvas itself is under the pointer;
-    // content sits above it, so a planet "behind" a paragraph is not hoverable.
+    // A planet behind a paragraph is not hoverable.
     const interactive = pointer.active && pointer.onCanvas && systemAlpha > 0.25
 
     if (!interactive) {
@@ -389,7 +417,6 @@ export function initCosmos({ onNavigate } = {}) {
     for (const target of hitTargets) {
       const dx = pointer.x - target.x
       const dy = pointer.y - target.y
-      // Generous radius so small planets stay clickable.
       if (dx * dx + dy * dy < Math.max(target.r + 12, 18) ** 2) {
         found = target
         break
@@ -413,9 +440,8 @@ export function initCosmos({ onNavigate } = {}) {
     }
   }
 
-  // Tracked on the window rather than the canvas: content sits above the canvas,
-  // so a canvas-only listener would make the starfield freeze whenever the
-  // cursor crossed any text.
+  // On window, not the canvas: content sits above it, so a canvas-only listener
+  // freezes the starfield whenever the cursor crosses text.
   function onPointerMove(e) {
     pointer = {
       x: e.clientX,
@@ -457,8 +483,7 @@ export function initCosmos({ onNavigate } = {}) {
   resize()
   onScroll()
 
-  // Pointer interaction is a progressive enhancement; the real navigation is
-  // the <nav> in the header, which works without any of this.
+  // Progressive enhancement; the real navigation is the header <nav>.
   if (window.matchMedia('(hover: hover)').matches) {
     root.classList.add('cosmos--interactive')
     window.addEventListener('pointermove', onPointerMove, { passive: true })

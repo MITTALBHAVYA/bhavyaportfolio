@@ -1,7 +1,5 @@
 @layer components {
-  /* The single canvas that replaces all four of the old starfield systems
-     (a tiled PNG background, three animated .movingstr layers, 100 JS-created
-     divs, and 500 comma-separated box-shadows in solar.css). */
+  /* Starfield and solar system. */
   .cosmos {
     position: fixed;
     inset: 0;
@@ -51,8 +49,7 @@
     white-space: nowrap;
     transform: translate(-50%, -50%);
     opacity: 0;
-    /* Hidden rather than merely transparent: at 0,0 it would otherwise sit
-       half outside the viewport before its first position is set. */
+    /* Hidden, not just transparent: at 0,0 it would sit outside the viewport. */
     visibility: hidden;
     transition: opacity var(--dur-fast) var(--ease-out), visibility 0s linear var(--dur-fast);
   }
@@ -63,12 +60,8 @@
     transition-delay: 0s;
   }
 
-  /*
-   * Readability scrim. Content always wins over the cosmos: this lays a pool of
-   * near-solid background under the left-hand text column and fades out toward
-   * the right, where the sun lives. Without it the hero paragraph sat directly
-   * on the corona and dropped well below AA.
-   */
+  /* Readability scrim: a pool of near-solid background under the text column,
+     fading out toward the sun on the right. */
   .cosmos__vignette {
     position: fixed;
     inset: 0;
@@ -85,8 +78,7 @@
       radial-gradient(ellipse 90% 80% at 50% 50%, transparent 45%, var(--surface) 100%);
   }
 
-  /* Narrow screens have no clear left column, so the scrim goes flat and a
-     little stronger instead of directional. */
+  /* No left column at narrow widths, so the scrim goes flat instead. */
   @media (width < 56rem) {
     .cosmos__vignette {
       background:

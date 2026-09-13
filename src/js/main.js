@@ -6,13 +6,7 @@ import { initContactForm } from './form.js'
 import { initProjectFilter } from './project-filter.js'
 import { initCosmos } from './cosmos.js'
 
-/*
- * Each feature is initialised independently and failure is contained, so one
- * broken module cannot take the page down with it. In the old codebase every
- * script shared one global scope in a load-bearing order: a single error in
- * portfolio_func.js meant its window.load handler never registered and the
- * loading screen never lifted, leaving a permanently blank site.
- */
+/** Contain failures so one broken feature cannot take the page down. */
 const safely = (name, fn) => {
   try {
     return fn()
@@ -27,10 +21,21 @@ safely('console', initConsole)
 safely('form', initContactForm)
 safely('project-filter', initProjectFilter)
 
-// Declared before either is built: nav and cosmos each call into the other, and
-// both callbacks only fire after initialisation has finished.
+// Declared up front: nav and cosmos call into each other, and both callbacks
+// only fire after initialisation has finished.
 let nav = null
 let cosmos = null
 
 nav = safely('nav', () => initNav({ onSectionChange: (id) => cosmos?.setActive(id) }))
-cosmos = safely('cosmos', () => initCosmos({ onNavigate: (id) => nav?.goTo(id) }))
+
+// Deferred: seeding the starfield and painting a full-viewport canvas on the
+// critical path costs ~700ms of blocking time.
+const startCosmos = () => {
+  cosmos = safely('cosmos', () => initCosmos({ onNavigate: (id) => nav?.goTo(id) }))
+}
+
+if ('requestIdleCallback' in window) {
+  requestIdleCallback(startCosmos, { timeout: 1200 })
+} else {
+  setTimeout(startCosmos, 200)
+}

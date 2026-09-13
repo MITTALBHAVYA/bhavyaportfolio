@@ -1,9 +1,4 @@
-/*
- * Replaces two non-passive throttled scroll listeners that read offsetTop and
- * clientHeight for every section every 100ms — a forced synchronous layout on
- * each tick. Active-section tracking is now an IntersectionObserver, and the
- * only scroll listener stores a number.
- */
+/* Active-section tracking via IntersectionObserver; no scroll listener reads layout. */
 export function initNav({ onSectionChange } = {}) {
   const header = document.querySelector('.site-header')
   const nav = document.querySelector('.site-nav')
@@ -116,8 +111,7 @@ export function initNav({ onSectionChange } = {}) {
     goTo(sectionId) {
       const target = document.getElementById(sectionId)
       if (!target) return
-      // Native smooth scrolling, honouring scroll-padding-top from base.css.
-      // The old site hand-rolled this with rAF and raced on concurrent clicks.
+      // Native smooth scrolling honours scroll-padding-top from base.css.
       target.scrollIntoView({ behavior: 'smooth', block: 'start' })
       // Keep the URL and focus in step, so the back button and keyboard work.
       history.replaceState(null, '', `#${sectionId}`)

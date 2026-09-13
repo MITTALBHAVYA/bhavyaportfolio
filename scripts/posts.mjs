@@ -10,11 +10,7 @@ const slugify = (s) =>
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/^-+|-+$/g, '')
 
-/**
- * Read every post in src/content/blog. Returns newest first, drafts excluded
- * unless `includeDrafts` is set. Each entry carries its raw markdown body so
- * the page builder does not have to read the file twice.
- */
+/** Posts from src/content/blog, newest first, drafts excluded by default. */
 export function loadPosts({ includeDrafts = false } = {}) {
   if (!existsSync(BLOG_DIR)) return []
 

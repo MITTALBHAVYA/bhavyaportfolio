@@ -1,9 +1,6 @@
 /*
- * Filters the project grid by technology.
- *
- * Progressive enhancement: the filter UI ships with `hidden` set and is only
- * revealed here, so without JS every project stays visible rather than the
- * controls sitting there doing nothing.
+ * Filters the project grid by technology. The UI ships `hidden` and is revealed
+ * here, so without JS every project stays visible.
  */
 export function initProjectFilter() {
   const filter = document.querySelector('[data-tech-filter]')

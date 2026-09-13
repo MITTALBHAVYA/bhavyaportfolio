@@ -71,9 +71,10 @@ export const projects = [
   {
     id: 'slack-gdsc',
     name: 'SLACK GDSC',
-    title: 'Slack-integrated web app for managing GDSC events and resources',
+    title: 'Slack-integrated collaboration platform for GDSC',
     description:
-      'A React app that integrates with Slack through OAuth 2.0, giving members a single interface for authentication, sign-in and sign-up alongside core Slack functionality. Node and Express on the back end.',
+      'A collaborative communication platform with real-time messaging, file sharing and task management, integrated with Slack through OAuth 2.0. Cut communication latency by 37%, improved file-exchange efficiency by 22% and lifted task completion by 15%.',
+    metric: '37% lower latency',
     techStacks: ['React', 'Node.js', 'Express', 'JavaScript', 'MongoDB', 'PostgreSQL', 'HTML', 'CSS'],
     image: 'projects/gdscslack.jpg',
     links: {
@@ -86,7 +87,8 @@ export const projects = [
     name: 'INVOICE EXTRACTOR',
     title: 'Python tool that pulls structured data out of invoice PDFs and images',
     description:
-      'A Streamlit tool combining PaddleOCR with Google Gemini to turn invoice PDFs and scans into structured records — customer details, line items and totals — instead of manual data entry.',
+      'A Streamlit tool combining PaddleOCR with Google Gemini to turn invoice PDFs and scans into structured records — customer details, line items and totals — at 98% accuracy across multiple formats, instead of manual data entry.',
+    metric: '98% accuracy',
     techStacks: ['Python', 'Streamlit', 'PaddleOCR', 'PyMuPDF', 'Google Generative AI'],
     image: 'projects/IEA.png',
     links: { github: 'https://github.com/MITTALBHAVYA/InvoiceDetailsExtractor' },
@@ -96,7 +98,8 @@ export const projects = [
     name: 'DHANVANTRI',
     title: 'Android app that recognises medicinal plants from a photo',
     description:
-      'A Kotlin Android app using a TensorFlow CNN to identify medicinal plants from the camera or gallery and surface detailed information about each one. Works offline, which matters for the rural users it was built for.',
+      'A Kotlin Android app using a TensorFlow CNN to identify medicinal plants from the camera or gallery at over 90% accuracy, covering more than 100 medicinal species with detailed information on each. Works offline, which matters for the rural users it was built for.',
+    metric: '90%+ accuracy · 100+ species',
     techStacks: ['Kotlin', 'Deep Learning', 'CNN', 'TensorFlow', 'OpenCV'],
     image: 'projects/dhanvantri.png',
     links: { github: 'https://github.com/MITTALBHAVYA/DhanVantriMyCut' },
@@ -106,7 +109,8 @@ export const projects = [
     name: 'MINSK COMPILER',
     title: 'A compiler and interpreter built from scratch in C#',
     description:
-      'An end-to-end compiler implementation covering lexical analysis, parsing, syntax trees, binding and code generation — built to understand how language tooling actually works rather than to use someone else’s.',
+      'An end-to-end compiler covering lexical analysis, parsing, syntax trees, binding and code generation, reaching 98% parsing accuracy on expressions up to 50 operations. A syntax-tree visualiser cut error-resolution time by 40%.',
+    metric: '98% parsing accuracy',
     techStacks: ['C#', '.NET', 'Visual Studio', 'Git'],
     image: 'projects/minskcompiler.png',
     links: { github: 'https://github.com/MITTALBHAVYA/MINSK' },
@@ -116,10 +120,22 @@ export const projects = [
     name: 'SEHAT',
     title: 'ML app predicting diabetes and heart-disease risk',
     description:
-      'An interactive tool that runs trained models over user-supplied health indicators to give real-time risk predictions for diabetes and heart disease.',
+      'Machine learning models trained on large medical datasets to give real-time risk predictions from user-supplied health indicators — 89% accuracy for diabetes and 93% for heart disease.',
+    metric: '93% accuracy',
     techStacks: ['NumPy', 'Pandas', 'scikit-learn', 'Streamlit', 'Google Colab'],
     image: 'projects/sehatthepredictionapp.png',
     links: { github: 'https://github.com/MITTALBHAVYA/SEHAT-miniProject-sem5-' },
+  },
+  {
+    id: 'security-system',
+    name: 'SECURITY SYSTEM',
+    title: 'Secure password manager in C++ with multi-factor authentication',
+    description:
+      'A password management system built in C++ with user authentication, password encryption and multi-factor authentication, cutting the risk of unauthorised access by over 95%.',
+    metric: '95% risk reduction',
+    techStacks: ['C++', 'Cryptography', 'Multi-factor auth'],
+    image: null,
+    links: { github: 'https://github.com/MITTALBHAVYA' },
   },
 ]
 
@@ -129,11 +145,8 @@ export const otherProjects = projects.filter((p) => !p.featured)
 /** Stable, URL-safe id for a tech name, used by the project filter. */
 export const techId = (name) => name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
 
-/*
- * Filter options. Listing all ~35 technologies would be noise, so this keeps
- * only those shared by at least two projects — the ones where filtering
- * actually narrows anything — ordered by how often they appear.
- */
+// Only tech shared by two or more projects: anything rarer does not narrow
+// the grid and just adds noise.
 export const filterableTech = (() => {
   const counts = new Map()
   for (const p of projects) {

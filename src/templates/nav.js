@@ -1,8 +1,12 @@
 import { html, each, icons, raw } from './html.js'
+import { asset } from '../config.js'
 
 /** Attributes that make an outbound link safe; empty for internal links. */
 export const externalAttrs = (isExternal) =>
   isExternal ? raw('target="_blank" rel="noopener noreferrer"') : ''
+
+/** A locally hosted resume needs the deployment base; an off-site one does not. */
+export const resumeHref = (resume) => (resume.external ? resume.url : asset(resume.url))
 import { navSections } from '../content/sections.js'
 import { profile } from '../content/profile.js'
 
@@ -30,7 +34,7 @@ export function renderHeader() {
         <div class="site-header__actions">
           <a
             class="btn btn--secondary btn--sm"
-            href="${profile.resume.url}"
+            href="${resumeHref(profile.resume)}"
             ${externalAttrs(profile.resume.external)}
           >
             ${profile.resume.label}

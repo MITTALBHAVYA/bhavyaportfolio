@@ -1,7 +1,5 @@
 @layer components {
-  /* A single left-hand rail at every breakpoint. The old timeline alternated
-     left/right blocks, which forced a second layout on mobile and put the
-     marker at z-index:9999 inside a z-index:-4 section. */
+  /* A single left-hand rail at every breakpoint. */
   .timeline {
     position: relative;
     display: flex;

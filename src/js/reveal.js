@@ -1,8 +1,6 @@
 /*
- * Scroll reveal. The `js-reveal` class is only added once this runs, so if the
- * script fails or never loads, nothing is ever hidden — the opposite of the old
- * site, where every section sat behind `display:none` until a load handler that
- * could (and did) fail to register.
+ * Scroll reveal. `js-reveal` is added only once this runs, so if the script
+ * fails or never loads, nothing is ever hidden.
  */
 export function initReveal() {
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)')

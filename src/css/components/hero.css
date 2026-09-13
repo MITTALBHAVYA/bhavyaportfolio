@@ -13,7 +13,6 @@
     max-width: 46rem;
   }
 
-  /* "Namaste 🙏, My name is" — preserved verbatim from the original site. */
   .hero__greeting {
     font-family: var(--font-mono);
     font-size: var(--text-base);
@@ -27,10 +26,7 @@
     letter-spacing: -0.045em;
     font-weight: var(--weight-bold);
     color: var(--text-primary);
-    /* Replaces the old gradient-text recipe, which used
-       -webkit-text-fill-color:transparent and dropped the bottom of every
-       heading to ~1.6:1 — and rendered invisible in forced-colors mode.
-       The glow sits behind the text instead of inside it. */
+    /* Glow sits behind the text, not inside it, so contrast is unaffected. */
     text-shadow: 0 0 60px color-mix(in oklab, var(--gold) 28%, transparent);
   }
 
@@ -73,8 +69,7 @@
     display: inline-block;
     width: 0.6ch;
     color: var(--cyan);
-    /* 1s rather than the original 400ms, which sat close to the 3Hz
-       photosensitivity flash threshold. */
+    /* 1s keeps this clear of the 3Hz photosensitivity flash threshold. */
     animation: cursor-blink 1s steps(2, start) infinite;
   }
 
@@ -185,7 +180,9 @@
     font-size: var(--text-xs);
     letter-spacing: var(--tracking-widest);
     text-transform: uppercase;
-    color: var(--text-faint);
+    /* --text-faint is 3.71:1 and fails AA for text this size; it is reserved
+       for non-text decoration. This is a real link, so it uses --text-muted. */
+    color: var(--text-muted);
     text-decoration: none;
     width: fit-content;
     /* Without this the wide letter-spacing makes `fit-content` resolve to the

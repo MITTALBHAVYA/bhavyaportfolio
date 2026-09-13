@@ -58,9 +58,8 @@ function shell({ title, description, canonical, body, jsonld = '' }) {
     <meta property="og:image" content="${esc(absolute('og.png'))}" />
     <meta name="twitter:card" content="summary_large_image" />
     <link rel="icon" href="${asset('favicon.svg')}" type="image/svg+xml" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400&display=swap" />
+    <link rel="preload" href="/fonts/inter-f11d729b.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/space-grotesk-c0781ea2.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="stylesheet" href="/src/css/main.css" />
     <link rel="stylesheet" href="/src/css/post.css" />
     ${jsonld}

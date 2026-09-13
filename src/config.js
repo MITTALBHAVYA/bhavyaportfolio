@@ -1,6 +1,5 @@
-/* Single place where deployment-specific values live.
-   Moving to a custom domain later means changing BASE to '/' and SITE_URL to
-   the new origin — nothing else in the codebase hard-codes either. */
+/* Deployment-specific values. Moving to a custom domain means changing BASE to
+   '/' and SITE_URL to the new origin; nothing else hard-codes either. */
 
 export const BASE = '/bhavyaportfolio/'
 export const SITE_URL = 'https://mittalbhavya.github.io/bhavyaportfolio/'
@@ -20,7 +19,6 @@ export const asset = (path) => BASE + String(path).replace(/^\/+/, '')
 /** Absolute URL, for canonical and og: tags. */
 export const absolute = (path) => new URL(String(path).replace(/^\/+/, ''), SITE_URL).href
 
-/* Web3Forms access key. Get a free one at https://web3forms.com (no account —
-   it is emailed to you) and paste it here. While this is null the contact form
-   renders in a disabled state with a note, rather than silently failing. */
+/* Free key from https://web3forms.com. While null, the contact form renders
+   disabled with a note rather than silently failing. */
 export const WEB3FORMS_KEY = null

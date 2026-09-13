@@ -100,19 +100,14 @@
     padding: 0;
   }
 
-  /* ---------------------------------------------------------------
-     Focus. The old codebase had zero :focus rules anywhere, so nothing
-     was keyboard-visible. This is a single global ring that reads on the
-     dark background; :focus-visible keeps it off mouse clicks.
-     --------------------------------------------------------------- */
+  /* One global ring, legible on the dark background. */
   :focus-visible {
     outline: 2px solid var(--cyan);
     outline-offset: var(--focus-ring-offset);
     border-radius: var(--radius-sm);
   }
 
-  /* Remove the default ring only where :focus-visible is supported,
-     so older engines keep *some* indicator. */
+  /* Only where :focus-visible is supported, so older engines keep an indicator. */
   @supports selector(:focus-visible) {
     :focus:not(:focus-visible) {
       outline: none;
@@ -155,15 +150,14 @@
     color: var(--text-primary);
   }
 
+  /* Placeholder text still has to be readable, so it uses --text-muted rather
+     than the decorative --text-faint. */
   ::placeholder {
-    color: var(--text-faint);
+    color: var(--text-muted);
   }
 
-  /* ---------------------------------------------------------------
-     Reduced motion. The old site ran 40+ infinite animations with no
-     opt-out at all. Motion tokens already collapse in tokens.css; this
-     stops anything declared outside them.
-     --------------------------------------------------------------- */
+  /* Motion tokens already collapse in tokens.css; this catches anything
+     declared outside them. */
   @media (prefers-reduced-motion: reduce) {
     html {
       scroll-behavior: auto;

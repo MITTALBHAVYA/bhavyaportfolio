@@ -1,10 +1,6 @@
 @layer tokens {
   :root {
-    /* ---------------------------------------------------------------
-       Deep-space ramp. Replaces six near-identical blacks that were
-       scattered through the old stylesheets (#0f141c, #070a0f, #0a0b10,
-       #090a0f, #141b23, #1b2735) with one ordered scale.
-       --------------------------------------------------------------- */
+    /* Deep-space ramp */
     --void-950: #05070c;
     --void-900: #090d15;
     --void-850: #0e131d;
@@ -20,9 +16,7 @@
     --text-muted: #7385a0;
     --text-faint: #5a6b85; /* decorative only — never body copy */
 
-    /* Accents. The gold is the sun the original site was built around;
-       the cyan is its existing highlight colour, pulled up to pass AA.
-       Measured on --void-950: gold 12.6:1 · cyan 12.2:1 */
+    /* Measured on --void-950: gold 12.6:1 · cyan 12.2:1 */
     --gold: #ffc24d;
     --gold-deep: #ff8c1a;
     --gold-dim: #9c7430;
@@ -43,9 +37,7 @@
     --accent: var(--cyan);
     --accent-contrast: var(--void-950);
 
-    /* ---------------------------------------------------------------
-       Type. Fluid scale — replaces 17 hard-coded sizes across 3 units.
-       --------------------------------------------------------------- */
+    /* Type */
     --font-display: 'Space Grotesk', 'Segoe UI', system-ui, sans-serif;
     --font-body: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
     --font-mono: 'JetBrains Mono', ui-monospace, 'Cascadia Code', Consolas, monospace;
@@ -76,9 +68,7 @@
     --weight-semibold: 600;
     --weight-bold: 700;
 
-    /* ---------------------------------------------------------------
-       Spacing — 8-point scale, replacing 32 unscaled values.
-       --------------------------------------------------------------- */
+    /* Spacing — 8-point scale */
     --space-1: 0.25rem;
     --space-2: 0.5rem;
     --space-3: 0.75rem;
@@ -105,9 +95,7 @@
     --radius-xl: 1.5rem;
     --radius-full: 999px;
 
-    /* ---------------------------------------------------------------
-       Z-index ladder — replaces 8 unmanaged values (-5,-4,-3,-2,1,10,999,9999).
-       --------------------------------------------------------------- */
+    /* Z-index ladder */
     --z-cosmos: 0;
     --z-base: 1;
     --z-raised: 10;
@@ -125,9 +113,7 @@
     --glow-gold: 0 0 32px -4px color-mix(in oklab, var(--gold) 45%, transparent);
     --glow-cyan: 0 0 28px -6px color-mix(in oklab, var(--cyan) 50%, transparent);
 
-    /* ---------------------------------------------------------------
-       Motion — replaces 18 ad-hoc durations.
-       --------------------------------------------------------------- */
+    /* Motion */
     --dur-fast: 150ms;
     --dur-base: 250ms;
     --dur-slow: 400ms;
@@ -141,16 +127,12 @@
     --focus-ring-offset: 2px;
   }
 
-  /* The design is dark by intent — a light theme would break the cosmos.
-     Declaring the scheme stops the browser painting light form controls
-     and scrollbars over it. */
+  /* Dark by intent; declaring it stops light form controls and scrollbars. */
   :root {
     color-scheme: dark;
   }
 
-  /* Motion tokens collapse to zero rather than every component needing its
-     own reduced-motion branch. Components that animate layout still opt out
-     explicitly in base.css. */
+  /* Collapsing the tokens saves every component needing its own branch. */
   @media (prefers-reduced-motion: reduce) {
     :root {
       --dur-fast: 1ms;
