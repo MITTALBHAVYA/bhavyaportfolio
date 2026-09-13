@@ -108,11 +108,12 @@ console.log(`  ${readdirSync(join(OUT, 'icons')).length} icons, ${kb(iconBytes)}
 const PUBLIC = join(ROOT, 'public')
 ensure(PUBLIC)
 
-// The gold sun mid-eclipse: ~300 bytes and scales perfectly.
+/* A gold "B" on the deep-space ground. Drawn as a path rather than <text> so it
+   renders identically everywhere and does not depend on a font being installed
+   when this is rasterised for the apple-touch icon. */
 const favicon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
   <rect width="32" height="32" rx="7" fill="#05070c"/>
-  <circle cx="16" cy="16" r="9" fill="#ffc24d"/>
-  <circle cx="21.5" cy="13.5" r="8" fill="#05070c"/>
+  <path fill="#ffc24d" fill-rule="evenodd" d="M9 6h8.5c3 0 5 2 5 5 0 2.2-1.2 3.7-2.7 4.4 2 .6 3.4 2.3 3.4 4.8 0 3.3-2.4 5.8-6 5.8H9V6Zm4 3.4v4.2h3.8c1.4 0 2.2-.8 2.2-2.1 0-1.3-.8-2.1-2.2-2.1H13Zm0 7.8v5.4h4c1.6 0 2.6-1 2.6-2.6 0-1.7-1-2.8-2.6-2.8h-4Z"/>
 </svg>
 `
 writeFileSync(join(PUBLIC, 'favicon.svg'), favicon)

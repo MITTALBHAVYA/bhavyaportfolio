@@ -1,8 +1,9 @@
-/* Deployment-specific values. Moving to a custom domain means changing BASE to
-   '/' and SITE_URL to the new origin; nothing else hard-codes either. */
+/* Deployment-specific values. Served from the domain root on Vercel, so BASE is
+   '/'. Moving to a custom domain means changing SITE_URL alone; nothing else
+   hard-codes either value. */
 
-export const BASE = '/bhavyaportfolio/'
-export const SITE_URL = 'https://mittalbhavya.github.io/bhavyaportfolio/'
+export const BASE = '/'
+export const SITE_URL = 'https://bhavyaportfolio-three.vercel.app/'
 
 export const SITE = {
   title: 'Bhavya Mittal — Full-stack Engineer & Competitive Programmer',

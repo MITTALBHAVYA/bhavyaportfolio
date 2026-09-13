@@ -2,7 +2,7 @@
 
 Personal portfolio and blog. Static site built with Vite, no framework, space theme.
 
-**Live:** https://mittalbhavya.github.io/bhavyaportfolio/
+**Live:** https://bhavyaportfolio-three.vercel.app/
 
 ## Getting started
 
@@ -11,7 +11,7 @@ npm install
 npm run dev
 ```
 
-Then open http://localhost:5173/bhavyaportfolio/
+Then open http://localhost:5173/
 
 ## Commands
 
@@ -64,13 +64,15 @@ Your post here. Code blocks get syntax highlighting.
 
 1. **Contact form** — get a free key at [web3forms.com](https://web3forms.com) (no account; it's emailed to you) and set `WEB3FORMS_KEY` in `src/config.js`. Until then the form renders disabled with a note.
 2. **Booking link** — set `profile.booking` to a Cal.com URL to show the "book a call" button.
-3. **Resume** — currently a Google Drive link in `profile.js`. Putting `resume.pdf` in `public/` and pointing at it instead makes it indexable and immune to link rot.
+3. **Resume** — served from `public/resume.pdf`. To update it, replace that file.
 
 ## Deployment
 
-Pushing to `main` triggers `.github/workflows/deploy.yml`, which builds and publishes to GitHub Pages. Enable it once under **Settings → Pages → Source → GitHub Actions**.
+Vercel builds and deploys on every push to `main`.
 
-To move to a custom domain: set `BASE` to `'/'` and `SITE_URL` to the new origin in `src/config.js`, and add a `CNAME` file to `public/`.
+The build command lives in `vercel.json` and is `npm run images && npm run build`. The image step matters: `public/images/` is generated from `images/`, not committed, so without it the deploy would ship with no pictures.
+
+To move to a custom domain: add it in the Vercel dashboard, then set `SITE_URL` in `src/config.js` to the new origin. `BASE` stays `'/'`.
 
 ## Project layout
 
