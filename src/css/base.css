@@ -57,6 +57,16 @@
     height: auto;
   }
 
+  /* Inline icons carry a viewBox but no intrinsic size, so in a flex container
+     they collapse to 0x0 and vanish. A `width="1em"` attribute is not reliably
+     honoured — it has to come from CSS. Living in @layer base means component
+     rules such as `.icon-link svg` still win where a fixed size is wanted. */
+  svg[aria-hidden='true'] {
+    width: 1em;
+    height: 1em;
+    flex-shrink: 0;
+  }
+
   input,
   button,
   textarea,

@@ -188,6 +188,9 @@
     color: var(--text-faint);
     text-decoration: none;
     width: fit-content;
+    /* Without this the wide letter-spacing makes `fit-content` resolve to the
+       longest word and the label breaks onto three lines. */
+    white-space: nowrap;
   }
 
   .hero__scroll-cue:hover {

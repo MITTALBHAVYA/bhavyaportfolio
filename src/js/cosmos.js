@@ -6,15 +6,21 @@ import { sections, FURTHEST_ORBIT } from '../content/sections.js'
  * (plus 100 more hand-written in the HTML that were never visible), and 890
  * comma-separated box-shadows that made up 41KB of a 48KB stylesheet.
  *
- * Scrolling pulls the camera outward: the Sun fills the hero, and by the
- * contact section the whole system is in frame. The planet belonging to the
- * section you are reading is highlighted and can be clicked.
+ * Composition rule: content always wins. The solar system is vivid in the hero,
+ * fades out as soon as you scroll into the work, and returns — quietly — behind
+ * the Journey timeline, which is the one place where "a career as orbits"
+ * actually means something. The starfield persists throughout at low contrast.
  */
 
 const TAU = Math.PI * 2
 const clamp = (v, lo, hi) => Math.min(hi, Math.max(lo, v))
 const lerp = (a, b, t) => a + (b - a) * t
 const easeInOut = (t) => (t < 0.5 ? 2 * t * t : 1 - (-2 * t + 2) ** 2 / 2)
+
+// Scroll progress at which the hero's system has fully dissolved.
+const HERO_END = 0.08
+// How present the system is behind the journey timeline.
+const JOURNEY_ALPHA = 0.5
 
 export function initCosmos({ onNavigate } = {}) {
   const root = document.querySelector('.cosmos')
@@ -32,9 +38,10 @@ export function initCosmos({ onNavigate } = {}) {
 
   let width = 0
   let height = 0
-  let dpr = 1
   let stars = []
   let scrollProgress = 0
+  let activeSectionId = 'hero'
+  let systemAlpha = 1
   let pointer = { x: -1, y: -1, active: false }
   let hovered = null
   let running = false
@@ -48,7 +55,7 @@ export function initCosmos({ onNavigate } = {}) {
 
   function resize() {
     const rect = root.getBoundingClientRect()
-    dpr = Math.min(window.devicePixelRatio || 1, maxDpr)
+    const dpr = Math.min(window.devicePixelRatio || 1, maxDpr)
     width = rect.width
     height = rect.height
     canvas.width = Math.round(width * dpr)
@@ -58,17 +65,15 @@ export function initCosmos({ onNavigate } = {}) {
   }
 
   function seedStars() {
-    // Density scaled to area, hard-capped so a 4K monitor does not melt.
     const target = clamp(Math.round((width * height) / 5200), 60, lowPower ? 140 : 320)
     stars = Array.from({ length: target }, () => ({
       x: Math.random(),
       y: Math.random(),
       r: Math.random() * 1.1 + 0.3,
-      // Depth drives both parallax and brightness.
       depth: Math.random() * 0.8 + 0.2,
       // Per-star hue and brightness, preserved from the original starwrapper.js
       hue: 200 + Math.random() * 60,
-      alpha: Math.random() * 0.5 + 0.25,
+      alpha: Math.random() * 0.45 + 0.2,
       twinkle: Math.random() * TAU,
       twinkleRate: Math.random() * 0.8 + 0.3,
     }))
@@ -76,16 +81,26 @@ export function initCosmos({ onNavigate } = {}) {
 
   /* ------------------------------------------------------------------ */
 
+  /** How present the solar system should be right now, 0..1. */
+  function systemTarget() {
+    if (scrollProgress < HERO_END) return 1 - easeInOut(scrollProgress / HERO_END) * 0.15
+    return activeSectionId === 'journey' ? JOURNEY_ALPHA : 0
+  }
+
   function cameraFor(progress) {
     const minDim = Math.min(width, height)
-    // Sun fills the hero; by the end the outermost orbit is comfortably framed.
-    const scaleNear = (minDim * 0.3) / 26
-    const scaleFar = (minDim * 0.46) / FURTHEST_ORBIT
-    const scale = lerp(scaleNear, scaleFar, easeInOut(progress))
+    const narrow = width < 900
 
-    // Keep the system clear of the hero copy on wide screens, centre it on narrow.
-    const cx = width < 900 ? width * 0.5 : lerp(width * 0.76, width * 0.6, progress)
-    const cy = lerp(height * 0.42, height * 0.5, progress)
+    // In the hero the sun crowns the name from the upper right, clear of the
+    // paragraph beneath it. Behind the journey it settles toward the middle.
+    const heroScale = (minDim * 0.2) / 26
+    const wideScale = (minDim * 0.34) / FURTHEST_ORBIT
+    const t = easeInOut(clamp(progress / 0.45, 0, 1))
+    const scale = lerp(heroScale, wideScale, t)
+
+    const cx = narrow ? lerp(width * 0.74, width * 0.5, t) : lerp(width * 0.82, width * 0.62, t)
+    const cy = narrow ? lerp(height * 0.26, height * 0.5, t) : lerp(height * 0.3, height * 0.5, t)
+
     return { cx, cy, scale }
   }
 
@@ -94,7 +109,6 @@ export function initCosmos({ onNavigate } = {}) {
       // Parallax: nearer stars drift further as the camera pulls back.
       const drift = scrollProgress * s.depth * height * 0.22
       let y = s.y * height - drift
-      // Wrap so the field never runs out.
       y = ((y % height) + height) % height
 
       const flicker = reduceMotion.matches
@@ -110,18 +124,18 @@ export function initCosmos({ onNavigate } = {}) {
     ctx.globalAlpha = 1
   }
 
-  function drawSun(cam, time, activeIndex) {
+  function drawSun(cam, time) {
     const r = 26 * cam.scale
     const { cx, cy } = cam
 
     // Corona
-    const glow = ctx.createRadialGradient(cx, cy, r * 0.2, cx, cy, r * 3.4)
-    glow.addColorStop(0, 'rgba(255, 194, 77, 0.55)')
-    glow.addColorStop(0.35, 'rgba(255, 140, 26, 0.18)')
+    const glow = ctx.createRadialGradient(cx, cy, r * 0.2, cx, cy, r * 3.2)
+    glow.addColorStop(0, 'rgba(255, 194, 77, 0.42)')
+    glow.addColorStop(0.35, 'rgba(255, 140, 26, 0.12)')
     glow.addColorStop(1, 'rgba(255, 140, 26, 0)')
     ctx.fillStyle = glow
     ctx.beginPath()
-    ctx.arc(cx, cy, r * 3.4, 0, TAU)
+    ctx.arc(cx, cy, r * 3.2, 0, TAU)
     ctx.fill()
 
     // Body
@@ -135,37 +149,33 @@ export function initCosmos({ onNavigate } = {}) {
     ctx.fill()
 
     // The eclipse — a dark moon transiting the sun, carried over from the
-    // original landing animation. Only near the hero, where the sun is large.
-    const eclipseStrength = clamp(1 - scrollProgress * 3, 0, 1)
-    if (eclipseStrength > 0.01) {
-      const t = reduceMotion.matches ? 0.22 : (time * 0.00004) % 1
-      const travel = lerp(-2.4, 2.4, t)
-      const mx = cx + travel * r
-      const my = cy - r * 0.16
+    // original landing animation. Only while the hero is on screen.
+    const eclipse = clamp(1 - scrollProgress / HERO_END, 0, 1)
+    if (eclipse > 0.01) {
+      const t = reduceMotion.matches ? 0.3 : (time * 0.00003) % 1
+      const mx = cx + lerp(-2.2, 2.2, t) * r
+      const my = cy - r * 0.18
 
       ctx.save()
-      ctx.globalAlpha = eclipseStrength
+      ctx.globalAlpha = eclipse
       ctx.beginPath()
       ctx.arc(cx, cy, r * 1.02, 0, TAU)
       ctx.clip()
       ctx.fillStyle = '#05070c'
       ctx.beginPath()
-      ctx.arc(mx, my, r * 0.94, 0, TAU)
+      ctx.arc(mx, my, r * 0.92, 0, TAU)
       ctx.fill()
       ctx.restore()
 
-      // Rim light where the moon overlaps
       ctx.save()
-      ctx.globalAlpha = eclipseStrength * 0.7
-      ctx.strokeStyle = 'rgba(255, 214, 140, 0.75)'
-      ctx.lineWidth = Math.max(1, r * 0.035)
+      ctx.globalAlpha = eclipse * 0.65
+      ctx.strokeStyle = 'rgba(255, 214, 140, 0.7)'
+      ctx.lineWidth = Math.max(1, r * 0.03)
       ctx.beginPath()
-      ctx.arc(mx, my, r * 0.94, 0, TAU)
+      ctx.arc(mx, my, r * 0.92, 0, TAU)
       ctx.stroke()
       ctx.restore()
     }
-
-    if (activeIndex === 0) drawActiveRing(cx, cy, r * 1.5, time)
   }
 
   function drawActiveRing(x, y, radius, time) {
@@ -180,22 +190,25 @@ export function initCosmos({ onNavigate } = {}) {
     ctx.restore()
   }
 
-  function drawSystem(time, activeIndex) {
+  function drawSystem(time) {
     const cam = cameraFor(scrollProgress)
+    const activeIndex = sections.findIndex((s) => s.id === activeSectionId)
     hitTargets.length = 0
+
+    ctx.save()
+    ctx.globalAlpha = systemAlpha
 
     // Orbit rings first, so bodies sit on top.
     ctx.lineWidth = 1
     for (let i = 1; i < sections.length; i++) {
-      const { body } = sections[i]
       const isActive = i === activeIndex
-      ctx.strokeStyle = isActive ? 'rgba(86, 216, 255, 0.3)' : 'rgba(61, 74, 95, 0.28)'
+      ctx.strokeStyle = isActive ? 'rgba(86, 216, 255, 0.28)' : 'rgba(61, 74, 95, 0.22)'
       ctx.beginPath()
-      ctx.arc(cam.cx, cam.cy, body.orbit * cam.scale, 0, TAU)
+      ctx.arc(cam.cx, cam.cy, sections[i].body.orbit * cam.scale, 0, TAU)
       ctx.stroke()
     }
 
-    drawSun(cam, time, activeIndex)
+    drawSun(cam, time)
 
     for (let i = 1; i < sections.length; i++) {
       const section = sections[i]
@@ -216,7 +229,7 @@ export function initCosmos({ onNavigate } = {}) {
         ctx.translate(x, y)
         ctx.rotate(body.ring.tilt)
         ctx.scale(1, 0.34)
-        ctx.strokeStyle = 'rgba(227, 210, 160, 0.55)'
+        ctx.strokeStyle = 'rgba(227, 210, 160, 0.5)'
         ctx.lineWidth = Math.max(1, (body.ring.outer - body.ring.inner) * cam.scale * 0.5)
         ctx.beginPath()
         ctx.arc(0, 0, ((body.ring.inner + body.ring.outer) / 2) * cam.scale, 0, TAU)
@@ -229,7 +242,7 @@ export function initCosmos({ onNavigate } = {}) {
 
       if (isActive || isHovered) {
         const halo = ctx.createRadialGradient(x, y, 0, x, y, r * 4)
-        halo.addColorStop(0, 'rgba(86, 216, 255, 0.35)')
+        halo.addColorStop(0, 'rgba(86, 216, 255, 0.3)')
         halo.addColorStop(1, 'rgba(86, 216, 255, 0)')
         ctx.fillStyle = halo
         ctx.beginPath()
@@ -247,28 +260,31 @@ export function initCosmos({ onNavigate } = {}) {
 
       if (isActive) drawActiveRing(x, y, r + 8, time)
     }
+
+    ctx.restore()
   }
 
   /* ------------------------------------------------------------------ */
-
-  function activeIndexFromProgress() {
-    // Which section is currently in view, tracked by nav.js via setActive().
-    return activeSectionIndex
-  }
-
-  let activeSectionIndex = 0
 
   function frame(time) {
     if (!startTime) startTime = time
     const t = time - startTime
 
+    // Ease the system in and out rather than popping between sections.
+    const target = systemTarget()
+    if (reduceMotion.matches) systemAlpha = target
+    else systemAlpha += (target - systemAlpha) * 0.07
+
     ctx.clearRect(0, 0, width, height)
     drawStars(t)
-    drawSystem(t, activeIndexFromProgress())
+
+    if (systemAlpha > 0.01) drawSystem(t)
+    else hitTargets.length = 0
+
     updateHover()
 
-    // With reduced motion nothing animates, so one frame per scroll/resize is
-    // enough — no need to hold a rAF loop open.
+    // Reduced motion draws a single settled frame per scroll/resize rather than
+    // holding a rAF loop open.
     if (reduceMotion.matches) {
       running = false
       return
@@ -301,7 +317,9 @@ export function initCosmos({ onNavigate } = {}) {
   /* ---------------------------- interaction --------------------------- */
 
   function updateHover() {
-    if (!pointer.active) {
+    const interactive = pointer.active && systemAlpha > 0.25
+
+    if (!interactive) {
       if (hovered) {
         hovered = null
         labelEl.dataset.visible = 'false'
@@ -397,9 +415,8 @@ export function initCosmos({ onNavigate } = {}) {
 
   return {
     setActive(sectionId) {
-      const i = sections.findIndex((s) => s.id === sectionId)
-      if (i >= 0 && i !== activeSectionIndex) {
-        activeSectionIndex = i
+      if (sectionId !== activeSectionId) {
+        activeSectionId = sectionId
         requestDraw()
       }
     },

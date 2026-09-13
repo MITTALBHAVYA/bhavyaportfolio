@@ -51,20 +51,52 @@
     white-space: nowrap;
     transform: translate(-50%, -50%);
     opacity: 0;
-    transition: opacity var(--dur-fast) var(--ease-out);
+    /* Hidden rather than merely transparent: at 0,0 it would otherwise sit
+       half outside the viewport before its first position is set. */
+    visibility: hidden;
+    transition: opacity var(--dur-fast) var(--ease-out), visibility 0s linear var(--dur-fast);
   }
 
   .cosmos__label[data-visible='true'] {
     opacity: 1;
+    visibility: visible;
+    transition-delay: 0s;
   }
 
-  /* The vignette keeps text legible wherever the starfield is densest. */
+  /*
+   * Readability scrim. Content always wins over the cosmos: this lays a pool of
+   * near-solid background under the left-hand text column and fades out toward
+   * the right, where the sun lives. Without it the hero paragraph sat directly
+   * on the corona and dropped well below AA.
+   */
   .cosmos__vignette {
     position: fixed;
     inset: 0;
     z-index: var(--z-cosmos);
     pointer-events: none;
-    background: radial-gradient(ellipse 80% 70% at 50% 50%, transparent 40%, var(--surface) 100%);
-    opacity: 0.7;
+    background:
+      linear-gradient(
+        100deg,
+        var(--surface) 0%,
+        color-mix(in oklab, var(--surface) 88%, transparent) 34%,
+        color-mix(in oklab, var(--surface) 40%, transparent) 58%,
+        transparent 78%
+      ),
+      radial-gradient(ellipse 90% 80% at 50% 50%, transparent 45%, var(--surface) 100%);
+  }
+
+  /* Narrow screens have no clear left column, so the scrim goes flat and a
+     little stronger instead of directional. */
+  @media (width < 56rem) {
+    .cosmos__vignette {
+      background:
+        linear-gradient(
+          180deg,
+          color-mix(in oklab, var(--surface) 55%, transparent) 0%,
+          color-mix(in oklab, var(--surface) 78%, transparent) 45%,
+          color-mix(in oklab, var(--surface) 92%, transparent) 100%
+        ),
+        radial-gradient(ellipse 90% 80% at 50% 50%, transparent 55%, var(--surface) 100%);
+    }
   }
 }

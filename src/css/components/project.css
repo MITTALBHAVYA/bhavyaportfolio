@@ -21,7 +21,10 @@
       gap: var(--space-7);
     }
 
-    .project-feature:nth-child(even) .project-feature__media {
+    /* The media is first in the DOM, so pulling the *body* forward is what
+       actually flips the pair — reordering the media would leave it where it
+       already was. */
+    .project-feature:nth-child(even) .project-feature__body {
       order: -1;
     }
   }
@@ -136,12 +139,15 @@
     font-size: var(--text-lg);
   }
 
+  /* `flex: 1` here would override the clamped height and let the text spill
+     past four lines, which is what made the card copy overrun its box. The
+     footer is pushed down with auto margin instead. */
   .project-card__desc {
-    flex: 1;
     font-size: var(--text-sm);
     color: var(--text-secondary);
     display: -webkit-box;
     -webkit-line-clamp: 4;
+    line-clamp: 4;
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
@@ -151,7 +157,8 @@
     align-items: center;
     justify-content: space-between;
     gap: var(--space-3);
-    margin-top: var(--space-2);
+    margin-top: auto;
+    padding-top: var(--space-2);
   }
 
   .project-card__links {

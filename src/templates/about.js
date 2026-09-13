@@ -51,8 +51,10 @@ export function renderAbout() {
           <div class="marquee__track">
             ${each(
               [...marqueeIcons, ...marqueeIcons],
-              (s) => html`
-                <div class="marquee__item">
+              (s, i) => html`
+                <div
+                  class="marquee__item${i >= marqueeIcons.length ? ' marquee__item--loop' : ''}"
+                >
                   <img
                     src="${asset(`images/icons/${s.icon}`)}"
                     alt=""
