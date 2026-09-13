@@ -73,15 +73,14 @@ export const journey = [
   {
     id: 'gdsc',
     type: 'role',
-    period: 'SEP 2023 — MAY 2025',
+    period: 'SEP 2023 — PRESENT',
     start: '2023-09',
-    // TODO(owner): confirm — assumed to have ended with graduation.
-    end: '2025-05',
+    end: null,
     title: 'Programming Lead',
     org: 'Google Developer Student Club',
     location: 'JSS Academy of Technical Education',
     description:
-      'Led the programming track for GDSC, running workshops and events including SORTED and CRACK THE SHELL that reached over 500 students.',
+      'Leading the programming track for GDSC, running workshops and events including SORTED and CRACK THE SHELL that have reached over 500 students.',
     image: 'timeline/gdsc_icon.jpg',
   },
   {

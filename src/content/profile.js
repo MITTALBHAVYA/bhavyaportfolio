@@ -31,7 +31,7 @@ export const profile = {
   // Shown as a quiet line in the hero — employment-forward, freelance available.
   availability: {
     open: true,
-    note: 'Open to full-time roles · available for select freelance work',
+    note: 'Available for select freelance work',
   },
 
   // Served from public/resume.pdf so it is indexable and cannot rot.
