@@ -45,18 +45,24 @@
 
   /* ---------------- typing console ---------------- */
 
+  /*
+   * The rotating phrase varies in length, so letting it share a line with the
+   * label made the block rewrap and reflow everything beneath it — that single
+   * element accounted for essentially all of the page's layout shift. The label
+   * gets its own line and the block reserves two lines' height, so nothing
+   * below can move.
+   */
   .hero__console {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: baseline;
-    gap: var(--space-2);
+    display: block;
     font-family: var(--font-mono);
     font-size: var(--text-base);
+    line-height: 1.6;
     color: var(--text-muted);
-    min-height: 1.6em;
+    min-height: 3.2em;
   }
 
   .hero__console-label {
+    display: block;
     color: var(--text-muted);
   }
 

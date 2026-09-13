@@ -82,8 +82,8 @@ const browserFrame = (project) => html`
       <p class="browser-frame__url">${project.links.live ?? project.name.toLowerCase()}</p>
     </div>
     <img
-      src="${shot(project.image, 640)}"
-      srcset="${shot(project.image, 640)} 640w, ${shot(project.image, 1200)} 1200w"
+      src="${shot(project.image, 768)}"
+      srcset="${shot(project.image, 768)} 768w, ${shot(project.image, 1200)} 1200w"
       sizes="(min-width: 56rem) 48vw, 92vw"
       alt="Screenshot of ${project.name}"
       width="1200"

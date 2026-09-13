@@ -16,7 +16,7 @@ export const journey = [
     employment: 'Full-time',
     description:
       'Building product across the stack in Python and React, from API and data-layer work through to the interfaces on top of it.',
-    image: null,
+    image: 'timeline/atlas_cc_logo.jpg',
   },
   {
     id: 'weya-ai',
@@ -30,7 +30,7 @@ export const journey = [
     employment: 'Internship',
     description:
       'Backend-focused work on a distributed microservice architecture, building and optimising services in Node.js and TypeScript on AWS — S3, SQS and ElastiCache. Implemented call recording and real-time streaming for a scalable calling service.',
-    image: null,
+    image: 'timeline/weyaai_logo.jpg',
   },
   {
     id: 'fancraze',

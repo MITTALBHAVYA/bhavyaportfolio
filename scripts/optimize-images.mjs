@@ -13,6 +13,8 @@ const SRC = join(ROOT, 'images')
 const OUT = join(ROOT, 'public', 'images')
 
 const TIMELINE_LOGOS = [
+  'atlas_cc_logo.jpg',
+  'weyaai_logo.jpg',
   'fancraze_logo.jpg',
   'kareai.png',
   'meta.jpg',
@@ -44,14 +46,14 @@ async function encode(srcPath, outPath, { width, height, fit = 'inside', quality
 
 /* ---------------------------------------------------------------- */
 
-/* 640w for standard displays, 1200w for 2x; the featured slot is ~590 CSS px. */
-console.log('\nproject screenshots -> public/images/projects/  (640w + 1200w)')
+/* 768w covers phones at ~2x; 1200w covers the featured slot at 2x. */
+console.log('\nproject screenshots -> public/images/projects/  (768w + 1200w)')
 ensure(join(OUT, 'projects'))
 for (const file of readdirSync(join(SRC, 'projects'))) {
   if (!/\.(png|jpe?g)$/i.test(file)) continue
   const stem = basename(file, extname(file))
-  await encode(join(SRC, 'projects', file), join(OUT, 'projects', `${stem}-640.webp`), {
-    width: 640,
+  await encode(join(SRC, 'projects', file), join(OUT, 'projects', `${stem}-768.webp`), {
+    width: 768,
     quality: 70,
   })
   await encode(join(SRC, 'projects', file), join(OUT, 'projects', `${stem}-1200.webp`), {

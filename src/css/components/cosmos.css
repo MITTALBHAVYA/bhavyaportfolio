@@ -70,12 +70,12 @@
     background:
       linear-gradient(
         100deg,
-        var(--surface) 0%,
-        color-mix(in oklab, var(--surface) 88%, transparent) 34%,
-        color-mix(in oklab, var(--surface) 40%, transparent) 58%,
+        color-mix(in oklab, var(--surface) 80%, transparent) 0%,
+        color-mix(in oklab, var(--surface) 70%, transparent) 34%,
+        color-mix(in oklab, var(--surface) 34%, transparent) 58%,
         transparent 78%
       ),
-      radial-gradient(ellipse 90% 80% at 50% 50%, transparent 45%, var(--surface) 100%);
+      radial-gradient(ellipse 90% 80% at 50% 50%, transparent 55%, var(--surface) 100%);
   }
 
   /* No left column at narrow widths, so the scrim goes flat instead. */
@@ -84,11 +84,11 @@
       background:
         linear-gradient(
           180deg,
-          color-mix(in oklab, var(--surface) 55%, transparent) 0%,
-          color-mix(in oklab, var(--surface) 78%, transparent) 45%,
-          color-mix(in oklab, var(--surface) 92%, transparent) 100%
+          color-mix(in oklab, var(--surface) 45%, transparent) 0%,
+          color-mix(in oklab, var(--surface) 68%, transparent) 45%,
+          color-mix(in oklab, var(--surface) 82%, transparent) 100%
         ),
-        radial-gradient(ellipse 90% 80% at 50% 50%, transparent 55%, var(--surface) 100%);
+        radial-gradient(ellipse 95% 85% at 50% 50%, transparent 62%, var(--surface) 100%);
     }
   }
 }

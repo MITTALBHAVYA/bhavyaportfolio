@@ -23,6 +23,24 @@ const REVEAL_MS = 2600
 const CURSOR_REACH = 170
 const FRAME_MS = 1000 / 30
 
+/*
+ * Depth layers. Each is pre-rendered once into its own buffer and blitted with
+ * a parallax offset, so a dense field costs two drawImage calls per layer
+ * instead of a thousand arcs per frame. `density` is px² per star: lower is
+ * denser. Only the small `live` set is drawn per frame, for twinkle and bloom.
+ */
+const STAR_LAYERS = [
+  { density: 2400, min: 0.35, max: 0.8, alpha: 0.5, depth: 0.15 },
+  { density: 6500, min: 0.6, max: 1.2, alpha: 0.65, depth: 0.45 },
+  { density: 17000, min: 0.9, max: 1.8, alpha: 0.8, depth: 0.85 },
+]
+const LIVE_STARS = 48
+
+// The belt sits between Mars (190) and Jupiter (262), as it should.
+const BELT_INNER = 206
+const BELT_OUTER = 246
+const BELT_ROCKS = 260
+
 export function initCosmos({ onNavigate } = {}) {
   const root = document.querySelector('.cosmos')
   const canvas = document.querySelector('[data-cosmos]')
@@ -39,6 +57,10 @@ export function initCosmos({ onNavigate } = {}) {
   let width = 0
   let height = 0
   let stars = []
+  let starLayers = []
+  let belt = []
+  let meteors = []
+  let nextMeteorAt = 2200
   let scrollProgress = 0
   let activeSectionId = 'hero'
   let systemAlpha = 1
@@ -98,17 +120,48 @@ export function initCosmos({ onNavigate } = {}) {
   }
 
   function seedStars() {
-    const target = clamp(Math.round((width * height) / 5200), 60, lowPower ? 140 : 320)
-    stars = Array.from({ length: target }, () => ({
+    starLayers = STAR_LAYERS.map((spec) => {
+      const buffer = document.createElement('canvas')
+      buffer.width = Math.max(1, Math.round(width))
+      buffer.height = Math.max(1, Math.round(height))
+
+      const g = buffer.getContext('2d')
+      const count = Math.round(((width * height) / spec.density) * (lowPower ? 0.55 : 1))
+
+      for (let i = 0; i < count; i++) {
+        const r = spec.min + Math.random() * (spec.max - spec.min)
+        g.globalAlpha = spec.alpha * (0.45 + Math.random() * 0.55)
+        g.fillStyle = `hsl(${200 + Math.random() * 60} 70% ${84 + Math.random() * 12}%)`
+        g.beginPath()
+        g.arc(Math.random() * width, Math.random() * height, r, 0, TAU)
+        g.fill()
+      }
+      return { buffer, depth: spec.depth }
+    })
+
+    // The handful that twinkle and respond to the cursor.
+    stars = Array.from({ length: lowPower ? 24 : LIVE_STARS }, () => ({
       x: Math.random(),
       y: Math.random(),
-      r: Math.random() * 1.1 + 0.3,
-      depth: Math.random() * 0.8 + 0.2,
+      r: Math.random() * 1.1 + 0.6,
+      depth: Math.random() * 0.6 + 0.4,
       hue: 200 + Math.random() * 60,
-      alpha: Math.random() * 0.45 + 0.2,
+      alpha: Math.random() * 0.35 + 0.4,
       twinkle: Math.random() * TAU,
       twinkleRate: Math.random() * 0.8 + 0.3,
     }))
+
+    belt = Array.from({ length: lowPower ? 150 : BELT_ROCKS }, () => {
+      // Bias toward the middle of the band so the belt has a dense core and
+      // scattered edges rather than a uniform ring.
+      const t = (Math.random() + Math.random()) / 2
+      return {
+        angle: Math.random() * TAU,
+        orbit: BELT_INNER + t * (BELT_OUTER - BELT_INNER),
+        size: 0.6 + Math.random() * 1.6,
+        alpha: 0.35 + Math.random() * 0.55,
+      }
+    })
   }
 
   /* ------------------------------------------------------------------ */
@@ -136,11 +189,18 @@ export function initCosmos({ onNavigate } = {}) {
   }
 
   function drawStars(time) {
+    // Static layers: two blits each, wrapping vertically as the camera drifts.
+    for (const layer of starLayers) {
+      const offset = (((scrollProgress * layer.depth * height * 0.7) % height) + height) % height
+      ctx.drawImage(layer.buffer, 0, -offset)
+      ctx.drawImage(layer.buffer, 0, height - offset)
+    }
+
     const reactive = pointer.active && !reduceMotion.matches
     const reach2 = CURSOR_REACH * CURSOR_REACH
 
     for (const s of stars) {
-      const drift = scrollProgress * s.depth * height * 0.22
+      const drift = scrollProgress * s.depth * height * 0.7
       const x = s.x * width
       let y = s.y * height - drift
       y = ((y % height) + height) % height
@@ -254,6 +314,74 @@ export function initCosmos({ onNavigate } = {}) {
     }
   }
 
+  /** The belt between Mars and Jupiter. Off-screen rocks are culled, which is
+   *  most of them while the camera is close in on the hero. */
+  function drawBelt(cam, time) {
+    const spin = reduceMotion.matches ? 0 : time * 0.000006
+    ctx.fillStyle = '#b9ad99'
+
+    for (const rock of belt) {
+      const angle = rock.angle + spin
+      const radius = rock.orbit * cam.scale
+      const x = cam.cx + Math.cos(angle) * radius
+      const y = cam.cy + Math.sin(angle) * radius * 0.92
+      if (x < -6 || x > width + 6 || y < -6 || y > height + 6) continue
+
+      ctx.globalAlpha = rock.alpha
+      ctx.beginPath()
+      ctx.arc(x, y, Math.max(0.45, rock.size * cam.scale * 0.5), 0, TAU)
+      ctx.fill()
+    }
+    ctx.globalAlpha = 1
+  }
+
+  /** Occasional meteors, only while the system itself is on show. */
+  function drawMeteors(time, delta) {
+    if (reduceMotion.matches) return
+
+    if (time > nextMeteorAt && meteors.length < 2) {
+      nextMeteorAt = time + 5000 + Math.random() * 9000
+      const fromLeft = Math.random() < 0.5
+      meteors.push({
+        x: fromLeft ? -60 : width * (0.3 + Math.random() * 0.7),
+        y: Math.random() * height * 0.55,
+        vx: (fromLeft ? 1 : -1) * (0.42 + Math.random() * 0.3),
+        vy: 0.16 + Math.random() * 0.14,
+        life: 0,
+        span: 900 + Math.random() * 600,
+        len: 70 + Math.random() * 90,
+      })
+    }
+
+    meteors = meteors.filter((m) => {
+      m.life += delta
+      if (m.life > m.span) return false
+
+      m.x += m.vx * delta
+      m.y += m.vy * delta
+
+      // Fade in and out rather than popping at either end.
+      const t = m.life / m.span
+      const fade = Math.sin(t * Math.PI)
+      const tailX = m.x - m.vx * m.len
+      const tailY = m.y - m.vy * m.len
+
+      const grad = ctx.createLinearGradient(m.x, m.y, tailX, tailY)
+      grad.addColorStop(0, `rgba(232, 237, 245, ${0.85 * fade})`)
+      grad.addColorStop(1, 'rgba(232, 237, 245, 0)')
+
+      ctx.strokeStyle = grad
+      ctx.lineWidth = 1.4
+      ctx.lineCap = 'round'
+      ctx.beginPath()
+      ctx.moveTo(m.x, m.y)
+      ctx.lineTo(tailX, tailY)
+      ctx.stroke()
+
+      return m.x > -180 && m.x < width + 180 && m.y < height + 180
+    })
+  }
+
   function drawActiveRing(x, y, radius, time) {
     const pulse = reduceMotion.matches ? 0.5 : 0.4 + 0.15 * Math.sin(time * 0.002)
     ctx.save()
@@ -285,6 +413,7 @@ export function initCosmos({ onNavigate } = {}) {
     }
 
     drawSun(cam, time)
+    drawBelt(cam, time)
 
     for (let i = 1; i < sections.length; i++) {
       const section = sections[i]
@@ -343,6 +472,7 @@ export function initCosmos({ onNavigate } = {}) {
       rafId = requestAnimationFrame(frame)
       return
     }
+    const delta = lastPaint ? Math.min(time - lastPaint, 100) : FRAME_MS
     lastPaint = time
 
     const t = time - startTime
@@ -354,8 +484,13 @@ export function initCosmos({ onNavigate } = {}) {
     ctx.clearRect(0, 0, width, height)
     drawStars(t)
 
-    if (systemAlpha > 0.01) drawSystem(t)
-    else hitTargets.length = 0
+    if (systemAlpha > 0.01) {
+      drawSystem(t)
+      drawMeteors(t, delta)
+    } else {
+      hitTargets.length = 0
+      meteors.length = 0
+    }
 
     updateHover()
 
