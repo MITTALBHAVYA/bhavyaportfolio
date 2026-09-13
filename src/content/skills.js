@@ -18,15 +18,19 @@ export const skillIcons = {
 export const skills = [
   {
     category: 'Languages',
-    items: ['C', 'C++', 'JavaScript', 'HTML', 'CSS', 'Python', 'SQL'],
+    items: ['C', 'C++', 'Python', 'JavaScript', 'TypeScript', 'SQL', 'HTML', 'CSS'],
   },
   {
     category: 'Frameworks',
-    items: ['ReactJS', 'Node.js', 'ExpressJS', 'FastAPI', 'REST API', 'Tailwind CSS'],
+    items: ['ReactJS', 'Next.js', 'Node.js', 'ExpressJS', 'FastAPI', 'REST API', 'Tailwind CSS'],
   },
   {
     category: 'Databases',
     items: ['MySQL', 'PostgreSQL', 'MongoDB'],
+  },
+  {
+    category: 'Cloud & Infra',
+    items: ['AWS S3', 'AWS SQS', 'ElastiCache', 'Microservices'],
   },
   {
     category: 'Tools',

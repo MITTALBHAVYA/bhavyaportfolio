@@ -2,18 +2,48 @@
 // achievements.js holds standing credentials instead.
 //
 // `start`/`end` are sortable; `period` is what renders. `end: null` means ongoing.
+// `image: null` falls back to a monogram built from the org name.
 export const journey = [
+  {
+    id: 'atlas-code-carbon',
+    type: 'role',
+    period: 'JUN 2025 — PRESENT',
+    start: '2025-06',
+    end: null,
+    title: 'Software Development Engineer',
+    org: 'Atlas by Code Carbon',
+    location: 'Noida, India',
+    employment: 'Full-time',
+    description:
+      'Building product across the stack in Python and React, from API and data-layer work through to the interfaces on top of it.',
+    image: null,
+  },
+  {
+    id: 'weya-ai',
+    type: 'role',
+    period: 'MAR 2025 — MAY 2025',
+    start: '2025-03',
+    end: '2025-05',
+    title: 'Full Stack Engineer',
+    org: 'weya AI',
+    location: 'Noida, India',
+    employment: 'Internship',
+    description:
+      'Backend-focused work on a distributed microservice architecture, building and optimising services in Node.js and TypeScript on AWS — S3, SQS and ElastiCache. Implemented call recording and real-time streaming for a scalable calling service.',
+    image: null,
+  },
   {
     id: 'fancraze',
     type: 'role',
     period: 'NOV 2024 — FEB 2025',
     start: '2024-11',
     end: '2025-02',
-    title: 'Fullstack Intern',
-    org: 'Faze Technologies (FanCraze)',
-    location: 'Mumbai, India',
+    title: 'Back-end Developer',
+    org: 'FanCraze',
+    location: 'Noida, India',
+    employment: 'Internship',
     description:
-      'Maintained scalable Node.js microservices supporting a Backend-for-Frontend architecture, and optimised MongoDB integrations behind secure APIs for performance and data consistency. Built responsive React and Next.js interfaces for a smoother cross-platform experience.',
+      'Engineered and maintained scalable Node.js microservices behind a Backend-for-Frontend architecture, and optimised MongoDB integrations for secure, high-performance APIs with consistent data flow. Built the React and Next.js interfaces on top.',
     image: 'timeline/fancraze_logo.jpg',
   },
   {
@@ -43,13 +73,15 @@ export const journey = [
   {
     id: 'gdsc',
     type: 'role',
-    period: 'SEP 2023 — PRESENT',
+    period: 'SEP 2023 — MAY 2025',
     start: '2023-09',
-    end: null,
+    // TODO(owner): confirm — assumed to have ended with graduation.
+    end: '2025-05',
     title: 'Programming Lead',
     org: 'Google Developer Student Club',
+    location: 'JSS Academy of Technical Education',
     description:
-      'Leading the programming track for GDSC at my college, running workshops and sessions that have reached over 500 students.',
+      'Led the programming track for GDSC, running workshops and events including SORTED and CRACK THE SHELL that reached over 500 students.',
     image: 'timeline/gdsc_icon.jpg',
   },
   {

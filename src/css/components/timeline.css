@@ -111,6 +111,28 @@
     flex-shrink: 0;
   }
 
+  .timeline__employment {
+    margin-left: var(--space-2);
+    padding: 0.1rem var(--space-2);
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    text-transform: none;
+  }
+
+  /* Stands in for a missing logo file so the rail stays even. */
+  .timeline__logo--monogram {
+    display: grid;
+    place-items: center;
+    border: 1px solid var(--border-accent);
+    background: color-mix(in oklab, var(--cyan) 12%, transparent);
+    color: var(--cyan);
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    font-weight: var(--weight-medium);
+    letter-spacing: 0;
+  }
+
   .timeline__title {
     font-size: var(--text-lg);
     margin: 0;

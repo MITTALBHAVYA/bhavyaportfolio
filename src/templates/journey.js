@@ -19,6 +19,15 @@ const durationLabel = (months) => {
   return `${years} yr${years === 1 ? '' : 's'} ${rest} mo${rest === 1 ? '' : 's'}`
 }
 
+/** Initials for an org with no logo file, skipping lowercase joining words. */
+const monogram = (org) =>
+  org
+    .split(/\s+/)
+    .filter((w) => /^[A-Za-z]/.test(w) && !['by', 'and', 'the'].includes(w.toLowerCase()))
+    .slice(0, 2)
+    .map((w) => w[0].toUpperCase())
+    .join('')
+
 // Only roles get a bar — awards are single dates with no span to show.
 const roles = journey.filter((item) => item.type === 'role')
 const longestRole = Math.max(...roles.map((r) => monthsBetween(r.start, r.end)), 1)
@@ -47,6 +56,9 @@ export function renderJourney() {
                   ${months
                     ? html`<span class="timeline__duration">${durationLabel(months)}</span>`
                     : ''}
+                  ${item.employment === 'Internship'
+                    ? html`<span class="timeline__employment">Internship</span>`
+                    : ''}
                 </p>
 
                 ${months
@@ -62,14 +74,18 @@ export function renderJourney() {
                   : ''}
 
                 <div class="timeline__heading">
-                  <img
-                    class="timeline__logo"
-                    src="${asset(`images/${item.image.replace(/\.(png|jpe?g)$/i, '.webp')}`)}"
-                    alt=""
-                    width="28"
-                    height="28"
-                    loading="lazy"
-                  />
+                  ${item.image
+                    ? html`<img
+                        class="timeline__logo"
+                        src="${asset(`images/${item.image.replace(/\.(png|jpe?g)$/i, '.webp')}`)}"
+                        alt=""
+                        width="28"
+                        height="28"
+                        loading="lazy"
+                      />`
+                    : html`<span class="timeline__logo timeline__logo--monogram" aria-hidden="true"
+                        >${monogram(item.org)}</span
+                      >`}
                   <h3 class="timeline__title">
                     ${item.title} <span class="timeline__org">· ${item.org}</span>
                   </h3>

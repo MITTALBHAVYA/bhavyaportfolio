@@ -6,8 +6,9 @@ export const profile = {
   tagline: 'I build backends that scale, AI products that ship, and solve problems that fight back.',
 
   bio: [
-    'I am a full-stack developer specializing in the MERN stack, Python, and C++. With strong competitive programming experience across ICPC, Google KickStart and Meta HackerCup, I build scalable backend systems, AI-driven applications, and efficient databases.',
-    'As Programming Lead of GDSC, I have run workshops and hackathons that reached over 500 students. I care most about problem-solving, and about building things people can actually rely on.',
+    'I am a software engineer at Atlas by Code Carbon, working across Python and React. Before that I built distributed microservices on AWS at weya AI, and Node.js services behind a Backend-for-Frontend architecture at FanCraze.',
+    'My foundation is competitive programming — ICPC Regionals, Google KickStart and Meta HackerCup — and it is what I lean on when a problem turns out to be harder than it looked. As Programming Lead of GDSC I ran workshops and events that reached over 500 students.',
+    'I care most about problem-solving, and about building things people can actually rely on.',
   ],
 
   location: 'Noida, India',
