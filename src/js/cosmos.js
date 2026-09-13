@@ -21,6 +21,10 @@ const easeInOut = (t) => (t < 0.5 ? 2 * t * t : 1 - (-2 * t + 2) ** 2 / 2)
 const HERO_END = 0.08
 // How present the system is behind the journey timeline.
 const JOURNEY_ALPHA = 0.5
+// How long the opening eclipse takes to reach totality, in ms.
+const REVEAL_MS = 2600
+// Radius, in px, within which the pointer brightens nearby stars.
+const CURSOR_REACH = 170
 
 export function initCosmos({ onNavigate } = {}) {
   const root = document.querySelector('.cosmos')
@@ -42,7 +46,7 @@ export function initCosmos({ onNavigate } = {}) {
   let scrollProgress = 0
   let activeSectionId = 'hero'
   let systemAlpha = 1
-  let pointer = { x: -1, y: -1, active: false }
+  let pointer = { x: -1, y: -1, active: false, onCanvas: false }
   let hovered = null
   let running = false
   let rafId = 0
@@ -105,9 +109,13 @@ export function initCosmos({ onNavigate } = {}) {
   }
 
   function drawStars(time) {
+    const reactive = pointer.active && !reduceMotion.matches
+    const reach2 = CURSOR_REACH * CURSOR_REACH
+
     for (const s of stars) {
       // Parallax: nearer stars drift further as the camera pulls back.
       const drift = scrollProgress * s.depth * height * 0.22
+      const x = s.x * width
       let y = s.y * height - drift
       y = ((y % height) + height) % height
 
@@ -115,10 +123,19 @@ export function initCosmos({ onNavigate } = {}) {
         ? 1
         : 0.72 + 0.28 * Math.sin(time * 0.001 * s.twinkleRate + s.twinkle)
 
-      ctx.globalAlpha = s.alpha * flicker
-      ctx.fillStyle = `hsl(${s.hue} 80% 88%)`
+      // Stars bloom as the pointer passes, nearer layers responding more.
+      let bloom = 0
+      if (reactive) {
+        const dx = pointer.x - x
+        const dy = pointer.y - y
+        const d2 = dx * dx + dy * dy
+        if (d2 < reach2) bloom = (1 - Math.sqrt(d2) / CURSOR_REACH) ** 2 * s.depth
+      }
+
+      ctx.globalAlpha = Math.min(1, s.alpha * flicker + bloom * 0.75)
+      ctx.fillStyle = `hsl(${s.hue} 80% ${88 + bloom * 12}%)`
       ctx.beginPath()
-      ctx.arc(s.x * width, y, s.r * (0.6 + s.depth * 0.6), 0, TAU)
+      ctx.arc(x, y, s.r * (0.6 + s.depth * 0.6) * (1 + bloom * 0.8), 0, TAU)
       ctx.fill()
     }
     ctx.globalAlpha = 1
@@ -151,29 +168,67 @@ export function initCosmos({ onNavigate } = {}) {
     // The eclipse — a dark moon transiting the sun, carried over from the
     // original landing animation. Only while the hero is on screen.
     const eclipse = clamp(1 - scrollProgress / HERO_END, 0, 1)
-    if (eclipse > 0.01) {
-      const t = reduceMotion.matches ? 0.3 : (time * 0.00003) % 1
-      const mx = cx + lerp(-2.2, 2.2, t) * r
-      const my = cy - r * 0.18
+    if (eclipse <= 0.01) return
+
+    // On first load the moon sweeps in and settles at totality, firing a
+    // diamond-ring flash as it lands; afterwards it drifts on slowly. The
+    // wrap happens while the moon is clear of the disc, so it is never seen.
+    let offset
+    let flash = 0
+    if (reduceMotion.matches) {
+      offset = 0.34
+    } else if (time < REVEAL_MS) {
+      const p = 1 - (1 - time / REVEAL_MS) ** 3
+      offset = lerp(-2.4, 0, p)
+      flash = clamp(1 - Math.abs(offset) / 0.5, 0, 1) ** 3
+    } else {
+      const drift = ((time - REVEAL_MS) * 0.00003) % 4.8
+      offset = drift <= 2.4 ? drift : drift - 4.8
+    }
+
+    const mx = cx + offset * r
+    const my = cy - r * 0.18
+
+    ctx.save()
+    ctx.globalAlpha = eclipse
+    ctx.beginPath()
+    ctx.arc(cx, cy, r * 1.02, 0, TAU)
+    ctx.clip()
+    ctx.fillStyle = '#05070c'
+    ctx.beginPath()
+    ctx.arc(mx, my, r * 0.92, 0, TAU)
+    ctx.fill()
+    ctx.restore()
+
+    ctx.save()
+    ctx.globalAlpha = eclipse * 0.65
+    ctx.strokeStyle = 'rgba(255, 214, 140, 0.7)'
+    ctx.lineWidth = Math.max(1, r * 0.03)
+    ctx.beginPath()
+    ctx.arc(mx, my, r * 0.92, 0, TAU)
+    ctx.stroke()
+    ctx.restore()
+
+    if (flash > 0.01) {
+      // The bead of light at the moon's trailing limb, plus a broad bloom.
+      const bx = mx - r * 0.88
+      const by = my + r * 0.2
 
       ctx.save()
-      ctx.globalAlpha = eclipse
+      ctx.globalAlpha = eclipse * flash
+      const bloom = ctx.createRadialGradient(bx, by, 0, bx, by, r * 2.2)
+      bloom.addColorStop(0, 'rgba(255, 248, 220, 0.95)')
+      bloom.addColorStop(0.25, 'rgba(255, 208, 120, 0.35)')
+      bloom.addColorStop(1, 'rgba(255, 190, 90, 0)')
+      ctx.fillStyle = bloom
       ctx.beginPath()
-      ctx.arc(cx, cy, r * 1.02, 0, TAU)
-      ctx.clip()
-      ctx.fillStyle = '#05070c'
-      ctx.beginPath()
-      ctx.arc(mx, my, r * 0.92, 0, TAU)
+      ctx.arc(bx, by, r * 2.2, 0, TAU)
       ctx.fill()
-      ctx.restore()
 
-      ctx.save()
-      ctx.globalAlpha = eclipse * 0.65
-      ctx.strokeStyle = 'rgba(255, 214, 140, 0.7)'
-      ctx.lineWidth = Math.max(1, r * 0.03)
+      ctx.fillStyle = 'rgba(255, 252, 238, 0.95)'
       ctx.beginPath()
-      ctx.arc(mx, my, r * 0.92, 0, TAU)
-      ctx.stroke()
+      ctx.arc(bx, by, Math.max(1.5, r * 0.07 * flash), 0, TAU)
+      ctx.fill()
       ctx.restore()
     }
   }
@@ -317,7 +372,9 @@ export function initCosmos({ onNavigate } = {}) {
   /* ---------------------------- interaction --------------------------- */
 
   function updateHover() {
-    const interactive = pointer.active && systemAlpha > 0.25
+    // Planet hover only counts when the canvas itself is under the pointer;
+    // content sits above it, so a planet "behind" a paragraph is not hoverable.
+    const interactive = pointer.active && pointer.onCanvas && systemAlpha > 0.25
 
     if (!interactive) {
       if (hovered) {
@@ -356,9 +413,16 @@ export function initCosmos({ onNavigate } = {}) {
     }
   }
 
+  // Tracked on the window rather than the canvas: content sits above the canvas,
+  // so a canvas-only listener would make the starfield freeze whenever the
+  // cursor crossed any text.
   function onPointerMove(e) {
-    const rect = canvas.getBoundingClientRect()
-    pointer = { x: e.clientX - rect.left, y: e.clientY - rect.top, active: true }
+    pointer = {
+      x: e.clientX,
+      y: e.clientY,
+      active: true,
+      onCanvas: e.target === canvas,
+    }
     requestDraw()
   }
 
@@ -397,8 +461,8 @@ export function initCosmos({ onNavigate } = {}) {
   // the <nav> in the header, which works without any of this.
   if (window.matchMedia('(hover: hover)').matches) {
     root.classList.add('cosmos--interactive')
-    canvas.addEventListener('pointermove', onPointerMove, { passive: true })
-    canvas.addEventListener('pointerleave', onPointerLeave, { passive: true })
+    window.addEventListener('pointermove', onPointerMove, { passive: true })
+    document.addEventListener('pointerleave', onPointerLeave, { passive: true })
     canvas.addEventListener('click', onClick)
   }
 

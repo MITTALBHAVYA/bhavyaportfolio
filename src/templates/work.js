@@ -1,9 +1,12 @@
 import { html, each, icons } from './html.js'
 import { asset } from '../config.js'
-import { featuredProjects, otherProjects } from '../content/projects.js'
+import { featuredProjects, otherProjects, projects, filterableTech, techId } from '../content/projects.js'
 
 /** Project screenshots are served from public/images and pre-optimised. */
 const shot = (image) => asset(`images/${image.replace(/\.(png|jpe?g)$/i, '.webp')}`)
+
+/** Space-separated tech ids, so the filter can match without parsing text. */
+const techAttr = (project) => project.techStacks.map(techId).join(' ')
 
 function projectLinks(project, { iconOnly = false } = {}) {
   const entries = [
@@ -49,6 +52,46 @@ const techList = (project) =>
     ${each(project.techStacks, (t) => html`<li class="tech-chip">${t}</li>`)}
   </ul>`
 
+/** Problem → Approach → Outcome, which is what turns a skim into an interview. */
+const caseStudy = (project) =>
+  project.caseStudy
+    ? html`
+        <dl class="case-study">
+          ${each(
+            [
+              ['Problem', project.caseStudy.problem],
+              ['Approach', project.caseStudy.approach],
+              ['Outcome', project.caseStudy.outcome],
+            ],
+            ([label, body]) => html`
+              <div class="case-study__row">
+                <dt class="case-study__label">${label}</dt>
+                <dd class="case-study__body">${body}</dd>
+              </div>
+            `
+          )}
+        </dl>
+      `
+    : html`<p class="project-feature__desc">${project.description}</p>`
+
+/** Screenshots read as deliberate product shots inside a browser chrome. */
+const browserFrame = (project) => html`
+  <div class="browser-frame">
+    <div class="browser-frame__bar" aria-hidden="true">
+      <span></span><span></span><span></span>
+      <p class="browser-frame__url">${project.links.live ?? project.name.toLowerCase()}</p>
+    </div>
+    <img
+      src="${shot(project.image)}"
+      alt="Screenshot of ${project.name}"
+      width="1200"
+      height="750"
+      loading="lazy"
+      decoding="async"
+    />
+  </div>
+`
+
 export function renderWork() {
   return html`
     <section class="section" id="work" aria-labelledby="work-title">
@@ -66,21 +109,12 @@ export function renderWork() {
             featuredProjects,
             (p) => html`
               <article class="project-feature" data-reveal>
-                <div class="project-feature__media">
-                  <img
-                    src="${shot(p.image)}"
-                    alt="Screenshot of ${p.name}"
-                    width="1200"
-                    height="750"
-                    loading="lazy"
-                    decoding="async"
-                  />
-                </div>
+                <div class="project-feature__media">${browserFrame(p)}</div>
                 <div class="project-feature__body">
                   <h3 class="project-feature__name">${p.name}</h3>
                   ${p.metric ? html`<p class="project-feature__metric">${p.metric}</p>` : ''}
                   <p class="project-feature__title">${p.title}</p>
-                  <p class="project-feature__desc">${p.description}</p>
+                  ${caseStudy(p)}
                   ${techList(p)}
                   <div class="project-links">${projectLinks(p)}</div>
                 </div>
@@ -89,12 +123,40 @@ export function renderWork() {
           )}
         </div>
 
-        <h3 class="section__eyebrow" id="more-work" data-reveal>More projects</h3>
-        <ul class="grid" aria-labelledby="more-work" data-reveal-stagger>
+        <div class="work__more-header" data-reveal>
+          <h3 class="section__eyebrow" id="more-work">More projects</h3>
+
+          <!-- Enhanced by js/project-filter.js. Without JS every project simply
+               stays visible, so nothing is lost. -->
+          <div class="tech-filter" data-tech-filter hidden>
+            <span class="visually-hidden" id="filter-label">Filter projects by technology</span>
+            <div class="tech-filter__options" role="group" aria-labelledby="filter-label">
+              <button class="tech-filter__btn" type="button" data-filter="all" aria-pressed="true">
+                All <span class="tech-filter__count">${projects.length}</span>
+              </button>
+              ${each(
+                filterableTech,
+                (t) => html`
+                  <button
+                    class="tech-filter__btn"
+                    type="button"
+                    data-filter="${t.id}"
+                    aria-pressed="false"
+                  >
+                    ${t.name} <span class="tech-filter__count">${t.count}</span>
+                  </button>
+                `
+              )}
+            </div>
+            <p class="tech-filter__status" data-filter-status role="status" aria-live="polite"></p>
+          </div>
+        </div>
+
+        <ul class="grid" aria-labelledby="more-work" data-reveal-stagger data-project-grid>
           ${each(
             otherProjects,
             (p) => html`
-              <li class="project-card">
+              <li class="project-card" data-tech="${techAttr(p)}">
                 <h4 class="project-card__name">${p.name}</h4>
                 <p class="project-card__desc">${p.description}</p>
                 ${techList(p)}
@@ -105,6 +167,10 @@ export function renderWork() {
             `
           )}
         </ul>
+
+        <p class="tech-filter__empty" data-filter-empty hidden>
+          No projects in the grid use that — check the featured work above.
+        </p>
       </div>
     </section>
   `

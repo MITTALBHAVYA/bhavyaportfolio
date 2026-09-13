@@ -7,6 +7,7 @@ import { renderJourney } from './journey.js'
 import { renderAchievements } from './achievements.js'
 import { renderWriting } from './writing.js'
 import { renderQuote, renderContact } from './contact.js'
+import { renderDivider } from './divider.js'
 import { renderFooter } from './footer.js'
 import { profile } from '../content/profile.js'
 import { projects } from '../content/projects.js'
@@ -30,9 +31,13 @@ export function renderBody(posts = []) {
     <main id="main">
       ${renderHero()}
       ${renderWork()}
+      ${renderDivider(0)}
       ${renderAbout()}
+      ${renderDivider(1)}
       ${renderJourney()}
+      ${renderDivider(2)}
       ${renderAchievements()}
+      ${renderDivider(3)}
       ${renderWriting(posts)}
       ${renderQuote()}
       ${renderContact()}

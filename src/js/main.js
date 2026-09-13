@@ -3,6 +3,7 @@ import { initNav } from './nav.js'
 import { initReveal } from './reveal.js'
 import { initConsole } from './console-text.js'
 import { initContactForm } from './form.js'
+import { initProjectFilter } from './project-filter.js'
 import { initCosmos } from './cosmos.js'
 
 /*
@@ -24,6 +25,7 @@ const safely = (name, fn) => {
 safely('reveal', initReveal)
 safely('console', initConsole)
 safely('form', initContactForm)
+safely('project-filter', initProjectFilter)
 
 // Declared before either is built: nav and cosmos each call into the other, and
 // both callbacks only fire after initialisation has finished.

@@ -1,0 +1,44 @@
+@layer components {
+  .constellation {
+    position: relative;
+    z-index: var(--z-base);
+    max-width: var(--container);
+    margin-inline: auto;
+    padding-inline: var(--gutter);
+    /* Dividers separate sections that already carry their own vertical
+       rhythm, so they only need to break the seam, not add another gap. */
+    margin-block: calc(var(--section-gap) * -0.35) calc(var(--section-gap) * -0.35);
+  }
+
+  .constellation svg {
+    width: 100%;
+    height: auto;
+    max-height: 5rem;
+    overflow: visible;
+  }
+
+  .constellation__lines line {
+    stroke: var(--void-500);
+    stroke-width: 1;
+    opacity: 0.45;
+  }
+
+  .constellation__star {
+    fill: var(--text-faint);
+  }
+
+  .constellation__star--bright {
+    fill: var(--cyan);
+    /* A soft bloom on the anchor stars, so the pattern has a focal point. */
+    filter: drop-shadow(0 0 4px color-mix(in oklab, var(--cyan) 70%, transparent));
+  }
+
+  /* Fading in on scroll is already handled by reveal.css via [data-reveal];
+     adding another opacity transition here would double-fade it. */
+
+  @media (width < 48rem) {
+    .constellation svg {
+      max-height: 3rem;
+    }
+  }
+}

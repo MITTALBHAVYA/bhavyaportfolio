@@ -19,14 +19,8 @@ const TEMPLATES = pathToFileURL(
  *   <!--@jsonld-->    structured data
  */
 export function contentPlugin() {
-  let isDev = false
-
   return {
     name: 'portfolio-content',
-
-    configResolved(config) {
-      isDev = config.command === 'serve'
-    },
 
     // Re-render when content, templates or config change during dev.
     configureServer(server) {
@@ -40,17 +34,20 @@ export function contentPlugin() {
       // Blog pages are generated already-complete; only the homepage needs this.
       if (!/index\.html$/.test(ctx.path) || ctx.path.includes('/blog/')) return htmlSource
 
-      // Built as a runtime string and marked @vite-ignore so the bundler does
-      // not try to resolve it — this import runs in Node, not in the browser.
-      // The cache-buster only applies in dev, where templates change often.
-      const url = isDev ? `${TEMPLATES}?v=${Date.now()}` : TEMPLATES
-      const { renderBody, renderStructuredData } = await import(/* @vite-ignore */ url)
+      // In dev, load through Vite's own module graph. A plain import() with a
+      // cache-busting query only invalidates the entry module — its static
+      // imports still resolve to cached URLs, so edits to src/content/ never
+      // showed up. ssrLoadModule tracks and invalidates the whole graph.
+      // At build time there is no server and nothing to invalidate.
+      const mod = ctx.server
+        ? await ctx.server.ssrLoadModule('/src/templates/index.js')
+        : await import(/* @vite-ignore */ TEMPLATES)
 
       const posts = loadPosts().slice(0, 3)
 
       return htmlSource
-        .replace('<!--@body-->', () => renderBody(posts))
-        .replace('<!--@jsonld-->', () => renderStructuredData())
+        .replace('<!--@body-->', () => mod.renderBody(posts))
+        .replace('<!--@jsonld-->', () => mod.renderStructuredData())
     },
   }
 }

@@ -63,6 +63,39 @@
     text-transform: uppercase;
   }
 
+  .timeline__duration {
+    margin-left: var(--space-2);
+    padding: 0.1rem var(--space-2);
+    border-radius: var(--radius-sm);
+    background: color-mix(in oklab, var(--void-700) 65%, transparent);
+    color: var(--text-secondary);
+    text-transform: none;
+  }
+
+  /* Proportional span of each role, scaled against the longest one. */
+  .timeline__bar {
+    height: 3px;
+    max-width: 16rem;
+    margin-top: var(--space-2);
+    border-radius: var(--radius-full);
+    background: color-mix(in oklab, var(--void-700) 70%, transparent);
+    overflow: hidden;
+  }
+
+  .timeline__bar-fill {
+    display: block;
+    height: 100%;
+    width: 100%;
+    border-radius: inherit;
+    background: linear-gradient(90deg, var(--cyan-dim), var(--cyan));
+    transform: scaleX(var(--bar-scale, 1));
+    transform-origin: left center;
+  }
+
+  .timeline__item[data-ongoing='true'] .timeline__bar-fill {
+    background: linear-gradient(90deg, var(--cyan-dim), var(--cyan), var(--gold));
+  }
+
   .timeline__heading {
     display: flex;
     flex-wrap: wrap;

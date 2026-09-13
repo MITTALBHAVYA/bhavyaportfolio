@@ -31,10 +31,16 @@
     <meta name="twitter:creator" content="@bhavyamit1729" />
     <meta name="twitter:image" content="https://mittalbhavya.github.io/bhavyaportfolio/og.png" />
 
-    <!-- Icons -->
-    <link rel="icon" href="/bhavyaportfolio/favicon.svg" type="image/svg+xml" />
-    <link rel="apple-touch-icon" href="/bhavyaportfolio/apple-touch-icon.png" />
-    <link rel="manifest" href="/bhavyaportfolio/site.webmanifest" />
+    <!--
+      Icons. These are written WITHOUT the deployment base: Vite rewrites
+      root-relative asset URLs in this file's <head> and prepends `base` itself,
+      so hard-coding it here produced /bhavyaportfolio/bhavyaportfolio/… in dev.
+      (Markup injected later by the content plugin is past that rewrite, which
+      is why it carries the full path via asset().)
+    -->
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
 
     <!--
       Fonts. The old stylesheet declared Roboto / DM Sans / Orbitron 21 times but

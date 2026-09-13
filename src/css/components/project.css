@@ -31,14 +31,59 @@
 
   .project-feature__media {
     position: relative;
+  }
+
+  /* ---------------- browser chrome ---------------- */
+
+  .browser-frame {
     border-radius: var(--radius-lg);
     overflow: hidden;
     border: 1px solid var(--border);
-    background: var(--surface-raised);
+    background: var(--void-800);
     box-shadow: var(--shadow-lg);
+    transition: transform var(--dur-base) var(--ease-out),
+      box-shadow var(--dur-base) var(--ease-out),
+      border-color var(--dur-base) var(--ease-out);
   }
 
-  .project-feature__media img {
+  .project-feature:hover .browser-frame {
+    transform: translateY(-4px);
+    border-color: var(--border-accent);
+    box-shadow: var(--shadow-lg), var(--glow-cyan);
+  }
+
+  .browser-frame__bar {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-3) var(--space-4);
+    background: var(--void-700);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .browser-frame__bar > span {
+    width: 0.625rem;
+    height: 0.625rem;
+    border-radius: var(--radius-full);
+    background: var(--void-500);
+    flex-shrink: 0;
+  }
+
+  .browser-frame__url {
+    flex: 1;
+    margin-left: var(--space-3);
+    padding: 0.15rem var(--space-3);
+    border-radius: var(--radius-full);
+    background: color-mix(in oklab, var(--void-850) 80%, transparent);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: var(--text-faint);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .browser-frame img {
     width: 100%;
     aspect-ratio: 16 / 10;
     object-fit: cover;
@@ -46,8 +91,43 @@
     transition: transform var(--dur-slower) var(--ease-out);
   }
 
-  .project-feature:hover .project-feature__media img {
-    transform: scale(1.03);
+  .project-feature:hover .browser-frame img {
+    transform: scale(1.02);
+  }
+
+  /* ---------------- case study ---------------- */
+
+  .case-study {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    margin: var(--space-2) 0 0;
+  }
+
+  .case-study__row {
+    display: grid;
+    gap: var(--space-1);
+  }
+
+  @media (width >= 30rem) {
+    .case-study__row {
+      grid-template-columns: 5.5rem 1fr;
+      gap: var(--space-4);
+      align-items: baseline;
+    }
+  }
+
+  .case-study__label {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+    color: var(--cyan);
+  }
+
+  .case-study__body {
+    margin: 0;
+    color: var(--text-secondary);
   }
 
   .project-feature__body {
@@ -110,6 +190,82 @@
     flex-wrap: wrap;
     gap: var(--space-3);
     margin-top: var(--space-2);
+  }
+
+  /* ---------------- tech filter ---------------- */
+
+  .work__more-header {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    margin-bottom: var(--space-5);
+  }
+
+  .tech-filter__options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+
+  .tech-filter__btn {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-3);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-full);
+    background: color-mix(in oklab, var(--void-850) 60%, transparent);
+    color: var(--text-secondary);
+    font-size: var(--text-xs);
+    font-family: var(--font-mono);
+    transition: color var(--dur-fast) var(--ease-out),
+      border-color var(--dur-fast) var(--ease-out),
+      background-color var(--dur-fast) var(--ease-out);
+  }
+
+  .tech-filter__btn:hover {
+    color: var(--text-primary);
+    border-color: var(--border-strong);
+  }
+
+  /* aria-pressed is the source of truth for the selected filter, so the
+     styling and the accessibility tree cannot drift apart. */
+  .tech-filter__btn[aria-pressed='true'] {
+    color: var(--accent-contrast);
+    background: var(--cyan);
+    border-color: var(--cyan);
+  }
+
+  .tech-filter__count {
+    opacity: 0.6;
+    font-size: 0.9em;
+  }
+
+  .tech-filter__btn[aria-pressed='true'] .tech-filter__count {
+    opacity: 0.75;
+  }
+
+  .tech-filter__status {
+    font-size: var(--text-sm);
+    color: var(--text-muted);
+    min-height: 1lh;
+  }
+
+  .tech-filter__status:empty {
+    display: none;
+  }
+
+  .tech-filter__empty {
+    padding: var(--space-6);
+    border: 1px dashed var(--border);
+    border-radius: var(--radius-lg);
+    color: var(--text-muted);
+    text-align: center;
+  }
+
+  /* Filtered-out cards are removed from the layout and the a11y tree alike. */
+  .project-card[hidden] {
+    display: none;
   }
 
   /* ---------------- grid cards ---------------- */
