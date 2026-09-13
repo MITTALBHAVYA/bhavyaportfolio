@@ -59,6 +59,9 @@ export function renderJourney() {
                   ${item.employment === 'Internship'
                     ? html`<span class="timeline__employment">Internship</span>`
                     : ''}
+                  ${item.location
+                    ? html`<span class="timeline__location">${item.location}</span>`
+                    : ''}
                 </p>
 
                 ${months

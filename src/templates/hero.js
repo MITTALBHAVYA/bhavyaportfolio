@@ -7,7 +7,8 @@ export function renderHero() {
 
   return html`
     <section class="section hero" id="hero" aria-labelledby="hero-name">
-      <div class="container hero__inner">
+      <div class="container">
+        <div class="hero__inner">
         <p class="hero__greeting" data-reveal>${profile.greeting}</p>
 
         <h1 class="hero__name" id="hero-name" data-reveal>${profile.displayName}</h1>
@@ -61,8 +62,9 @@ export function renderHero() {
         </div>
 
         <a class="hero__scroll-cue" href="#work">
-          Scroll to explore ${icons.arrowDown}
-        </a>
+            Scroll to explore ${icons.arrowDown}
+          </a>
+        </div>
       </div>
     </section>
   `

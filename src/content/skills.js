@@ -22,15 +22,24 @@ export const skills = [
   },
   {
     category: 'Frameworks',
-    items: ['ReactJS', 'Next.js', 'Node.js', 'ExpressJS', 'FastAPI', 'REST API', 'Tailwind CSS'],
+    items: [
+      'ReactJS',
+      'Next.js',
+      'Node.js',
+      'ExpressJS',
+      'Django',
+      'FastAPI',
+      'REST API',
+      'Tailwind CSS',
+    ],
   },
   {
     category: 'Databases',
-    items: ['MySQL', 'PostgreSQL', 'MongoDB'],
+    items: ['MySQL', 'PostgreSQL', 'MongoDB', 'Redis'],
   },
   {
     category: 'Cloud & Infra',
-    items: ['AWS S3', 'AWS SQS', 'ElastiCache', 'Microservices'],
+    items: ['AWS S3', 'AWS SQS', 'ElastiCache', 'Microservices', 'Plivo', 'Twilio'],
   },
   {
     category: 'Tools',

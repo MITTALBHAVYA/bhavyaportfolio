@@ -1,13 +1,13 @@
 export const profile = {
   greeting: 'Namaste 🙏, My name is',
-  displayName: 'BHAVYA',
+  displayName: 'BHAVYA MITTAL',
   fullName: 'Bhavya Mittal',
   role: 'Full-stack engineer & competitive programmer',
   tagline: 'I build backends that scale, AI products that ship, and solve problems that fight back.',
 
   bio: [
-    'I am a software engineer at Atlas by Code Carbon, working across Python and React. Before that I built distributed microservices on AWS at weya AI, and Node.js services behind a Backend-for-Frontend architecture at FanCraze.',
-    'My foundation is competitive programming — ICPC Regionals, Google KickStart and Meta HackerCup — and it is what I lean on when a problem turns out to be harder than it looked. As Programming Lead of GDSC I ran workshops and events that reached over 500 students.',
+    'I am a software engineer at Code Carbon, building an enterprise compliance platform in React, Next.js, TypeScript and Django. Before that I built VoIP and call-processing services on AWS at weya AI, Node.js microservices behind a Backend-for-Frontend architecture at FanCraze, and AI chat interfaces at Kare AI.',
+    'My foundation is competitive programming — ICPC Regionals, Google KickStart and Meta HackerCup — and it is what I lean on when a problem turns out to be harder than it looked. As Programming Lead of GDSC I run workshops and events that have reached over 500 students.',
     'I care most about problem-solving, and about building things people can actually rely on.',
   ],
 
@@ -17,7 +17,7 @@ export const profile = {
   education: {
     institution: 'JSS Academy of Technical Education',
     degree: 'B.Tech, Computer Science Engineering',
-    grade: 'CGPA 8.57',
+    grade: 'CGPA 8.69',
     period: 'Graduated 2025',
     coursework: [
       'Data Structures & Algorithms',

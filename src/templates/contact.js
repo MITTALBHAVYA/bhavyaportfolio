@@ -1,12 +1,38 @@
-import { html, icons } from './html.js'
+import { html, each, icons } from './html.js'
 import { profile } from '../content/profile.js'
 import { WEB3FORMS_KEY } from '../config.js'
+
+/*
+ * Decorative starfield around the quote. Positions are fixed rather than random
+ * so the constellation is the same every visit, and kept clear of the centre
+ * where the text sits. [left%, top%, size px, gold?]
+ */
+const QUOTE_STARS = [
+  [6, 18, 2, false], [13, 62, 1.5, false], [19, 34, 3, true], [26, 82, 1.5, false],
+  [31, 11, 2, false], [38, 90, 2.5, true], [44, 6, 1.5, false], [52, 94, 2, false],
+  [59, 9, 3, true], [66, 86, 1.5, false], [72, 28, 2, false], [79, 70, 2.5, true],
+  [85, 40, 1.5, false], [91, 76, 2, false], [95, 22, 3, true], [3, 46, 1.5, false],
+]
 
 export function renderQuote() {
   const { quote } = profile
   return html`
-    <section class="section" aria-label="Quote">
+    <section class="section quote-section" aria-label="Quote">
       <figure class="quote" data-reveal>
+        <div class="quote__stars" aria-hidden="true">
+          ${each(
+            QUOTE_STARS,
+            ([x, y, size, gold], i) => html`
+              <span
+                class="quote__star${gold ? ' quote__star--gold' : ''}"
+                style="left:${x}%;top:${y}%;--star-size:${size}px;--star-delay:${(i * 0.37).toFixed(
+                  2
+                )}s"
+              ></span>
+            `
+          )}
+        </div>
+
         <p class="quote__mark" aria-hidden="true">&ldquo;</p>
         <blockquote class="quote__text">${quote.text}</blockquote>
         <figcaption class="quote__attribution">

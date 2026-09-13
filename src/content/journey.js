@@ -5,17 +5,17 @@
 // `image: null` falls back to a monogram built from the org name.
 export const journey = [
   {
-    id: 'atlas-code-carbon',
+    id: 'code-carbon',
     type: 'role',
     period: 'JUN 2025 — PRESENT',
     start: '2025-06',
     end: null,
-    title: 'Software Development Engineer',
-    org: 'Atlas by Code Carbon',
+    title: 'Software Engineer',
+    org: 'Code Carbon',
     location: 'Noida, India',
     employment: 'Full-time',
     description:
-      'Building product across the stack in Python and React, from API and data-layer work through to the interfaces on top of it.',
+      'Building end-to-end features for an enterprise compliance management platform in React, Next.js, TypeScript and Django. I design the modular REST APIs that orchestrate multi-organisation compliance workflows across regulatory domains, plus the authentication, file-handling and dynamic form engines that make the platform configurable per client.',
     image: 'timeline/atlas_cc_logo.jpg',
   },
   {
@@ -24,12 +24,12 @@ export const journey = [
     period: 'MAR 2025 — MAY 2025',
     start: '2025-03',
     end: '2025-05',
-    title: 'Full Stack Engineer',
+    title: 'Backend Engineer',
     org: 'weya AI',
     location: 'Noida, India',
     employment: 'Internship',
     description:
-      'Backend-focused work on a distributed microservice architecture, building and optimising services in Node.js and TypeScript on AWS — S3, SQS and ElastiCache. Implemented call recording and real-time streaming for a scalable calling service.',
+      'Built production communication services in Node.js and TypeScript, with frontend work in Next.js. Implemented VoIP on Plivo and Twilio — real-time web calling, call streaming and bidirectional sockets for event-driven updates — and designed a concurrency-aware call processing pipeline on AWS SQS, Redis and S3, using statistical monitoring of call-success metrics to tune it.',
     image: 'timeline/weyaai_logo.jpg',
   },
   {
@@ -38,13 +38,27 @@ export const journey = [
     period: 'NOV 2024 — FEB 2025',
     start: '2024-11',
     end: '2025-02',
-    title: 'Back-end Developer',
+    title: 'Full-stack Engineer',
     org: 'FanCraze',
-    location: 'Noida, India',
+    location: 'Mumbai, India',
     employment: 'Internship',
     description:
-      'Engineered and maintained scalable Node.js microservices behind a Backend-for-Frontend architecture, and optimised MongoDB integrations for secure, high-performance APIs with consistent data flow. Built the React and Next.js interfaces on top.',
+      'Maintained scalable Node.js microservices behind a Backend-for-Frontend architecture, and optimised MongoDB integrations for secure APIs with consistent, reliable data flow. Built the React and Next.js interfaces on top.',
     image: 'timeline/fancraze_logo.jpg',
+  },
+  {
+    id: 'kare-ai',
+    type: 'role',
+    period: 'SEP 2024 — NOV 2024',
+    start: '2024-09',
+    end: '2024-11',
+    title: 'SDE Intern',
+    org: 'Kare AI',
+    location: 'Bangalore, India',
+    employment: 'Internship',
+    description:
+      'Optimised AI chat interfaces with React, TailwindCSS and Recharts, improving how conversations and their underlying data were visualised. I had won KareAI’s AI Summit hackathon earlier that year.',
+    image: 'timeline/kareai.png',
   },
   {
     id: 'aisummit-2024',

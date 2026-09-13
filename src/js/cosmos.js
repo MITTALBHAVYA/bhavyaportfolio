@@ -52,7 +52,10 @@ export function initCosmos({ onNavigate } = {}) {
 
   const cores = navigator.hardwareConcurrency ?? 4
   const lowPower = cores <= 4 || window.innerWidth < 640
-  const maxDpr = lowPower ? 1 : 2
+  // Capped at 1.5 rather than 2: a full-viewport canvas at 2x is ~5M pixels to
+  // clear and repaint per frame, and soft stars and gradients show no benefit
+  // from the extra resolution.
+  const maxDpr = lowPower ? 1 : 1.5
 
   let width = 0
   let height = 0
@@ -60,7 +63,7 @@ export function initCosmos({ onNavigate } = {}) {
   let starLayers = []
   let belt = []
   let meteors = []
-  let nextMeteorAt = 2200
+  let nextMeteorAt = 1200
   let scrollProgress = 0
   let activeSectionId = 'hero'
   let systemAlpha = 1
@@ -68,6 +71,7 @@ export function initCosmos({ onNavigate } = {}) {
   let hovered = null
   let running = false
   let rafId = 0
+  let idleTimer = 0
   let startTime = 0
   let lastPaint = 0
 
@@ -335,21 +339,21 @@ export function initCosmos({ onNavigate } = {}) {
     ctx.globalAlpha = 1
   }
 
-  /** Occasional meteors, only while the system itself is on show. */
+  /** Shooting stars. Frequent enough to actually be seen without becoming busy. */
   function drawMeteors(time, delta) {
     if (reduceMotion.matches) return
 
-    if (time > nextMeteorAt && meteors.length < 2) {
-      nextMeteorAt = time + 5000 + Math.random() * 9000
-      const fromLeft = Math.random() < 0.5
+    if (time > nextMeteorAt && meteors.length < 3) {
+      nextMeteorAt = time + 1400 + Math.random() * 3200
+      const fromLeft = Math.random() < 0.55
       meteors.push({
-        x: fromLeft ? -60 : width * (0.3 + Math.random() * 0.7),
-        y: Math.random() * height * 0.55,
-        vx: (fromLeft ? 1 : -1) * (0.42 + Math.random() * 0.3),
-        vy: 0.16 + Math.random() * 0.14,
+        x: fromLeft ? -80 : width + 80,
+        y: Math.random() * height * 0.7,
+        vx: (fromLeft ? 1 : -1) * (0.5 + Math.random() * 0.35),
+        vy: 0.18 + Math.random() * 0.16,
         life: 0,
-        span: 900 + Math.random() * 600,
-        len: 70 + Math.random() * 90,
+        span: 1100 + Math.random() * 700,
+        len: 110 + Math.random() * 120,
       })
     }
 
@@ -367,16 +371,23 @@ export function initCosmos({ onNavigate } = {}) {
       const tailY = m.y - m.vy * m.len
 
       const grad = ctx.createLinearGradient(m.x, m.y, tailX, tailY)
-      grad.addColorStop(0, `rgba(232, 237, 245, ${0.85 * fade})`)
-      grad.addColorStop(1, 'rgba(232, 237, 245, 0)')
+      grad.addColorStop(0, `rgba(255, 255, 255, ${fade})`)
+      grad.addColorStop(0.35, `rgba(190, 230, 255, ${0.5 * fade})`)
+      grad.addColorStop(1, 'rgba(190, 230, 255, 0)')
 
       ctx.strokeStyle = grad
-      ctx.lineWidth = 1.4
+      ctx.lineWidth = 1.8
       ctx.lineCap = 'round'
       ctx.beginPath()
       ctx.moveTo(m.x, m.y)
       ctx.lineTo(tailX, tailY)
       ctx.stroke()
+
+      // A bright head, so it reads as a shooting star rather than a scratch.
+      ctx.fillStyle = `rgba(255, 255, 255, ${fade})`
+      ctx.beginPath()
+      ctx.arc(m.x, m.y, 1.8, 0, TAU)
+      ctx.fill()
 
       return m.x > -180 && m.x < width + 180 && m.y < height + 180
     })
@@ -484,13 +495,12 @@ export function initCosmos({ onNavigate } = {}) {
     ctx.clearRect(0, 0, width, height)
     drawStars(t)
 
-    if (systemAlpha > 0.01) {
-      drawSystem(t)
-      drawMeteors(t, delta)
-    } else {
-      hitTargets.length = 0
-      meteors.length = 0
-    }
+    if (systemAlpha > 0.01) drawSystem(t)
+    else hitTargets.length = 0
+
+    // Shooting stars cross the whole page, not just the sections where the
+    // solar system is on show.
+    drawMeteors(t, delta)
 
     updateHover()
 
@@ -503,8 +513,12 @@ export function initCosmos({ onNavigate } = {}) {
     // Stop once there is nothing left to animate; a scroll, resize or pointer
     // move restarts it. Without this the canvas repaints behind static content.
     const settled = Math.abs(target - systemAlpha) < 0.005
-    if (settled && systemAlpha <= 0.01 && !pointer.active) {
+    if (settled && systemAlpha <= 0.01 && !pointer.active && !meteors.length) {
+      // Nothing to draw right now, so idle until the next shooting star is due
+      // rather than holding a rAF loop open over static content.
       running = false
+      clearTimeout(idleTimer)
+      idleTimer = setTimeout(requestDraw, Math.max(200, nextMeteorAt - t))
       return
     }
 
@@ -520,9 +534,12 @@ export function initCosmos({ onNavigate } = {}) {
   function stop() {
     running = false
     cancelAnimationFrame(rafId)
+    // Otherwise a pending wake-up would restart drawing behind a hidden tab.
+    clearTimeout(idleTimer)
   }
 
   function requestDraw() {
+    clearTimeout(idleTimer)
     if (reduceMotion.matches) {
       if (!running) {
         running = true

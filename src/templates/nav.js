@@ -15,7 +15,7 @@ export function renderHeader() {
     <header class="site-header" data-scrolled="false">
       <div class="container site-header__inner">
         <a class="site-logo" href="#hero">
-          Bhavya<span class="site-logo__dot">.</span>
+          Bhavya Mittal<span class="site-logo__dot">.</span>
         </a>
 
         <nav class="site-nav" id="site-nav" aria-label="Sections">

@@ -6,11 +6,15 @@
     padding-block: var(--space-9) var(--space-8);
   }
 
+  /* Sits at the container's left edge, in line with every other section, rather
+     than centring itself as a narrow column in the middle of the viewport —
+     which also puts more distance between the copy and the sun on the right. */
   .hero__inner {
     display: flex;
     flex-direction: column;
     gap: var(--space-5);
     max-width: 46rem;
+    margin-inline: 0;
   }
 
   .hero__greeting {
@@ -22,7 +26,10 @@
 
   .hero__name {
     font-size: var(--text-display);
-    line-height: 0.92;
+    /* Two words, deliberately stacked: tight leading makes the wrap read as a
+       lockup rather than an accident. */
+    line-height: 0.88;
+    text-wrap: balance;
     letter-spacing: -0.045em;
     font-weight: var(--weight-bold);
     color: var(--text-primary);

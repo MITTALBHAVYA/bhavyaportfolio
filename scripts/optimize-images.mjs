@@ -79,11 +79,15 @@ for (const file of TIMELINE_LOGOS) {
 }
 
 console.log('\nportrait -> public/images/bhavya.webp')
-const portrait = join(SRC, 'myself-removebg.png')
-if (existsSync(portrait)) {
-  await encode(portrait, join(OUT, 'bhavya.webp'), { width: 640, quality: 74 })
+// First match wins, so dropping a newer file in as bhavya-portrait.png is all
+// that is needed to replace the photo.
+const portrait = ['bhavya-portrait.png', 'myself-removebg.png']
+  .map((f) => join(SRC, f))
+  .find(existsSync)
+if (portrait) {
+  await encode(portrait, join(OUT, 'bhavya.webp'), { width: 720, quality: 78 })
 } else {
-  console.log('  ! myself-removebg.png not found')
+  console.log('  ! no portrait source found in images/')
 }
 
 console.log('\ntech icons -> public/images/icons/ (SVG, copied as-is)')

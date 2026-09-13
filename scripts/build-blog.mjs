@@ -68,7 +68,7 @@ function shell({ title, description, canonical, body, jsonld = '' }) {
     <a class="skip-link" href="#main">Skip to content</a>
     <header class="site-header" data-scrolled="true">
       <div class="container site-header__inner">
-        <a class="site-logo" href="${asset('')}">Bhavya<span class="site-logo__dot">.</span></a>
+        <a class="site-logo" href="${asset('')}">Bhavya Mittal<span class="site-logo__dot">.</span></a>
         <div class="site-header__actions">
           <a class="btn btn--ghost btn--sm" href="${asset('blog/')}">All posts</a>
           <a class="btn btn--secondary btn--sm" href="${asset('')}#contact">Contact</a>
