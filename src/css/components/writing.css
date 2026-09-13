@@ -1,0 +1,88 @@
+@layer components {
+  .posts {
+    display: grid;
+    gap: var(--space-4);
+    margin: 0;
+  }
+
+  .post-card {
+    position: relative;
+    display: grid;
+    gap: var(--space-2);
+    padding: var(--space-5);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    background: color-mix(in oklab, var(--void-900) 70%, transparent);
+    transition: border-color var(--dur-base) var(--ease-out),
+      transform var(--dur-base) var(--ease-out);
+  }
+
+  .post-card:hover,
+  .post-card:focus-within {
+    border-color: var(--border-accent);
+    transform: translateY(-3px);
+  }
+
+  .post-card__meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-3);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: var(--text-muted);
+    letter-spacing: var(--tracking-wide);
+  }
+
+  .post-card__title {
+    font-size: var(--text-xl);
+    margin: 0;
+  }
+
+  /* The whole card is clickable, but only the title is a real link — so the
+     accessible name stays clean and there is exactly one tab stop. */
+  .post-card__title a::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+  }
+
+  .post-card__title a {
+    color: var(--text-primary);
+    text-decoration: none;
+  }
+
+  .post-card:hover .post-card__title a {
+    color: var(--cyan);
+  }
+
+  .post-card__summary {
+    color: var(--text-secondary);
+    font-size: var(--text-sm);
+  }
+
+  .post-card__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin: var(--space-1) 0 0;
+  }
+
+  .tag {
+    padding: 0.1rem var(--space-2);
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+  }
+
+  /* Shown when no posts exist yet, so the section never renders empty. */
+  .posts__empty {
+    padding: var(--space-6);
+    border: 1px dashed var(--border);
+    border-radius: var(--radius-lg);
+    color: var(--text-muted);
+    text-align: center;
+  }
+}

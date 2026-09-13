@@ -1,0 +1,346 @@
+@layer components {
+  .work__featured {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+    margin-bottom: var(--space-9);
+  }
+
+  /* ---------------- featured (alternating) ---------------- */
+
+  .project-feature {
+    display: grid;
+    gap: var(--space-5);
+    align-items: center;
+    grid-template-columns: 1fr;
+  }
+
+  @media (width >= 56rem) {
+    .project-feature {
+      grid-template-columns: 1.1fr 1fr;
+      gap: var(--space-7);
+    }
+
+    /* The media is first in the DOM, so pulling the *body* forward is what
+       actually flips the pair — reordering the media would leave it where it
+       already was. */
+    .project-feature:nth-child(even) .project-feature__body {
+      order: -1;
+    }
+  }
+
+  .project-feature__media {
+    position: relative;
+  }
+
+  /* ---------------- browser chrome ---------------- */
+
+  .browser-frame {
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    border: 1px solid var(--border);
+    background: var(--void-800);
+    box-shadow: var(--shadow-lg);
+    transition: transform var(--dur-base) var(--ease-out),
+      box-shadow var(--dur-base) var(--ease-out),
+      border-color var(--dur-base) var(--ease-out);
+  }
+
+  .project-feature:hover .browser-frame {
+    transform: translateY(-4px);
+    border-color: var(--border-accent);
+    box-shadow: var(--shadow-lg), var(--glow-cyan);
+  }
+
+  .browser-frame__bar {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-3) var(--space-4);
+    background: var(--void-700);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .browser-frame__bar > span {
+    width: 0.625rem;
+    height: 0.625rem;
+    border-radius: var(--radius-full);
+    background: var(--void-500);
+    flex-shrink: 0;
+  }
+
+  .browser-frame__url {
+    flex: 1;
+    margin-left: var(--space-3);
+    padding: 0.15rem var(--space-3);
+    border-radius: var(--radius-full);
+    background: color-mix(in oklab, var(--void-850) 80%, transparent);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: var(--text-muted);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .browser-frame img {
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    object-fit: cover;
+    object-position: top center;
+    transition: transform var(--dur-slower) var(--ease-out);
+  }
+
+  .project-feature:hover .browser-frame img {
+    transform: scale(1.02);
+  }
+
+  /* ---------------- case study ---------------- */
+
+  .case-study {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    margin: var(--space-2) 0 0;
+  }
+
+  .case-study__row {
+    display: grid;
+    gap: var(--space-1);
+  }
+
+  @media (width >= 30rem) {
+    .case-study__row {
+      grid-template-columns: 5.5rem 1fr;
+      gap: var(--space-4);
+      align-items: baseline;
+    }
+  }
+
+  .case-study__label {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+    color: var(--cyan);
+  }
+
+  .case-study__body {
+    margin: 0;
+    color: var(--text-secondary);
+  }
+
+  .project-feature__body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .project-feature__name {
+    font-size: var(--text-2xl);
+    letter-spacing: var(--tracking-snug);
+  }
+
+  .project-feature__title {
+    font-size: var(--text-lg);
+    color: var(--text-primary);
+    font-weight: var(--weight-medium);
+  }
+
+  .project-feature__desc {
+    color: var(--text-secondary);
+  }
+
+  /* A single headline number, where the project has one. */
+  .project-feature__metric {
+    align-self: flex-start;
+    padding: var(--space-1) var(--space-3);
+    border-radius: var(--radius-full);
+    border: 1px solid color-mix(in oklab, var(--gold) 35%, transparent);
+    background: color-mix(in oklab, var(--gold) 10%, transparent);
+    color: var(--gold);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    letter-spacing: var(--tracking-wide);
+  }
+
+  /* ---------------- tech chips ---------------- */
+
+  .tech-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin: var(--space-1) 0 0;
+  }
+
+  .tech-chip {
+    padding: var(--space-1) var(--space-3);
+    border-radius: var(--radius-sm);
+    background: color-mix(in oklab, var(--void-700) 60%, transparent);
+    border: 1px solid var(--border);
+    color: var(--text-secondary);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+  }
+
+  /* ---------------- links ---------------- */
+
+  .project-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    margin-top: var(--space-2);
+  }
+
+  /* ---------------- tech filter ---------------- */
+
+  .work__more-header {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    margin-bottom: var(--space-5);
+  }
+
+  .tech-filter__options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+
+  .tech-filter__btn {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-3);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-full);
+    background: color-mix(in oklab, var(--void-850) 60%, transparent);
+    color: var(--text-secondary);
+    font-size: var(--text-xs);
+    font-family: var(--font-mono);
+    transition: color var(--dur-fast) var(--ease-out),
+      border-color var(--dur-fast) var(--ease-out),
+      background-color var(--dur-fast) var(--ease-out);
+  }
+
+  .tech-filter__btn:hover {
+    color: var(--text-primary);
+    border-color: var(--border-strong);
+  }
+
+  /* aria-pressed is the source of truth for the selected filter, so the
+     styling and the accessibility tree cannot drift apart. */
+  .tech-filter__btn[aria-pressed='true'] {
+    color: var(--accent-contrast);
+    background: var(--cyan);
+    border-color: var(--cyan);
+  }
+
+  .tech-filter__count {
+    opacity: 0.6;
+    font-size: 0.9em;
+  }
+
+  .tech-filter__btn[aria-pressed='true'] .tech-filter__count {
+    opacity: 0.75;
+  }
+
+  .tech-filter__status {
+    font-size: var(--text-sm);
+    color: var(--text-muted);
+    min-height: 1lh;
+  }
+
+  .tech-filter__status:empty {
+    display: none;
+  }
+
+  .tech-filter__empty {
+    padding: var(--space-6);
+    border: 1px dashed var(--border);
+    border-radius: var(--radius-lg);
+    color: var(--text-muted);
+    text-align: center;
+  }
+
+  /* Filtered-out cards are removed from the layout and the a11y tree alike. */
+  .project-card[hidden] {
+    display: none;
+  }
+
+  /* ---------------- grid cards ---------------- */
+
+  .project-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    padding: var(--space-5);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    background: color-mix(in oklab, var(--void-900) 75%, transparent);
+    transition: transform var(--dur-base) var(--ease-out),
+      border-color var(--dur-base) var(--ease-out),
+      box-shadow var(--dur-base) var(--ease-out);
+  }
+
+  .project-card:hover,
+  .project-card:focus-within {
+    transform: translateY(-4px);
+    border-color: var(--border-accent);
+    box-shadow: var(--shadow-lg), var(--glow-cyan);
+  }
+
+  .project-card__name {
+    font-size: var(--text-lg);
+  }
+
+  /* `flex: 1` here would override the clamped height and let the text spill
+     past four lines, which is what made the card copy overrun its box. The
+     footer is pushed down with auto margin instead. */
+  .project-card__desc {
+    font-size: var(--text-sm);
+    color: var(--text-secondary);
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .project-card__footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-3);
+    margin-top: auto;
+    padding-top: var(--space-2);
+  }
+
+  .project-card__links {
+    display: flex;
+    gap: var(--space-2);
+  }
+
+  /* Icon-only links; each carries its own aria-label in markup. */
+  .icon-link {
+    display: grid;
+    place-items: center;
+    width: 2rem;
+    height: 2rem;
+    border-radius: var(--radius-md);
+    color: var(--text-muted);
+    transition: color var(--dur-fast) var(--ease-out),
+      background-color var(--dur-fast) var(--ease-out);
+  }
+
+  .icon-link:hover {
+    color: var(--text-primary);
+    background: color-mix(in oklab, var(--void-700) 70%, transparent);
+  }
+
+  .icon-link svg {
+    width: 1.125rem;
+    height: 1.125rem;
+  }
+}

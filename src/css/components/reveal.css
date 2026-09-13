@@ -1,0 +1,38 @@
+@layer components {
+  /* Content is visible by default and only hidden once JS confirms it can
+     reveal it again, so a JS failure never leaves the page blank. */
+  .js-reveal [data-reveal] {
+    opacity: 0;
+    transform: translateY(1.25rem);
+    transition: opacity var(--dur-slower) var(--ease-out),
+      transform var(--dur-slower) var(--ease-out);
+  }
+
+  .js-reveal [data-reveal][data-revealed='true'] {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* Children stagger in sequence; the index is set inline by reveal.js. */
+  .js-reveal [data-reveal-stagger] > * {
+    opacity: 0;
+    transform: translateY(1rem);
+    transition: opacity var(--dur-slow) var(--ease-out),
+      transform var(--dur-slow) var(--ease-out);
+    transition-delay: calc(var(--stagger-index, 0) * 60ms);
+  }
+
+  .js-reveal [data-reveal-stagger][data-revealed='true'] > * {
+    opacity: 1;
+    transform: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .js-reveal [data-reveal],
+    .js-reveal [data-reveal-stagger] > * {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+  }
+}

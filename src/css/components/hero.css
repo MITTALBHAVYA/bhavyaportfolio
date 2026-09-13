@@ -1,0 +1,231 @@
+@layer components {
+  .hero {
+    display: grid;
+    align-content: center;
+    min-height: max(100svh, 38rem);
+    padding-block: var(--space-9) var(--space-8);
+  }
+
+  /* Sits at the container's left edge, in line with every other section, rather
+     than centring itself as a narrow column in the middle of the viewport —
+     which also puts more distance between the copy and the sun on the right. */
+  .hero__inner {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+    max-width: 46rem;
+    margin-inline: 0;
+  }
+
+  .hero__greeting {
+    font-family: var(--font-mono);
+    font-size: var(--text-base);
+    color: var(--cyan);
+    letter-spacing: var(--tracking-snug);
+  }
+
+  .hero__name {
+    font-size: var(--text-display);
+    /* Two words, deliberately stacked: tight leading makes the wrap read as a
+       lockup rather than an accident. */
+    line-height: 0.88;
+    text-wrap: balance;
+    letter-spacing: -0.045em;
+    font-weight: var(--weight-bold);
+    color: var(--text-primary);
+    /* Glow sits behind the text, not inside it, so contrast is unaffected. */
+    text-shadow: 0 0 60px color-mix(in oklab, var(--gold) 28%, transparent);
+  }
+
+  .hero__role {
+    font-size: var(--text-xl);
+    font-weight: var(--weight-medium);
+    color: var(--text-primary);
+    letter-spacing: var(--tracking-snug);
+  }
+
+  .hero__tagline {
+    font-size: var(--text-lg);
+    color: var(--text-secondary);
+    max-width: 42ch;
+  }
+
+  /* ---------------- typing console ---------------- */
+
+  /*
+   * The rotating phrase varies in length, so letting it share a line with the
+   * label made the block rewrap and reflow everything beneath it — that single
+   * element accounted for essentially all of the page's layout shift. The label
+   * gets its own line and the block reserves two lines' height, so nothing
+   * below can move.
+   */
+  .hero__console {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: var(--text-base);
+    line-height: 1.6;
+    color: var(--text-muted);
+    min-height: 3.2em;
+  }
+
+  .hero__console-label {
+    display: block;
+    color: var(--text-muted);
+  }
+
+  .hero__console-text {
+    color: var(--cyan);
+    font-weight: var(--weight-medium);
+  }
+
+  .hero__console-cursor {
+    display: inline-block;
+    width: 0.6ch;
+    color: var(--cyan);
+    /* 1s keeps this clear of the 3Hz photosensitivity flash threshold. */
+    animation: cursor-blink 1s steps(2, start) infinite;
+  }
+
+  @keyframes cursor-blink {
+    to {
+      visibility: hidden;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero__console-cursor {
+      animation: none;
+    }
+  }
+
+  /* ---------------- proof chips ---------------- */
+
+  .hero__proof {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin: 0;
+  }
+
+  .proof-chip {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-4);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-full);
+    background: color-mix(in oklab, var(--void-850) 60%, transparent);
+    font-size: var(--text-xs);
+  }
+
+  .proof-chip__label {
+    color: var(--text-muted);
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+  }
+
+  .proof-chip__value {
+    font-family: var(--font-mono);
+    font-weight: var(--weight-medium);
+    color: var(--gold);
+  }
+
+  /* ---------------- availability ---------------- */
+
+  .hero__availability {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-3);
+    font-size: var(--text-sm);
+    color: var(--text-muted);
+  }
+
+  .status-dot {
+    position: relative;
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: var(--radius-full);
+    background: #4ade80;
+    flex-shrink: 0;
+  }
+
+  .status-dot::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: inherit;
+    animation: status-pulse 2.4s var(--ease-out) infinite;
+  }
+
+  @keyframes status-pulse {
+    from {
+      opacity: 0.7;
+      transform: scale(1);
+    }
+    to {
+      opacity: 0;
+      transform: scale(3);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .status-dot::after {
+      animation: none;
+    }
+  }
+
+  .hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    margin-top: var(--space-2);
+  }
+
+  /* ---------------- scroll cue ---------------- */
+
+  .hero__scroll-cue {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-3);
+    margin-top: var(--space-7);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    letter-spacing: var(--tracking-widest);
+    text-transform: uppercase;
+    /* --text-faint is 3.71:1 and fails AA for text this size; it is reserved
+       for non-text decoration. This is a real link, so it uses --text-muted. */
+    color: var(--text-muted);
+    text-decoration: none;
+    width: fit-content;
+    /* Without this the wide letter-spacing makes `fit-content` resolve to the
+       longest word and the label breaks onto three lines. */
+    white-space: nowrap;
+  }
+
+  .hero__scroll-cue:hover {
+    color: var(--cyan);
+  }
+
+  .hero__scroll-cue svg {
+    animation: cue-drift 2.6s var(--ease-in-out) infinite;
+  }
+
+  @keyframes cue-drift {
+    0%,
+    100% {
+      transform: translateY(0);
+      opacity: 0.6;
+    }
+    50% {
+      transform: translateY(4px);
+      opacity: 1;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero__scroll-cue svg {
+      animation: none;
+    }
+  }
+}

@@ -1,0 +1,100 @@
+@layer components {
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    padding: var(--space-3) var(--space-5);
+    border-radius: var(--radius-full);
+    border: 1px solid transparent;
+    font-size: var(--text-sm);
+    font-weight: var(--weight-semibold);
+    letter-spacing: var(--tracking-snug);
+    text-decoration: none;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: transform var(--dur-fast) var(--ease-out),
+      background-color var(--dur-fast) var(--ease-out),
+      border-color var(--dur-fast) var(--ease-out),
+      box-shadow var(--dur-fast) var(--ease-out),
+      color var(--dur-fast) var(--ease-out);
+  }
+
+  .btn:active {
+    transform: translateY(1px);
+  }
+
+  /* A disabled control must read as disabled, not merely be inert. */
+  .btn:disabled,
+  .btn[aria-disabled='true'] {
+    cursor: not-allowed;
+    opacity: 0.45;
+    filter: saturate(0.4);
+    box-shadow: none;
+  }
+
+  .btn:disabled:hover,
+  .btn[aria-disabled='true']:hover {
+    transform: none;
+    box-shadow: none;
+  }
+
+  .btn:disabled:active {
+    transform: none;
+  }
+
+  .btn--primary {
+    background: var(--cyan);
+    color: var(--accent-contrast);
+    box-shadow: var(--glow-cyan);
+  }
+
+  .btn--primary:hover {
+    background: color-mix(in oklab, var(--cyan) 84%, white);
+    color: var(--accent-contrast);
+    box-shadow: 0 0 36px -4px color-mix(in oklab, var(--cyan) 65%, transparent);
+  }
+
+  .btn--secondary {
+    border-color: var(--border-strong);
+    color: var(--text-primary);
+    background: color-mix(in oklab, var(--void-800) 55%, transparent);
+  }
+
+  .btn--secondary:hover {
+    border-color: var(--cyan);
+    color: var(--text-primary);
+    background: color-mix(in oklab, var(--void-700) 70%, transparent);
+  }
+
+  .btn--ghost {
+    color: var(--text-secondary);
+    padding-inline: var(--space-3);
+  }
+
+  .btn--ghost:hover {
+    color: var(--text-primary);
+    background: color-mix(in oklab, var(--void-700) 55%, transparent);
+  }
+
+  .btn--sm {
+    padding: var(--space-2) var(--space-4);
+    font-size: var(--text-xs);
+  }
+
+  .btn__icon {
+    width: 1em;
+    height: 1em;
+    flex-shrink: 0;
+  }
+
+  /* Links that leave the site get a small arrow, added in markup not content,
+     so it is never read aloud as text. */
+  .btn[target='_blank'] .btn__icon--external {
+    transition: transform var(--dur-fast) var(--ease-out);
+  }
+
+  .btn[target='_blank']:hover .btn__icon--external {
+    transform: translate(1px, -1px);
+  }
+}
